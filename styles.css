@@ -1,0 +1,90 @@
+
+body {
+	background-color: gray;
+}
+
+table {
+	font-family: "Trebuchet MS";
+	font-size: 11pt;
+	border: 2px solid black;
+	padding: 2px;
+	display: inline-table;
+	border-spacing: 3px;
+	margin-top: 50px;
+}
+
+#currentBanzuke {
+	margin-left: 75px;
+	background-color: lightgoldenrodyellow;
+}
+
+#nextBanzuke {
+	margin-left: 25px;
+	background-color: lightgoldenrodyellow;
+}
+
+td {
+	width: 205px;
+	align-content: center;
+	height: 20px;
+	background-color: lightgray;
+	padding: 2px;
+}
+
+.theader th {
+	color: white;
+	background-color: goldenrod;
+}
+
+th {
+	background-color: lightgray;
+}
+
+.redips-drag.ju {
+	background: linear-gradient(white, peachpuff);
+}
+
+.mvmt {
+	color: darkslategray;
+	width: 30px;
+	line-height: 18px;
+	background-color: transparent !important;
+	text-align: center;
+}
+
+tr.san td, tr.san th {
+	background-color: lightsteelblue;
+}
+
+td span {
+	text-align: justify;
+	color: darkslategray;
+	width: 200px;
+	height: 17px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+td span::after {
+	content: "";
+	display: inline-block;
+	width: 100%;
+}
+
+td .redips-drag {
+	cursor: auto;
+	background: linear-gradient(white, lightgray);
+	text-align: justify;
+	width: 200px;
+	height: 17px;
+	border: 1px solid;
+	border-radius: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+td .redips-drag::after {
+	content: "";
+	display: inline-block;
+	width: 100%;
+}
