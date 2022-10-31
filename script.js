@@ -131,6 +131,12 @@ window.onload = function() {
         cell.setAttribute("data-pos", "");
     }
   }
+
+  var currBanzukeContent = document.getElementById("currentBanzuke").innerHTML;
+  localStorage.setItem("table1", currBanzukeContent);
+
+  var nextBanzukeContent = document.getElementById("nextBanzuke").innerHTML;
+  localStorage.setItem("table2", nextBanzukeContent);
 }
 
 
@@ -149,49 +155,49 @@ function cardDrop() {
   var nextCells = document.getElementsByClassName("redips-only next");
   var posCells = document.getElementsByClassName("mvmt");
 
-    for (var i = 18; i < nextCells.length; i++) {
-      if (nextCells[i].style.backgroundColor === "yellow") {
-        if (event.target.getAttribute("data-pos") !== "") {
-          var change = (event.target.getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
-          
-          if (change >= 0) 
-            posCells[i].innerHTML = "+" + change.toString();
-          else 
-            posCells[i].innerHTML = change;
-        }
-        else if (event.target.getAttribute("data-pos") === "")
-          posCells[i].innerHTML = " ";
+  for (var i = 18; i < nextCells.length; i++) {
+    if (nextCells[i].style.backgroundColor === "yellow") {
+      if (event.target.getAttribute("data-pos") !== "") {
+        var change = (event.target.getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
+        
+        if (change >= 0) 
+          posCells[i].innerHTML = "+" + change.toString();
+        else 
+          posCells[i].innerHTML = change;
       }
-    }
-    for (var i = 18; i < nextCells.length; i++) {
-      if (nextCells[i].children.length > 0) {
-        for (var j = 0; j < nextCells[i].children.length; j++) {
-          var change = (nextCells[i].children[j].getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
-
-          if (nextCells[i].children[j].getAttribute("data-pos") !== "") {
-            if (j == 0) {
-              if (change >= 0)
-                posCells[i].innerHTML = "+" + change.toString();
-              else 
-                posCells[i].innerHTML = change;
-            }
-            else if (change >= 0)
-                posCells[i].innerHTML = posCells[i].innerHTML + "<br>+" + change.toString();
-            else 
-              posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change.toString();
-          }
-          else if (nextCells[i].children[j].getAttribute("data-pos") === "") {
-            if (j == 0) 
-              posCells[i].innerHTML = " ";
-            else 
-              posCells[i].innerHTML = posCells[i].innerHTML + "<br> ";            
-          }
-        }
-      }
-      else 
+      else if (event.target.getAttribute("data-pos") === "")
         posCells[i].innerHTML = " ";
     }
   }
+  for (var i = 18; i < nextCells.length; i++) {
+    if (nextCells[i].children.length > 0) {
+      for (var j = 0; j < nextCells[i].children.length; j++) {
+        var change = (nextCells[i].children[j].getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
+
+        if (nextCells[i].children[j].getAttribute("data-pos") !== "") {
+          if (j == 0) {
+            if (change >= 0)
+              posCells[i].innerHTML = "+" + change.toString();
+            else 
+              posCells[i].innerHTML = change;
+          }
+          else if (change >= 0)
+              posCells[i].innerHTML = posCells[i].innerHTML + "<br>+" + change.toString();
+          else 
+            posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change.toString();
+        }
+        else if (nextCells[i].children[j].getAttribute("data-pos") === "") {
+          if (j == 0) 
+            posCells[i].innerHTML = " ";
+          else 
+            posCells[i].innerHTML = posCells[i].innerHTML + "<br> ";
+        }
+      }
+    }
+    else 
+      posCells[i].innerHTML = " ";
+  }
+}
 
 'use strict';
 
