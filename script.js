@@ -78,6 +78,11 @@ var rikishi = [
 
 window.onload = function() {
   
+  if (window.localStorage.getItem("table1") !==  null) {
+    document.getElementById("currentBanzuke").innerHTML = window.localStorage.getItem("table1");
+    document.getElementById("nextBanzuke").innerHTML = window.localStorage.getItem("table2");
+  }
+
   var currentBanzuke = document.getElementById("currentBanzuke");
   var c = 0, maePos1 = 0;
   
@@ -131,12 +136,6 @@ window.onload = function() {
         cell.setAttribute("data-pos", "");
     }
   }
-
-  var currBanzukeContent = document.getElementById("currentBanzuke").innerHTML;
-  localStorage.setItem("table1", currBanzukeContent);
-
-  var nextBanzukeContent = document.getElementById("nextBanzuke").innerHTML;
-  localStorage.setItem("table2", nextBanzukeContent);
 }
 
 
@@ -197,6 +196,12 @@ function cardDrop() {
     else 
       posCells[i].innerHTML = " ";
   }
+
+  var currBanzukeContent = document.getElementById("currentBanzuke").innerHTML;
+  window.localStorage.setItem("table1", currBanzukeContent);
+
+  var nextBanzukeContent = document.getElementById("nextBanzuke").innerHTML;
+  window.localStorage.setItem("table2", nextBanzukeContent);
 }
 
 'use strict';
