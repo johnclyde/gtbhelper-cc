@@ -9,15 +9,15 @@
   <link rel="stylesheet" href="styles.css" type="text/css"/>
 </head>
 <body>
+  <button onclick="resetTable()">Reset</button>
   Drag & drop modes <br>
-  <label><input type="radio" name="drop_option" class="checkbox" value="single" onclick="redips.setMode(this)" autocomplete="off" checked="true"/><span class="message_line">Only one rikishi per cell</span></label>
-  <label><input type="radio" name="drop_option" class="checkbox" value="multiple" onclick="redips.setMode(this)" autocomplete="off"/><span class="message_line">Multiple rikishi per cell</span></label>
-  <label><input type="radio" name="drop_option" class="checkbox" value="switch" onclick="redips.setMode(this)" autocomplete="off"/><span class="message_line">Swap rikishi</span></label>
+  <label><input id="single" type="radio" name="drop_option" class="checkbox" value="single" title="title1" onclick="redips.setMode(this)" autocomplete="off" checked="true"/><span class="message_line">Only one rikishi per cell</span></label>
+  <label><input id="multiple" type="radio" name="drop_option" class="checkbox" value="multiple" title="title1" onclick="redips.setMode(this)" autocomplete="off"/><span class="message_line">Multiple rikishi per cell</span></label>
   <div id="redips-drag">
     <table id="currentBanzuke">
       <thead class="theader"><th class="redips-mark">East</th><th class="redips-mark">Rank</th><th class="redips-mark">West</th></thead>
       <tbody>
-        <tr class="san"></td><td class="redips-only Y1e"></td><th class="redips-mark">Y</th><td class="redips-only Y1w"></td></tr>
+        <tr class="san"></td><td class="redips-only Y1e"></td><th class="redips-mark">Y1</th><td class="redips-only Y1w"></td></tr>
         <tr class="san"></td><td class="redips-only O1e"></td><th class="redips-mark">O1</th><td class="redips-only O1w"></td></tr>
         <tr class="san"></td><td class="redips-only O2e"></td><th class="redips-mark">O2</th><td class="redips-only O2w"></td></tr>
         <tr class="san"></td><td class="redips-only S1e"></td><th class="redips-mark">S1</th><td class="redips-only S1w"></td></tr>
@@ -61,34 +61,34 @@
     <table id="nextBanzuke">
       <thead class="theader"><th class="mvmtHeader"> </th><th class="redips-mark">East</th><th class="redips-mark">Rank</th><th class="redips-mark">West</th><th class="mvmtHeader"> </th></thead>
       <tbody>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">Y1</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">Y2</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">O1</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">O2</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">O3</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">S1</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">S2</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">K1</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr class="san"><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">K2</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">Y1</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">Y2</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">O1</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">O2</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">O3</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">S1</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">S2</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">K1</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr class="san"><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">K2</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
 
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M1</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M2</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M3</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M4</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M5</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M6</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M7</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M8</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M9</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M10</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M11</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M12</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M13</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M14</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M15</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M16</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M17</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
-        <tr><td class="mvmt"> </td><td class="redips-only next"></td><th class="redips-mark">M18</th><td class="redips-only next"></td><td class="mvmt"> </td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M1</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M2</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M3</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M4</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M5</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M6</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M7</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M8</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M9</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M10</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M11</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M12</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M13</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M14</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M15</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M16</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M17</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
+        <tr><td class="mvmt"></td><td class="redips-only next"></td><th class="redips-mark">M18</th><td class="redips-only next"></td><td class="mvmt"></td></tr>
       </tbody>
     </table>
   </div>

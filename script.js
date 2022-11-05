@@ -1,5 +1,5 @@
 
-var rikishi = [
+var theSekitori = [
   "Y1e Terunofuji 5-5-5",
   "",
   "O1e Takakeisho 10-5",
@@ -76,33 +76,28 @@ var rikishi = [
   "J14w Takakento 9-6"
 ];
 
+
 window.onload = function() {
-  
-  if (window.localStorage.getItem("table1") !==  null) {
-    document.getElementById("currentBanzuke").innerHTML = window.localStorage.getItem("table1");
-    document.getElementById("nextBanzuke").innerHTML = window.localStorage.getItem("table2");
-  }
+  if (window.localStorage.getItem("table2") === null ) {
+    var currentBanzuke = document.getElementById("currentBanzuke");
+    var c = 0, maePos1 = 0;
+    
+    for (let row of currentBanzuke.rows) {
+      for (let cell of row.cells) {
+        if (cell.innerText === "") {
+          if (theSekitori[c] !== "") {
+            var holder = document.createElement("span");
+            holder.innerHTML = theSekitori[c];
+            cell.appendChild(holder);
+            holder.style.display = "none";
 
-  var currentBanzuke = document.getElementById("currentBanzuke");
-  var c = 0, maePos1 = 0;
-  
-  for (let row of currentBanzuke.rows) {
-    for (let cell of row.cells) {
-      if (cell.innerText === "") {
-        if (rikishi[c] !== "") {
-          var holder = document.createElement("span");
-          
-          holder.innerHTML = rikishi[c];
-          holder.style.display = "none";
-          cell.appendChild(holder);
+            var card = document.createElement("div");
+            var rank = theSekitori[c].split(' ')[0];
 
-          var card = document.createElement("div");
-          var rank = rikishi[c].split(' ')[0];
-
-          card.setAttribute("id", rank);
-          switch (Array.from(rank)[0]) {
+            card.setAttribute("id", rank);
+            switch (Array.from(rank)[0]) {
               case "M":
-                card.setAttribute("class", "redips-drag card");
+                card.setAttribute("class", "redips-drag ma");
                 card.setAttribute("data-pos", maePos1);
                 maePos1++;
                 break;
@@ -111,97 +106,105 @@ window.onload = function() {
                 card.setAttribute("data-pos", "");
                 break;
               default:
-                card.setAttribute("class", "redips-drag card");
+                card.setAttribute("class", "redips-drag ma");
                 card.setAttribute("data-pos", "");
+            }
+
+            card.addEventListener("mouseup", function() {
+              var cells = document.getElementsByTagName("td");
+              var posCells = document.getElementsByClassName("mvmt");
+              var nextCells = document.getElementsByClassName("redips-only next");
+
+              for (var i = 0; i < cells.length; i++) {
+                if (cells[i].style.backgroundColor === "yellow") {
+                  if (cells[i].className === "redips-only next")         // if dropping to table 2
+                    this.parentNode.children[0].style.display = "block"; // show placeholder text in table 1
+                  else 
+                    cells[i].children[0].style.display = "none";
+                }
+              }
+
+              for (var i = 18; i < nextCells.length; i++) {
+                if (nextCells[i] === this.parentNode && this.style.position === "fixed") {
+                  posCells[i].innerHTML = "";
+                  for (var j = 0; j < nextCells[i].children.length; j++) {
+                    var changeSrc;
+
+                    if (nextCells[i].children[j].getAttribute("data-pos") !== "") {
+                      changeSrc = (nextCells[i].children[j].getAttribute("data-pos") - 
+                        nextCells[i].getAttribute("data-pos"))/2;
+                      if (changeSrc >= 0) 
+                        changeSrc = "+" + changeSrc;
+                    }
+                    else 
+                      changeSrc = " ";
+
+                    if (nextCells[i].children[j] !== this) {
+                      if (posCells[i].innerHTML.length === 0) 
+                        posCells[i].innerHTML = changeSrc;
+                      else 
+                        posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + changeSrc;
+                    }
+                  }
+                }
+              }
+
+              for (var i = 18; i < nextCells.length; i++) {
+                if (nextCells[i].style.backgroundColor === "yellow") {
+                  var change;
+
+                  if (this.getAttribute("data-pos") !== "") {
+                    change = (this.getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
+                    if (change >= 0) 
+                      change = "+" + change;
+                  }
+                  else 
+                    change = " ";
+
+                  if (nextCells[i] !== this.parentNode) {
+                    if (nextCells[i].children.length > 0) 
+                      posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
+                    else 
+                      posCells[i].innerHTML = change;
+                  }
+                  else if (nextCells[i].children.length > 1) 
+                    posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
+                  else 
+                    posCells[i].innerHTML = change;
+                }
+              }
+              var table1Content = document.getElementById("currentBanzuke").innerHTML;
+              window.localStorage.setItem("table1", table1Content);
+
+              var table2Content = document.getElementById("nextBanzuke").innerHTML;
+              window.localStorage.setItem("table2", table2Content);
+            });
+            card.innerHTML = theSekitori[c];
+            cell.appendChild(card);
           }
-          card.setAttribute("onclick", "cardDrop()");
-          card.innerHTML = rikishi[c];
-          cell.appendChild(card);
+          c++;
         }
-        c++;
       }
     }
-  }
 
-  var nextBanzuke = document.getElementById("nextBanzuke");
-  var maePos2 = 0;
-  
-  for (let row of nextBanzuke.rows) {
-    for (let cell of row.cells) {
-      if (cell.className === "redips-only next" && cell.parentElement.className !== "san") {
-        cell.setAttribute("data-pos", maePos2);
-        maePos2++;
-      }
-      else 
-        cell.setAttribute("data-pos", "");
-    }
-  }
-}
-
-
-function cardDrop() {
-  var cells = document.getElementsByTagName("td");
-  
-  for (var i = 0; i < cells.length; i++) {
-    if (cells[i].className === "redips-only " + event.target.getAttribute("id")) {
-      if (cells[i].children.length > 1) 
-        cells[i].children[0].style.display = "none";
-      else 
-        cells[i].children[0].style.display = "block";
-    }
-  }
-
-  var nextCells = document.getElementsByClassName("redips-only next");
-  var posCells = document.getElementsByClassName("mvmt");
-
-  for (var i = 18; i < nextCells.length; i++) {
-    if (nextCells[i].style.backgroundColor === "yellow") {
-      if (event.target.getAttribute("data-pos") !== "") {
-        var change = (event.target.getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
-        
-        if (change >= 0) 
-          posCells[i].innerHTML = "+" + change.toString();
+    var nextBanzuke = document.getElementById("nextBanzuke");
+    var maePos2 = 0;
+    
+    for (let row of nextBanzuke.rows) {
+      for (let cell of row.cells) {
+        if (cell.className === "redips-only next" && cell.parentElement.className !== "san") {
+          cell.setAttribute("data-pos", maePos2);
+          maePos2++;
+        }
         else 
-          posCells[i].innerHTML = change;
-      }
-      else if (event.target.getAttribute("data-pos") === "")
-        posCells[i].innerHTML = " ";
-    }
-  }
-  for (var i = 18; i < nextCells.length; i++) {
-    if (nextCells[i].children.length > 0) {
-      for (var j = 0; j < nextCells[i].children.length; j++) {
-        var change = (nextCells[i].children[j].getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
-
-        if (nextCells[i].children[j].getAttribute("data-pos") !== "") {
-          if (j == 0) {
-            if (change >= 0)
-              posCells[i].innerHTML = "+" + change.toString();
-            else 
-              posCells[i].innerHTML = change;
-          }
-          else if (change >= 0)
-              posCells[i].innerHTML = posCells[i].innerHTML + "<br>+" + change.toString();
-          else 
-            posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change.toString();
-        }
-        else if (nextCells[i].children[j].getAttribute("data-pos") === "") {
-          if (j == 0) 
-            posCells[i].innerHTML = " ";
-          else 
-            posCells[i].innerHTML = posCells[i].innerHTML + "<br> ";
-        }
+          cell.setAttribute("data-pos", "");
       }
     }
-    else 
-      posCells[i].innerHTML = " ";
   }
-
-  var currBanzukeContent = document.getElementById("currentBanzuke").innerHTML;
-  window.localStorage.setItem("table1", currBanzukeContent);
-
-  var nextBanzukeContent = document.getElementById("nextBanzuke").innerHTML;
-  window.localStorage.setItem("table2", nextBanzukeContent);
+  else {
+    document.getElementById("currentBanzuke").innerHTML = window.localStorage.getItem("table1");
+    document.getElementById("nextBanzuke").innerHTML = window.localStorage.getItem("table2");
+  }
 }
 
 'use strict';
@@ -215,39 +218,32 @@ redips.init = function () {
   rd.hover.colorTd = "yellow";
   rd.dropMode = "single";
 
-  for (var i = 0; i < rikishi.length; i++) {
-    if (rikishi[i] !== "") {
-      var rank = rikishi[i].split(' ')[0];
+  for (var i = 0; i < theSekitori.length; i++) {
+    if (theSekitori[i] !== "") {
+      var rank = theSekitori[i].split(' ')[0];
 
       rd.only.div[rank] = rank;
-      rd.only.divClass.card = "next";
+      rd.only.divClass.ma = "next";
       rd.only.divClass.ju = "next";
-
-      /*rd.only.divClass.yok = "next";
-      rd.only.divClass.oz = "next";
-      rd.only.divClass.seki = "next";
-      rd.only.divClass.ko = "next";
-      rd.only.divClass.mae = "next";
-      rd.only.divClass.ju = "next";*/
     }
   }
-
-  
 };
+
+function resetTable() {
+  window.localStorage.removeItem("table1");
+  window.localStorage.removeItem("table2");
+}
 
 redips.setMode = function (radioButton) {
   let rd = REDIPS.drag;
 
-  rd.event.moved = function () {
-    // find parent table of element
+  /*rd.event.moved = function () {
     var tbl = rd.findParent("TABLE", rd.obj);
 
-    // if table id is currentBanzuke
     if (tbl.id === "currentBanzuke") 
       rd.dropMode = "single";
-    else 
-      rd.dropMode = radioButton.value;
-  };
+    else */
+  rd.dropMode = radioButton.value;
 };
 
 if (window.addEventListener)
