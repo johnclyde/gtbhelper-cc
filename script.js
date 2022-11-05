@@ -78,7 +78,7 @@ var theSekitori = [
 
 
 window.onload = function() {
-  if (window.localStorage.getItem("table2") === null ) {
+  if (window.localStorage.getItem("banzuke1") === null) {
     var currentBanzuke = document.getElementById("currentBanzuke");
     var c = 0, maePos1 = 0;
     
@@ -110,75 +110,7 @@ window.onload = function() {
                 card.setAttribute("data-pos", "");
             }
 
-            card.addEventListener("mouseup", function() {
-              var cells = document.getElementsByTagName("td");
-              var posCells = document.getElementsByClassName("mvmt");
-              var nextCells = document.getElementsByClassName("redips-only next");
-
-              for (var i = 0; i < cells.length; i++) {
-                if (cells[i].style.backgroundColor === "yellow") {
-                  if (cells[i].className === "redips-only next")         // if dropping to table 2
-                    this.parentNode.children[0].style.display = "block"; // show placeholder text in table 1
-                  else 
-                    cells[i].children[0].style.display = "none";
-                }
-              }
-
-              for (var i = 18; i < nextCells.length; i++) {
-                if (nextCells[i] === this.parentNode && this.style.position === "fixed") {
-                  posCells[i].innerHTML = "";
-                  for (var j = 0; j < nextCells[i].children.length; j++) {
-                    var changeSrc;
-
-                    if (nextCells[i].children[j].getAttribute("data-pos") !== "") {
-                      changeSrc = (nextCells[i].children[j].getAttribute("data-pos") - 
-                        nextCells[i].getAttribute("data-pos"))/2;
-                      if (changeSrc >= 0) 
-                        changeSrc = "+" + changeSrc;
-                    }
-                    else 
-                      changeSrc = " ";
-
-                    if (nextCells[i].children[j] !== this) {
-                      if (posCells[i].innerHTML.length === 0) 
-                        posCells[i].innerHTML = changeSrc;
-                      else 
-                        posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + changeSrc;
-                    }
-                  }
-                }
-              }
-
-              for (var i = 18; i < nextCells.length; i++) {
-                if (nextCells[i].style.backgroundColor === "yellow") {
-                  var change;
-
-                  if (this.getAttribute("data-pos") !== "") {
-                    change = (this.getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
-                    if (change >= 0) 
-                      change = "+" + change;
-                  }
-                  else 
-                    change = " ";
-
-                  if (nextCells[i] !== this.parentNode) {
-                    if (nextCells[i].children.length > 0) 
-                      posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
-                    else 
-                      posCells[i].innerHTML = change;
-                  }
-                  else if (nextCells[i].children.length > 1) 
-                    posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
-                  else 
-                    posCells[i].innerHTML = change;
-                }
-              }
-              var table1Content = document.getElementById("currentBanzuke").innerHTML;
-              window.localStorage.setItem("table1", table1Content);
-
-              var table2Content = document.getElementById("nextBanzuke").innerHTML;
-              window.localStorage.setItem("table2", table2Content);
-            });
+            card.setAttribute("onmouseup", "cardDrop()");
             card.innerHTML = theSekitori[c];
             cell.appendChild(card);
           }
@@ -202,8 +134,73 @@ window.onload = function() {
     }
   }
   else {
-    document.getElementById("currentBanzuke").innerHTML = window.localStorage.getItem("table1");
-    document.getElementById("nextBanzuke").innerHTML = window.localStorage.getItem("table2");
+    document.getElementById("currentBanzuke").innerHTML = window.localStorage.getItem("banzuke1");
+    document.getElementById("nextBanzuke").innerHTML = window.localStorage.getItem("banzuke2");
+  }
+}
+
+function cardDrop() {
+  var cells = document.getElementsByTagName("td");
+  var posCells = document.getElementsByClassName("mvmt");
+  var nextCells = document.getElementsByClassName("redips-only next");
+
+  for (var i = 0; i < cells.length; i++) {
+    if (cells[i].style.backgroundColor === "yellow") {
+      if (cells[i].className === "redips-only next")         // if dropping to table 2
+        event.target.parentNode.children[0].style.display = "block"; // show placeholder text in table 1
+      else 
+        cells[i].children[0].style.display = "none";
+    }
+  }
+
+  for (var i = 18; i < nextCells.length; i++) {
+    if (nextCells[i] === event.target.parentNode && event.target.style.position === "fixed") {
+      posCells[i].innerHTML = "";
+      for (var j = 0; j < nextCells[i].children.length; j++) {
+        var changeSrc;
+
+        if (nextCells[i].children[j].getAttribute("data-pos") !== "") {
+          changeSrc = (nextCells[i].children[j].getAttribute("data-pos") - 
+            nextCells[i].getAttribute("data-pos"))/2;
+          if (changeSrc >= 0) 
+            changeSrc = "+" + changeSrc;
+        }
+        else 
+          changeSrc = " ";
+
+        if (nextCells[i].children[j] !== event.target) {
+          if (posCells[i].innerHTML.length === 0) 
+            posCells[i].innerHTML = changeSrc;
+          else 
+            posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + changeSrc;
+        }
+      }
+    }
+  }
+
+  for (var i = 18; i < nextCells.length; i++) {
+    if (nextCells[i].style.backgroundColor === "yellow") {
+      var change;
+
+      if (event.target.getAttribute("data-pos") !== "") {
+        change = (event.target.getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
+        if (change >= 0) 
+          change = "+" + change;
+      }
+      else 
+        change = " ";
+
+      if (nextCells[i] !== event.target.parentNode) {
+        if (nextCells[i].children.length > 0) 
+          posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
+        else 
+          posCells[i].innerHTML = change;
+      }
+      else if (nextCells[i].children.length > 1) 
+        posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
+      else 
+        posCells[i].innerHTML = change;
+    }
   }
 }
 
@@ -229,9 +226,17 @@ redips.init = function () {
   }
 };
 
-function resetTable() {
-  window.localStorage.removeItem("table1");
-  window.localStorage.removeItem("table2");
+function saveTable() {
+  var banzuke1Content = document.getElementById("currentBanzuke").innerHTML;
+  window.localStorage.setItem("banzuke1", banzuke1Content);
+
+  var banzuke2Content = document.getElementById("nextBanzuke").innerHTML;
+  window.localStorage.setItem("banzuke2", banzuke2Content);
+}
+
+function deleteLs() {
+  window.localStorage.removeItem("banzuke1");
+  window.localStorage.removeItem("banzuke2");
 }
 
 redips.setMode = function (radioButton) {
