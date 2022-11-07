@@ -1,66 +1,138 @@
 
-@font-face {
-  font-family: Helvetica;
-  src: url(Helvetica.ttf);
-}
 
 body {
+	font-family: sans-serif;
+	background-image: url(gtb_bg.png);
+    background-size: 150px;
+}
+
+#gtb {
+	font-family: Verdana;
+    text-shadow: 3px 3px 0px #ff5f94;
+}
+
+header {
+	width: 1100px;
+	padding: 10px;
+	background: linear-gradient(90deg, #3f51b5, #80cbc4);
+	margin: auto;
+}
+
+h1 {
+	color: white;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+a {
+	color: #fff36b;
+	margin-right: 10px;
+}
+
+footer {
+	padding: 10px;
+	background: #507fab;
+	color: white;
+	margin: auto;
+	width: 500px;
+	text-align: center;
 }
 
 table {
-	font-family: Helvetica, sans-serif;
 	font-size: 11pt;
-	border: 2px solid black;
-	display: inline-table;
-	border-spacing: 3px;
 }
 
-#currentBanzuke {
-	margin-left: 50px;
+button {
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+#buttons {
+	width: 1100px;
+	margin: auto;
+	background-color: #fff59f;
+	padding: 10px;
+}
+
+#saveReset {
+	font-size: 10pt;
+}
+
+#slotMode {
+	font-size: 11pt;
+}
+
+#saveReset, #slotMode {
+	display: inline-block;
+}
+
+caption {
+	font-weight: bold;
+	background-color: #ffffe0;
+	line-height: 20px;
+    border: 1px solid;
+}
+
+#connectTable {
+	border-spacing: 10px;
+	margin-bottom: 20px;
+}
+
+.tableBack {
+	background-color: transparent;
+	border: 0px solid;
+}
+
+#banzuke1 {
+	border: 2px solid dimgray;
+	border-spacing: 3px;
 	background-color: white;
 }
 
-#nextBanzuke {
-	background-color: lemonchiffon;
+#banzuke2 {
+	border: 2px solid dimgray;
+	border-spacing: 3px;
+	background-color: white;
 }
 
 td {
 	min-width: 206px;
 	align-content: center;
 	height: 20px;
-	background-color: #cccccc;
+	background-color: #e1e2cc;
 	padding: 2px;
+	border-bottom: 1px solid dimgray;
+	border-right: 1px solid dimgray;
 }
 
 .theader th {
-	font-weight: bold;
-	background-color: sandybrown;
+	background-color: #ffbe5e !important;
 }
 
 th {
-	background-color: #cccccc;
+	background-color: #e1e2cc;
 	font-weight: normal;
 }
 
 .redips-drag.ju {
-	background: linear-gradient(white, papayawhip);
+	background-color: #fffaca;
 }
 
-.mvmt {
+.ch {
+	background-color: white !important;
 	font-size: 10pt;
-	min-width: 37px;
+	min-width: 34px;
 	line-height: 19px;
 	text-align: center;
-	background-color: transparent !important;
+	color: blue;
 }
 
 tr.san td, tr.san th {
-	background-color: lightsteelblue;
+	background-color: #efe7a3;
 }
 
 td span {
 	text-align: justify;
-	color: darkslategray;
 	width: 200px;
 	height: 17px;
 	padding-left: 2px;
@@ -74,7 +146,7 @@ td span::after {
 }
 
 td .redips-drag {
-	background: linear-gradient(white, gainsboro);
+	background-color: white;
 	text-align: justify;
 	width: 200px;
 	height: 17px;

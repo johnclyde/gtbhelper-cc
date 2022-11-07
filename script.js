@@ -79,12 +79,12 @@ var theSekitori = [
 
 window.onload = function() {
   if (window.localStorage.getItem("banzuke1") === null) {
-    var currentBanzuke = document.getElementById("currentBanzuke");
+    var banzuke1 = document.getElementById("banzuke1");
     var c = 0, maePos1 = 0;
     
-    for (let row of currentBanzuke.rows) {
+    for (let row of banzuke1.rows) {
       for (let cell of row.cells) {
-        if (cell.innerText === "") {
+        if (cell.innerHTML === "") {
           if (theSekitori[c] !== "") {
             var holder = document.createElement("span");
             holder.innerHTML = theSekitori[c];
@@ -103,11 +103,11 @@ window.onload = function() {
                 break;
               case "J":
                 card.setAttribute("class", "redips-drag ju");
-                card.setAttribute("data-pos", "");
+                card.setAttribute("data-pos", "ju");
                 break;
               default:
                 card.setAttribute("class", "redips-drag ma");
-                card.setAttribute("data-pos", "");
+                card.setAttribute("data-pos", "sa");
             }
 
             card.setAttribute("onmouseup", "cardDrop()");
@@ -119,12 +119,12 @@ window.onload = function() {
       }
     }
 
-    var nextBanzuke = document.getElementById("nextBanzuke");
+    var banzuke2 = document.getElementById("banzuke2");
     var maePos2 = 0;
     
-    for (let row of nextBanzuke.rows) {
+    for (let row of banzuke2.rows) {
       for (let cell of row.cells) {
-        if (cell.className === "redips-only next" && cell.parentElement.className !== "san") {
+        if (cell.className === "redips-only b2" && cell.parentElement.className !== "san") {
           cell.setAttribute("data-pos", maePos2);
           maePos2++;
         }
@@ -134,72 +134,77 @@ window.onload = function() {
     }
   }
   else {
-    document.getElementById("currentBanzuke").innerHTML = window.localStorage.getItem("banzuke1");
-    document.getElementById("nextBanzuke").innerHTML = window.localStorage.getItem("banzuke2");
+    document.getElementById("banzuke1").innerHTML = window.localStorage.getItem("banzuke1");
+    document.getElementById("banzuke2").innerHTML = window.localStorage.getItem("banzuke2");
   }
 }
 
 function cardDrop() {
-  var cells = document.getElementsByTagName("td");
-  var posCells = document.getElementsByClassName("mvmt");
-  var nextCells = document.getElementsByClassName("redips-only next");
+  var rdCell = document.querySelectorAll(".redips-only");         // All droppable cells
+  var chCell = document.getElementsByClassName("ch");             // Cells which show rikishi's rank change
+  var b2Cell = document.getElementsByClassName("redips-only b2"); // Droppable cells in banzuke 2
 
-  for (var i = 0; i < cells.length; i++) {
-    if (cells[i].style.backgroundColor === "yellow") {
-      if (cells[i].className === "redips-only next")         // if dropping to table 2
-        event.target.parentNode.children[0].style.display = "block"; // show placeholder text in table 1
+  for (var i = 0; i < rdCell.length; i++) {
+    if (rdCell[i].style.backgroundColor === "yellow") {
+      if (rdCell[i].className === "redips-only b2")                  // if dropping to banzuke 2
+        event.target.parentNode.children[0].style.display = "block"; // show placeholder text in banzuke 1
       else 
-        cells[i].children[0].style.display = "none";
+        rdCell[i].children[0].style.display = "none";
     }
   }
 
-  for (var i = 18; i < nextCells.length; i++) {
-    if (nextCells[i] === event.target.parentNode && event.target.style.position === "fixed") {
-      posCells[i].innerHTML = "";
-      for (var j = 0; j < nextCells[i].children.length; j++) {
-        var changeSrc;
+  for (var i = 0; i < theSekitori.length; i++) {
+    if (rdCell[i].className.split(' ')[1] === event.target.id) {
+      if (rdCell[i].style.backgroundColor !== "yellow") {
+        for (var j = 0; j < b2Cell.length; j++) {
+          if (b2Cell[j].style.backgroundColor === "yellow") {
+            var pos = event.target.getAttribute("data-pos"),
+                change;
 
-        if (nextCells[i].children[j].getAttribute("data-pos") !== "") {
-          changeSrc = (nextCells[i].children[j].getAttribute("data-pos") - 
-            nextCells[i].getAttribute("data-pos"))/2;
-          if (changeSrc >= 0) 
-            changeSrc = "+" + changeSrc;
+            if (j < 18) {
+              switch (pos) {
+                case "sa":
+                  change = "";
+                  break;
+                case "ju":
+                  change = "!!!";
+                  break;
+                default:
+                  change = "↑";
+              }
+            }
+            else if (j < 54) {
+              switch (pos) {
+                case "sa":
+                  change = "↓";
+                  break;
+                case "ju":
+                  change = "↑";
+                  break;
+                default:
+                  change = (pos - b2Cell[j].getAttribute("data-pos"))/2;
+                  if (change > 0)       change = "+" + change;
+                  else if (change == 0) change = "─";
+              }
+            }
+            else {
+              switch (pos) {
+                case "sa":
+                  change = "!!!";
+                  break;
+                case "ju":
+                  change = "";
+                  break;
+                default:
+                  change = "↓"
+              }
+            }
+            chCell[i].innerHTML = change;
+          }
         }
-        else 
-          changeSrc = " ";
-
-        if (nextCells[i].children[j] !== event.target) {
-          if (posCells[i].innerHTML.length === 0) 
-            posCells[i].innerHTML = changeSrc;
-          else 
-            posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + changeSrc;
-        }
-      }
-    }
-  }
-
-  for (var i = 18; i < nextCells.length; i++) {
-    if (nextCells[i].style.backgroundColor === "yellow") {
-      var change;
-
-      if (event.target.getAttribute("data-pos") !== "") {
-        change = (event.target.getAttribute("data-pos") - nextCells[i].getAttribute("data-pos"))/2;
-        if (change >= 0) 
-          change = "+" + change;
       }
       else 
-        change = " ";
-
-      if (nextCells[i] !== event.target.parentNode) {
-        if (nextCells[i].children.length > 0) 
-          posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
-        else 
-          posCells[i].innerHTML = change;
-      }
-      else if (nextCells[i].children.length > 1) 
-        posCells[i].innerHTML = posCells[i].innerHTML + "<br>" + change;
-      else 
-        posCells[i].innerHTML = change;
+        chCell[i].innerHTML = "";
     }
   }
 }
@@ -220,24 +225,11 @@ redips.init = function () {
       var rank = theSekitori[i].split(' ')[0];
 
       rd.only.div[rank] = rank;
-      rd.only.divClass.ma = "next";
-      rd.only.divClass.ju = "next";
+      rd.only.divClass.ma = "b2";
+      rd.only.divClass.ju = "b2";
     }
   }
 };
-
-function saveTable() {
-  var banzuke1Content = document.getElementById("currentBanzuke").innerHTML;
-  window.localStorage.setItem("banzuke1", banzuke1Content);
-
-  var banzuke2Content = document.getElementById("nextBanzuke").innerHTML;
-  window.localStorage.setItem("banzuke2", banzuke2Content);
-}
-
-function deleteLs() {
-  window.localStorage.removeItem("banzuke1");
-  window.localStorage.removeItem("banzuke2");
-}
 
 redips.setMode = function (radioButton) {
   let rd = REDIPS.drag;
@@ -245,11 +237,25 @@ redips.setMode = function (radioButton) {
   /*rd.event.moved = function () {
     var tbl = rd.findParent("TABLE", rd.obj);
 
-    if (tbl.id === "currentBanzuke") 
+    if (tbl.id === "banzuke1") 
       rd.dropMode = "single";
     else */
   rd.dropMode = radioButton.value;
 };
+
+
+function saveTable() {
+  var banzuke1Content = document.getElementById("banzuke1").innerHTML;
+  window.localStorage.setItem("banzuke1", banzuke1Content);
+
+  var banzuke2Content = document.getElementById("banzuke2").innerHTML;
+  window.localStorage.setItem("banzuke2", banzuke2Content);
+}
+
+function deleteLs() {
+  window.localStorage.removeItem("banzuke1");
+  window.localStorage.removeItem("banzuke2");
+}
 
 if (window.addEventListener)
   window.addEventListener('load', redips.init, false);
