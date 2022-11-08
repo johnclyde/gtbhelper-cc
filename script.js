@@ -111,6 +111,7 @@ window.onload = function() {
             }
 
             card.setAttribute("onmouseup", "cardDrop()");
+            card.setAttribute("ontouchend", "cardDrop()");
             card.innerHTML = theSekitori[c];
             cell.appendChild(card);
           }
