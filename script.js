@@ -125,12 +125,10 @@ window.onload = function() {
     
     for (let row of banzuke2.rows) {
       for (let cell of row.cells) {
-        if (cell.className === "redips-only b2" && cell.parentElement.className !== "san") {
+        if (cell.className === "redips-only b2" && cell.parentNode.className !== "san") {
           cell.setAttribute("data-pos", maePos2);
           maePos2++;
         }
-        else 
-          cell.setAttribute("data-pos", "");
       }
     }
   }
@@ -232,6 +230,11 @@ redips.init = function () {
   }
 };
 
+if (window.addEventListener)
+  window.addEventListener('load', redips.init, false);
+else if (window.attachEvent)
+  window.attachEvent('onload', redips.init);
+
 redips.setMode = function (radioButton) {
   let rd = REDIPS.drag;
 
@@ -243,7 +246,6 @@ redips.setMode = function (radioButton) {
     else */
   rd.dropMode = radioButton.value;
 };
-
 
 function saveTable() {
   var banzuke1Content = document.getElementById("banzuke1").innerHTML;
@@ -257,8 +259,3 @@ function deleteLs() {
   window.localStorage.removeItem("banzuke1");
   window.localStorage.removeItem("banzuke2");
 }
-
-if (window.addEventListener)
-  window.addEventListener('load', redips.init, false);
-else if (window.attachEvent)
-  window.attachEvent('onload', redips.init);
