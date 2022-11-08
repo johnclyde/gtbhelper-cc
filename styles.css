@@ -8,7 +8,7 @@ body {
 
 #gtb {
 	font-family: Verdana;
-    text-shadow: 3px 3px 0px #ff5f94;
+    text-shadow: 3px 3px #ff5f94;
 }
 
 header {
@@ -16,26 +16,17 @@ header {
 	padding: 10px;
 	background: linear-gradient(90deg, #3f51b5, #80cbc4);
 	margin: auto;
+	color: white;
 }
 
 h1 {
-	color: white;
-	margin: 0px;
+	margin-top: 0px;
 	margin-bottom: 10px;
 }
 
 a {
 	color: #fff36b;
 	margin-right: 10px;
-}
-
-footer {
-	padding: 10px;
-	background: #507fab;
-	color: white;
-	margin: auto;
-	width: 500px;
-	text-align: center;
 }
 
 table {
@@ -69,7 +60,6 @@ button {
 caption {
 	font-weight: bold;
 	background-color: #ffffe0;
-	line-height: 20px;
     border: 1px solid;
 }
 
@@ -80,37 +70,30 @@ caption {
 
 .tableBack {
 	background-color: transparent;
-	border: 0px solid;
+	border: 0;
 }
 
-#banzuke1 {
+#banzuke1, #banzuke2 {
 	border: 2px solid dimgray;
-	border-spacing: 3px;
-	background-color: white;
-}
-
-#banzuke2 {
-	border: 2px solid dimgray;
-	border-spacing: 3px;
+	border-spacing: 6px;
 	background-color: white;
 }
 
 td {
-	min-width: 206px;
-	align-content: center;
+	min-width: 200px;
 	height: 20px;
-	background-color: #e1e2cc;
-	padding: 2px;
+	padding: 0;
+	background-color: #e6e1d5;
 	border-bottom: 1px solid dimgray;
 	border-right: 1px solid dimgray;
 }
 
 .theader th {
-	background-color: #ffbe5e !important;
+	background-color: #ffbe5e;
 }
 
 th {
-	background-color: #e1e2cc;
+	background-color: #e6e1d5;
 	font-weight: normal;
 }
 
@@ -133,10 +116,11 @@ tr.san td, tr.san th {
 
 td span {
 	text-align: justify;
-	width: 200px;
-	height: 17px;
-	padding-left: 2px;
-	padding-right: 2px;
+	width: 194px;
+	height: 18px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin: 0 auto;
 }
 
 td span::after {
@@ -148,16 +132,26 @@ td span::after {
 td .redips-drag {
 	background-color: white;
 	text-align: justify;
-	width: 200px;
-	height: 17px;
+	width: 190px;
+	height: 18px;
 	border: 1px solid;
 	border-radius: 2px;
-	padding-left: 2px;
-	padding-right: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin: 0 auto;
 }
 
 td .redips-drag::after {
 	content: "";
 	display: inline-block;
 	width: 100%;
+}
+
+footer {
+	padding: 10px;
+	background: #507fab;
+	color: white;
+	margin: auto;
+	width: 600px;
+	text-align: center;
 }
