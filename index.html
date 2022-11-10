@@ -5,36 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="redips-drag-min.js"></script>
   <script type="text/javascript" src="script.js"></script>
-  <title>GTB Helper 2.0</title>
+  <title>GTB Helper</title>
   <link rel="stylesheet" href="styles.css" type="text/css"/>
 </head>
 <body>
   <header>
-    <h1><span id="gtb">Guess The Banzuke </span>Helper <sup>(2)</sup></h1>
-    <a href="">Previous basho</a>
+    <h1><span id="gtb">Guess the Banzuke </span>Helper Page <small>(NEW)</small></h1>
+    <a href="previous.html" target="_blank">Previous basho</a>
     <a href="https://www.dichne.com/Guess.htm" target="_blank">GTB main page</a>
-  </header> 
-  <div id="redips-drag">
-    <div id="buttons">
-      <div id="saveReset">
-        <button onclick="saveTable()">Save</button>Save the banzuke to the browser's local storage. Changes you made will not reset when you refresh the page or close the browser
-        <br>
-        <button onclick="deleteLs()">Reset</button>Reset changes you made to the banzuke (takes effect after you refresh the page)
-      </div>
-      <div id="slotMode">
-        <label><input type="radio" name="drop_option" class="checkbox" value="single" onclick="redips.setMode(this)" autocomplete="off" checked="true"/><span class="message_line">Only one rikishi per slot</span></label>
-        <br>
-        <label><input type="radio" name="drop_option" class="checkbox" value="multiple" onclick="redips.setMode(this)" autocomplete="off"/><span class="message_line">Multiple rikishi per slot</span></label>
-      </div>
+  </header>
+  <div id="buttons">
+    <div id="saveReset">
+      <button onclick="saveTable()">Save</button>Save the banzuke to the browser's local storage. Changes you made will not reset when you refresh the page or close the browser
+      <br>
+      <button onclick="deleteLs()">Reset</button>Reset changes you made to the banzuke (takes effect after you refresh the page)
     </div>
+    <div id="slotMode">
+      <label><input type="radio" name="drop_option" class="checkbox" value="single" onclick="redips.setMode(this)" autocomplete="off" checked="true"/><span class="message_line">Only one rikishi per slot</span></label>
+      <br>
+      <label><input type="radio" name="drop_option" class="checkbox" value="multiple" onclick="redips.setMode(this)" autocomplete="off"/><span class="message_line">Multiple rikishi per slot</span></label>
+    </div>
+  </div>
+  <div id="redips-drag">
     <table id="connectTable" align="center"><tr><td class="tableBack">
       <table id="banzuke1">
-        <caption>Aki 2022</caption>
+        <caption>Kyushu 2022</caption>
         <thead class="theader"><th class="chHead">Chg.</th><th>East</th><th>Rank</th><th>West</th><th class="chHead">Chg.</th></thead>
         <tbody>
           <tr class="san"><td class="ch"> </td><td class="redips-only Y1e"></td><th>Y1</th><td class="redips-only Y1w"></td><td class="ch"> </td></tr>
           <tr class="san"><td class="ch"> </td><td class="redips-only O1e"></td><th>O1</th><td class="redips-only O1w"></td><td class="ch"> </td></tr>
-          <tr class="san"><td class="ch"> </td><td class="redips-only O2e"></td><th>O2</th><td class="redips-only O2w"></td><td class="ch"> </td></tr>
           <tr class="san"><td class="ch"> </td><td class="redips-only S1e"></td><th>S1</th><td class="redips-only S1w"></td><td class="ch"> </td></tr>
           <tr class="san"><td class="ch"> </td><td class="redips-only S2e"></td><th>S2</th><td class="redips-only S2w"></td><td class="ch"> </td></tr>
           <tr class="san"><td class="ch"> </td><td class="redips-only K1e"></td><th>K1</th><td class="redips-only K1w"></td><td class="ch"> </td></tr>
@@ -74,7 +73,7 @@
       </table>
     </td><td valign="top" class="tableBack">
       <table id="banzuke2">
-        <caption>Kyushu 2022 Guess</caption>
+        <caption>Hatsu 2023 Guess</caption>
         <thead class="theader"><th>East</th><th>Rank</th><th>West</th></thead>
         <tbody>
           <tr class="san"><td class="redips-only b2"></td><th>Y1</th><td class="redips-only b2"></td></tr>
@@ -118,10 +117,7 @@
   <footer>
     Created by Chiyotasuke
     <br>
-    Check out my other sites:
-    <br>
-    <a href="https://chiyotasuke.github.io/heya-graph/" target="_blank">Heya Graph</a>
-    <a href="https://chiyotasuke.github.io/shusshin-graph/" target="_blank">Shusshin Graph</a>
+    Based on Tsuchinoninjin's Helper Page
   </footer>
 </body>
 </html>
