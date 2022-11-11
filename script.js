@@ -78,54 +78,49 @@ var theSekitori = [
 window.onload = function() {
   if (window.localStorage.getItem("banzuke1") === null) {
     var banzuke1 = document.getElementById("banzuke1");
+    var rdCell = document.querySelectorAll(".redips-only");
     var c = 0, maePos1 = 0;
     
-    for (let row of banzuke1.rows) {
-      for (let cell of row.cells) {
-        if (cell.innerHTML === "") {
-          if (theSekitori[c] !== "") {
-            var holder = document.createElement("span");
-            holder.innerHTML = theSekitori[c];
-            cell.appendChild(holder);
-            holder.style.display = "none";
+    for (var i = 0; i < theSekitori.length; i++) {
+      if (theSekitori[c] !== "") {
+        var holder = document.createElement("span");
+        holder.innerHTML = theSekitori[c];
+        rdCell[i].appendChild(holder);
+        holder.style.display = "none";
 
-            var card = document.createElement("div");
-            var rank = theSekitori[c].split(' ')[0];
+        var card = document.createElement("div");
+        var rank = theSekitori[c].split(' ')[0];
 
-            card.setAttribute("id", rank);
-            switch (Array.from(rank)[0]) {
-              case "M":
-                card.setAttribute("class", "redips-drag ma");
-                card.setAttribute("data-pos", maePos1);
-                maePos1++;
-                break;
-              case "J":
-                card.setAttribute("class", "redips-drag ju");
-                card.setAttribute("data-pos", "ju");
-                break;
-              default:
-                card.setAttribute("class", "redips-drag ma");
-                card.setAttribute("data-pos", "sa");
-            }
-
-            card.setAttribute("onmouseup", "cardDrop()");
-            card.innerHTML = theSekitori[c];
-            cell.appendChild(card);
-          }
-          c++;
+        card.setAttribute("id", rank);
+        switch (rank.charAt(0)) {
+          case "M":
+            card.setAttribute("class", "redips-drag ma");
+            card.setAttribute("data-pos", maePos1);
+            maePos1++;
+            break;
+          case "J":
+            card.setAttribute("class", "redips-drag ju");
+            card.setAttribute("data-pos", "ju");
+            break;
+          default:
+            card.setAttribute("class", "redips-drag ma");
+            card.setAttribute("data-pos", "sa");
         }
+
+        card.setAttribute("onmouseup", "cardDrop()");
+        card.innerHTML = theSekitori[c];
+        rdCell[i].appendChild(card);
       }
+      c++;
     }
 
     var banzuke2 = document.getElementById("banzuke2");
     var maePos2 = 0;
     
-    for (let row of banzuke2.rows) {
-      for (let cell of row.cells) {
-        if (cell.className === "redips-only b2" && cell.parentNode.className !== "san") {
-          cell.setAttribute("data-pos", maePos2);
-          maePos2++;
-        }
+    for (var i = theSekitori.length; i < theSekitori.length+66; i++) {
+      if (rdCell[i].className === "redips-only b2" && rdCell[i].parentNode.className !== "san") {
+        rdCell[i].setAttribute("data-pos", maePos2);
+        maePos2++;
       }
     }
   }
