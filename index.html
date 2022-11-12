@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -15,14 +16,9 @@
   </header>
   <div id="buttons">
     <div id="saveReset">
-      <button onclick="saveTable()">Save</button>Save the banzuke to the browser's local storage. Changes you made will not reset when you refresh the page or close the browser
+      <button onclick="saveTable()">Save</button>Save changes to the browser's local storage. They will not reset when you refresh the page or close the browser
       <br>
-      <button onclick="deleteLs()">Reset</button>Reset changes you made to the banzuke (takes effect after you refresh the page)
-    </div>
-    <div id="slotMode">
-      <label><input type="radio" name="drop_option" class="checkbox" value="single" onclick="redips.setMode(this)" autocomplete="off" checked="true"/><span class="message_line">Only one rikishi per slot</span></label>
-      <br>
-      <label><input type="radio" name="drop_option" class="checkbox" value="multiple" onclick="redips.setMode(this)" autocomplete="off"/><span class="message_line">Multiple rikishi per slot</span></label>
+      <button onclick="deleteLs()">Reset</button>Reset saved changes (takes effect after you refresh the page)
     </div>
   </div>
   <div id="redips-drag">

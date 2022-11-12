@@ -74,29 +74,26 @@ var theSekitori = [
   "J14w Gonoyama 0-0"
 ];
 
-
 window.onload = function() {
   if (window.localStorage.getItem("banzuke1") === null) {
-    var banzuke1 = document.getElementById("banzuke1");
-    var rdCell = document.querySelectorAll(".redips-only");
-    var c = 0, maePos1 = 0;
+    var cell = document.querySelectorAll(".redips-only");
+    var maCardNum = 0;
     
     for (var i = 0; i < theSekitori.length; i++) {
-      if (theSekitori[c] !== "") {
+      if (theSekitori[i] !== "") {
         var holder = document.createElement("span");
-        holder.innerHTML = theSekitori[c];
-        rdCell[i].appendChild(holder);
+        holder.innerHTML = theSekitori[i];
+        cell[i].appendChild(holder);
         holder.style.display = "none";
 
         var card = document.createElement("div");
-        var rank = theSekitori[c].split(' ')[0];
 
-        card.setAttribute("id", rank);
-        switch (rank.charAt(0)) {
+        card.setAttribute("id", theSekitori[i].split(' ')[0]);
+        switch (theSekitori[i].charAt(0)) {
           case "M":
             card.setAttribute("class", "redips-drag ma");
-            card.setAttribute("data-pos", maePos1);
-            maePos1++;
+            card.setAttribute("data-pos", maCardNum);
+            maCardNum++;
             break;
           case "J":
             card.setAttribute("class", "redips-drag ju");
@@ -108,20 +105,13 @@ window.onload = function() {
         }
 
         card.setAttribute("onmouseup", "cardDrop()");
-        card.innerHTML = theSekitori[c];
-        rdCell[i].appendChild(card);
+        card.innerHTML = theSekitori[i];
+        cell[i].appendChild(card);
       }
-      c++;
     }
 
-    var banzuke2 = document.getElementById("banzuke2");
-    var maePos2 = 0;
-    
-    for (var i = theSekitori.length; i < theSekitori.length+66; i++) {
-      if (rdCell[i].className === "redips-only b2" && rdCell[i].parentNode.className !== "san") {
-        rdCell[i].setAttribute("data-pos", maePos2);
-        maePos2++;
-      }
+    for (var i = theSekitori.length+18; i < theSekitori.length+66; i++) {
+      cell[i].setAttribute("data-pos", i-theSekitori.length-18);
     }
   }
   else {
@@ -137,9 +127,10 @@ function cardDrop() {
 
   for (var i = 0; i < rdCell.length; i++) {
     if (rdCell[i].style.backgroundColor === "yellow") {
-      if (rdCell[i].className === "redips-only b2")                  // if dropping to banzuke 2
+      if (rdCell[i].className === "redips-only b2" && 
+      event.target.parentNode.className !== "redips-only b2")        // if dropping to banzuke 2
         event.target.parentNode.children[0].style.display = "block"; // show placeholder text in banzuke 1
-      else 
+      else if (rdCell[i].className !== "redips-only b2")
         rdCell[i].children[0].style.display = "none";
     }
   }
@@ -148,49 +139,71 @@ function cardDrop() {
     if (rdCell[i].className.split(' ')[1] === event.target.id) {
       if (rdCell[i].style.backgroundColor !== "yellow") {
         for (var j = 0; j < b2Cell.length; j++) {
-          if (b2Cell[j].style.backgroundColor === "yellow") {
-            var pos = event.target.getAttribute("data-pos"),
-                change;
+          if (b2Cell[j].style.backgroundColor === "yellow" && 
+            b2Cell[j] !== event.target.parentNode) {
+            var posDrag = event.target.getAttribute("data-pos"),
+                chgDrag;
 
             if (j < 18) {
-              switch (pos) {
-                case "sa":
-                  change = "";
-                  break;
-                case "ju":
-                  change = "!!!";
-                  break;
-                default:
-                  change = "↑";
+              switch (posDrag) {
+                case "sa": chgDrag = "";    break;
+                case "ju": chgDrag = "!!!"; break;
+                default:   chgDrag = "↑";
               }
             }
             else if (j < 54) {
-              switch (pos) {
-                case "sa":
-                  change = "↓";
-                  break;
-                case "ju":
-                  change = "↑";
-                  break;
+              switch (posDrag) {
+                case "sa": chgDrag = "↓"; break;
+                case "ju": chgDrag = "↑"; break;
                 default:
-                  change = (pos - b2Cell[j].getAttribute("data-pos"))/2;
-                  if (change > 0)       change = "+" + change;
-                  else if (change == 0) change = "─";
+                  chgDrag = (posDrag - b2Cell[j].getAttribute("data-pos"))/2;
+                  if      (chgDrag > 0)  chgDrag = "+" + chgDrag;
+                  else if (chgDrag == 0) chgDrag = "─";
               }
             }
             else {
-              switch (pos) {
-                case "sa":
-                  change = "!!!";
-                  break;
-                case "ju":
-                  change = "";
-                  break;
-                default:
-                  change = "↓"
+              switch (posDrag) {
+                case "sa": chgDrag = "!!!"; break;
+                case "ju": chgDrag = "";    break;
+                default:   chgDrag = "↓"
               }
             }
-            chCell[i].innerHTML = change;
+            chCell[i].innerHTML = chgDrag;
+
+            if (b2Cell[j].firstChild) { 
+              var posSwap = b2Cell[j].firstChild.getAttribute("data-pos"), 
+                  chgSwap;
+
+              if (!event.target.parentNode.hasAttribute("data-pos")) {
+                switch (posSwap) {
+                  case "sa": chgSwap = "";    break;
+                  case "ju": chgSwap = "!!!"; break;
+                  default:   chgSwap = "↑";
+                }
+              }
+              else if (event.target.parentNode.getAttribute("data-pos") < 36) {
+                switch (posSwap) {
+                  case "sa": chgSwap = "↓"; break;
+                  case "ju": chgSwap = "↑"; break;
+                  default:
+                    chgSwap = (posSwap - event.target.parentNode.getAttribute("data-pos"))/2;
+                    if      (chgSwap > 0)  chgSwap = "+" + chgSwap;
+                    else if (chgSwap == 0) chgSwap = "─";
+                }
+              }
+              else {
+                switch (posSwap) {
+                  case "sa": chgSwap = "!!!"; break;
+                  case "ju": chgSwap = "";    break;
+                  default:   chgSwap = "↓"
+                }
+              }
+
+              for (var k = 0; k < rdCell.length; k++) {
+                if (rdCell[k].className.split(' ')[1] === b2Cell[j].firstChild.id) 
+                  chCell[k].innerHTML = chgSwap;
+              }
+            }
           }
         }
       }
@@ -209,35 +222,31 @@ redips.init = function () {
   
   rd.init();
   rd.hover.colorTd = "yellow";
-  rd.dropMode = "single";
+
+  rd.only.divClass.ma = "b2";
+  rd.only.divClass.ju = "b2";
 
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
       var rank = theSekitori[i].split(' ')[0];
 
       rd.only.div[rank] = rank;
-      rd.only.divClass.ma = "b2";
-      rd.only.divClass.ju = "b2";
     }
   }
+  rd.event.moved = function () {
+    var tbl = rd.findParent("TABLE", rd.obj);
+
+    if (tbl.id === "banzuke1") 
+      rd.dropMode = "single";
+    else 
+      rd.dropMode = "switch";
+  };
 };
 
 if (window.addEventListener)
   window.addEventListener('load', redips.init, false);
 else if (window.attachEvent)
   window.attachEvent('onload', redips.init);
-
-redips.setMode = function (radioButton) {
-  let rd = REDIPS.drag;
-
-  /*rd.event.moved = function () {
-    var tbl = rd.findParent("TABLE", rd.obj);
-
-    if (tbl.id === "banzuke1") 
-      rd.dropMode = "single";
-    else */
-  rd.dropMode = radioButton.value;
-};
 
 function saveTable() {
   var banzuke1Content = document.getElementById("banzuke1").innerHTML;

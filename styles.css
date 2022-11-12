@@ -116,7 +116,7 @@ tr.san td, tr.san th {
 
 td span {
 	text-align: justify;
-	width: 194px;
+	width: 190px;
 	height: 18px;
 	padding-left: 3px;
 	padding-right: 3px;
@@ -139,6 +139,7 @@ td .redips-drag {
 	padding-left: 3px;
 	padding-right: 3px;
 	margin: 0 auto;
+	cursor: grab;
 }
 
 td .redips-drag::after {
