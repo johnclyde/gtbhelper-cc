@@ -1,22 +1,27 @@
 
-
 body {
 	font-family: Helvetica, sans-serif;
 	background-image: url(gtb_bg.png);
     background-size: 150px;
+    background-attachment: fixed;
 }
 
 #gtb {
 	font-family: Verdana;
-    text-shadow: 3px 3px #ff5f94;
+    text-shadow: 3px 3px #ff236c;
 }
 
 header {
-	width: 1100px;
+	width: 800px;
 	padding: 10px;
-    background-color: mediumseagreen;
-	margin: auto;
+	padding-left: 20px;
+    background-color: #ffa726;
+	margin-left: 50px;
+	margin-bottom: 20px;
 	color: white;
+	border-right: 2px solid dimgray;
+	border-bottom: 2px solid dimgray;
+	box-shadow: 5px 5px darkgray;
 }
 
 h1 {
@@ -28,43 +33,31 @@ a {
 	margin-right: 10px;
 }
 
-table {
+ul {
+	display: inline-block;
 	font-size: 11pt;
+	line-height: 25px;
+}
+
+table {
+	display: inline-table;
+	font-size: 11pt;
+	margin-bottom: 20px;
+	border: 2px solid dimgray;
+	border-spacing: 6px;
+	background-color: white;
+	margin-left: 50px;
+	box-shadow: 5px 5px darkgray;
 }
 
 button {
-	margin-right: 5px;
-	margin-bottom: 5px;
-}
-
-#buttons {
-	width: 1100px;
-	margin: auto;
-	background-color: palegreen;
-	padding: 10px;
-	font-size: 10pt;
+	margin-left: 50px;
 }
 
 caption {
 	font-weight: bold;
 	background-color: #ffffe0;
     border: 1px solid;
-}
-
-#connectTable {
-	border-spacing: 10px;
-	margin-bottom: 20px;
-}
-
-.tableBack {
-	background-color: transparent;
-	border: 0;
-}
-
-#banzuke1, #banzuke2 {
-	border: 2px solid dimgray;
-	border-spacing: 6px;
-	background-color: white;
 }
 
 td {
@@ -77,7 +70,7 @@ td {
 }
 
 .theader th {
-	background-color: #ffbe5e;
+	background-color: #88caff;
 }
 
 th {
@@ -95,7 +88,6 @@ th {
 	min-width: 34px;
 	line-height: 19px;
 	text-align: center;
-	color: blue;
 }
 
 tr.san td, tr.san th {
@@ -138,9 +130,12 @@ td .redips-drag::after {
 
 footer {
 	padding: 10px;
-    background-color: mediumseagreen;
+    background-color: #ffa726;
 	color: white;
-	margin: auto;
-	width: 600px;
+	margin-left: 250px;
+	width: 400px;
 	text-align: center;
+	border-right: 2px solid dimgray;
+	border-bottom: 2px solid dimgray;
+	box-shadow: 5px 5px darkgray;
 }

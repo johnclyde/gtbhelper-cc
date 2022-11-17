@@ -1,12 +1,12 @@
 
 var theSekitori = [
   "Y1e Terunofuji 0-0", 
-  "",
+  "", 
   "O1e Takakeisho 0-0", 
   "O1w Shodai 0-0", 
   "S1e Wakatakakage 0-0", 
   "S1w Hoshoryu 0-0", 
-  "",
+  "", 
   "S2w Mitakeumi 0-0", 
   "K1e Tamawashi 0-0", 
   "K1w Kiribayama 0-0", 
@@ -75,6 +75,17 @@ var theSekitori = [
 ];
 
 window.onload = function() {
+
+  var resetButton = document.getElementById("resetChanges");
+
+  resetButton.addEventListener("click", function() {
+    if (confirm("Reset the banzuke?") == true) {
+      window.localStorage.removeItem("banzuke1");
+      window.localStorage.removeItem("banzuke2");
+      location.reload();
+    }
+  })
+
   if (window.localStorage.getItem("banzuke1") === null) {
     var cell = document.querySelectorAll(".redips-only");
     var maCardNum = 0;
@@ -104,113 +115,143 @@ window.onload = function() {
             card.setAttribute("data-pos", "sa");
         }
 
-        card.setAttribute("onmouseup", "cardDrop()");
         card.innerHTML = theSekitori[i];
         cell[i].appendChild(card);
       }
     }
 
-    for (var i = theSekitori.length+18; i < theSekitori.length+66; i++) {
+    for (var i = theSekitori.length+18; i < theSekitori.length+66; i++) 
       cell[i].setAttribute("data-pos", i-theSekitori.length-18);
-    }
+
   }
   else {
-    document.getElementById("banzuke1").innerHTML = window.localStorage.getItem("banzuke1");
-    document.getElementById("banzuke2").innerHTML = window.localStorage.getItem("banzuke2");
-  }
-}
+    document.getElementById("banzuke1").innerHTML = 
+    window.localStorage.getItem("banzuke1");
 
-function cardDrop() {
-  var rdCell = document.querySelectorAll(".redips-only");         // All droppable cells
-  var chCell = document.getElementsByClassName("ch");             // Cells which show rikishi's rank change
-  var b2Cell = document.getElementsByClassName("redips-only b2"); // Droppable cells in banzuke 2
-
-  for (var i = 0; i < rdCell.length; i++) {
-    if (rdCell[i].style.backgroundColor === "yellow") {
-      if (rdCell[i].className === "redips-only b2" && 
-      event.target.parentNode.className !== "redips-only b2")        // if dropping to banzuke 2
-        event.target.parentNode.children[0].style.display = "block"; // show placeholder text in banzuke 1
-      else if (rdCell[i].className !== "redips-only b2")
-        rdCell[i].children[0].style.display = "none";
-    }
+    document.getElementById("banzuke2").innerHTML = 
+    window.localStorage.getItem("banzuke2");
   }
 
-  for (var i = 0; i < rdCell.length; i++) {
-    if (rdCell[i].className.split(' ')[1] === event.target.id) {
-      if (rdCell[i].style.backgroundColor !== "yellow") {
-        for (var j = 0; j < b2Cell.length; j++) {
-          if (b2Cell[j].style.backgroundColor === "yellow" && 
-            b2Cell[j] !== event.target.parentNode) {
-            var posDrag = event.target.getAttribute("data-pos"),
-                chgDrag;
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".redips-drag"));
 
-            if (j < 18) {
-              switch (posDrag) {
-                case "sa": chgDrag = "";    break;
-                case "ju": chgDrag = "!!!"; break;
-                default:   chgDrag = "↑";
-              }
-            }
-            else if (j < 54) {
-              switch (posDrag) {
-                case "sa": chgDrag = "↓"; break;
-                case "ju": chgDrag = "↑"; break;
-                default:
-                  chgDrag = (posDrag - b2Cell[j].getAttribute("data-pos"))/2;
-                  if      (chgDrag > 0)  chgDrag = "+" + chgDrag;
-                  else if (chgDrag == 0) chgDrag = "─";
-              }
-            }
-            else {
-              switch (posDrag) {
-                case "sa": chgDrag = "!!!"; break;
-                case "ju": chgDrag = "";    break;
-                default:   chgDrag = "↓"
-              }
-            }
-            chCell[i].innerHTML = chgDrag;
+  cards.forEach(card => {
 
-            if (b2Cell[j].firstChild) { 
-              var posSwap = b2Cell[j].firstChild.getAttribute("data-pos"), 
-                  chgSwap;
+    card.addEventListener("mousedown", function() {
+      this.parentNode.style.backgroundColor = "lightblue";
+    });
 
-              if (!event.target.parentNode.hasAttribute("data-pos")) {
-                switch (posSwap) {
-                  case "sa": chgSwap = "";    break;
-                  case "ju": chgSwap = "!!!"; break;
-                  default:   chgSwap = "↑";
+    card.addEventListener("mouseup", function() {
+      this.parentNode.removeAttribute("style");
+
+      var rdCell = document.querySelectorAll(".redips-only");
+      var chCell = document.getElementsByClassName("ch");
+      var b2Cell = document.getElementsByClassName("redips-only b2");
+
+      for (var i = 0; i < rdCell.length; i++) {
+        if (rdCell[i].style.backgroundColor === "yellow") {
+          if (rdCell[i].className === "redips-only b2" && 
+          this.parentNode.className !== "redips-only b2") 
+            this.parentNode.children[0].style.display = "block";
+          else if (rdCell[i].className !== "redips-only b2")
+            rdCell[i].children[0].style.display = "none";
+        }
+      }
+
+      for (var i = 0; i < rdCell.length; i++) {
+        if (rdCell[i].className.split(' ')[1] === this.id) {
+          if (rdCell[i].style.backgroundColor !== "yellow") {
+            for (var j = 0; j < b2Cell.length; j++) {
+              if (b2Cell[j].style.backgroundColor === "yellow" && 
+                b2Cell[j] !== this.parentNode) {
+                var posDrag = this.getAttribute("data-pos"),
+                    chgDrag;
+
+                if (j < 18) {
+                  switch (posDrag) {
+                    case "sa": chgDrag = ""; break;
+                    case "ju": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
+                    default:   chgDrag = "↑"; chCell[i].style.color = "forestgreen";
+                  }
                 }
-              }
-              else if (event.target.parentNode.getAttribute("data-pos") < 36) {
-                switch (posSwap) {
-                  case "sa": chgSwap = "↓"; break;
-                  case "ju": chgSwap = "↑"; break;
-                  default:
-                    chgSwap = (posSwap - event.target.parentNode.getAttribute("data-pos"))/2;
-                    if      (chgSwap > 0)  chgSwap = "+" + chgSwap;
-                    else if (chgSwap == 0) chgSwap = "─";
+                else if (j < 54) {
+                  switch (posDrag) {
+                    case "sa": chgDrag = "↓"; chCell[i].style.color = "red"; break;
+                    case "ju": chgDrag = "↑"; chCell[i].style.color = "forestgreen"; break;
+                    default:
+                      chgDrag = (posDrag - b2Cell[j].getAttribute("data-pos"))/2;
+                      if      (chgDrag > 0) { chgDrag = "+" + chgDrag; chCell[i].style.color = "forestgreen"; }
+                      else if (chgDrag == 0) { chgDrag = "─"; chCell[i].style.color = "#656565"; }
+                      else chCell[i].style.color = "red"; 
+                  }
                 }
-              }
-              else {
-                switch (posSwap) {
-                  case "sa": chgSwap = "!!!"; break;
-                  case "ju": chgSwap = "";    break;
-                  default:   chgSwap = "↓"
+                else {
+                  switch (posDrag) {
+                    case "sa": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
+                    case "ju": chgDrag = ""; break;
+                    default: chgDrag = "↓"; chCell[i].style.color = "red";
+                  }
                 }
-              }
+                chCell[i].innerHTML = chgDrag;
+                
 
-              for (var k = 0; k < rdCell.length; k++) {
-                if (rdCell[k].className.split(' ')[1] === b2Cell[j].firstChild.id) 
-                  chCell[k].innerHTML = chgSwap;
+                if (b2Cell[j].firstChild) {                   
+                  var posSwap = b2Cell[j].firstChild.getAttribute("data-pos"), 
+                      chgSwap;
+
+                  if (!this.parentNode.hasAttribute("data-pos")) {
+                    switch (posSwap) {
+                      case "sa": chgSwap = "";    break;
+                      case "ju": chgSwap = "!!!"; break;
+                      default:   chgSwap = "↑";
+                    }
+                  }
+                  else if (this.parentNode.getAttribute("data-pos") < 36) {
+                    switch (posSwap) {
+                      case "sa": chgSwap = "↓"; break;
+                      case "ju": chgSwap = "↑"; break;
+                      default:
+                        chgSwap = (posSwap - this.parentNode.getAttribute("data-pos"))/2;
+                        if      (chgSwap > 0)  chgSwap = "+" + chgSwap;
+                        else if (chgSwap == 0) chgSwap = "─";
+                    }
+                  }
+                  else {
+                    switch (posSwap) {
+                      case "sa": chgSwap = "!!!"; break;
+                      case "ju": chgSwap = "";    break;
+                      default:   chgSwap = "↓"
+                    }
+                  }
+
+                  for (var k = 0; k < rdCell.length; k++) {
+                    if (rdCell[k].className.split(' ')[1] === b2Cell[j].firstChild.id) 
+                      chCell[k].innerHTML = chgSwap;
+                  }
+
+                  this.parentNode.appendChild(b2Cell[j].firstChild);
+                }
+
+                b2Cell[j].appendChild(this);
+                b2Cell[j].removeAttribute("style");
               }
             }
           }
+          else {
+            rdCell[i].appendChild(this);
+            rdCell[i].removeAttribute("style");
+            chCell[i].innerHTML = "";
+          }
         }
       }
-      else 
-        chCell[i].innerHTML = "";
-    }
-  }
+      this.removeAttribute("style");
+
+      window.localStorage.setItem("banzuke1", 
+        document.getElementById("banzuke1").innerHTML);
+      window.localStorage.setItem("banzuke2", 
+        document.getElementById("banzuke2").innerHTML);
+    });
+
+  });
 }
 
 'use strict';
@@ -233,6 +274,7 @@ redips.init = function () {
       rd.only.div[rank] = rank;
     }
   }
+
   rd.event.moved = function () {
     var tbl = rd.findParent("TABLE", rd.obj);
 
@@ -247,16 +289,3 @@ if (window.addEventListener)
   window.addEventListener('load', redips.init, false);
 else if (window.attachEvent)
   window.attachEvent('onload', redips.init);
-
-function saveTable() {
-  var banzuke1Content = document.getElementById("banzuke1").innerHTML;
-  window.localStorage.setItem("banzuke1", banzuke1Content);
-
-  var banzuke2Content = document.getElementById("banzuke2").innerHTML;
-  window.localStorage.setItem("banzuke2", banzuke2Content);
-}
-
-function deleteLs() {
-  window.localStorage.removeItem("banzuke1");
-  window.localStorage.removeItem("banzuke2");
-}
