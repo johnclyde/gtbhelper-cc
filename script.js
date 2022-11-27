@@ -1,77 +1,77 @@
 
 var theSekitori = [
-  "Y1e Terunofuji 0-0", 
+  "Y1e Terunofuji 0-0-15", 
   "", 
-  "O1e Takakeisho 0-0", 
-  "O1w Shodai 0-0", 
-  "S1e Wakatakakage 0-0", 
-  "S1w Hoshoryu 0-0", 
-  "", 
-  "S2w Mitakeumi 0-0", 
-  "K1e Tamawashi 0-0", 
-  "K1w Kiribayama 0-0", 
-  "K2e Tobizaru 0-0", 
-  "K2w Daieisho 0-0", 
-  "M1e Takayasu 0-0", 
-  "M1w Kotonowaka 0-0", 
-  "M2e Meisei 0-0", 
-  "M2w Ichinojo 0-0", 
-  "M3e Ura 0-0", 
-  "M3w Midorifuji 0-0", 
-  "M4e Wakamotoharu 0-0", 
-  "M4w Sadanoumi 0-0", 
-  "M5e Hokutofuji 0-0", 
-  "M5w Nishikifuji 0-0", 
-  "M6e Nishikigi 0-0", 
-  "M6w Ryuden 0-0", 
-  "M7e Endo 0-0", 
-  "M7w Myogiryu 0-0", 
-  "M8e Takarafuji 0-0", 
-  "M8w Tochinoshin 0-0", 
-  "M9e Takanosho 0-0", 
-  "M9w Abi 0-0", 
-  "M10e Aoiyama 0-0", 
-  "M10w Chiyoshoma 0-0", 
-  "M11e Onosho 0-0", 
-  "M11w Kotoshoho 0-0", 
-  "M12e Kotoeko 0-0", 
-  "M12w Chiyotairyu 0-0", 
-  "M13e Okinoumi 0-0", 
-  "M13w Oho 0-0", 
-  "M14e Ichiyamamoto 0-0", 
-  "M14w Azumaryu 0-0", 
-  "M15e Kagayaki 0-0", 
-  "M15w Atamifuji 0-0", 
-  "M16e Terutsuyoshi 0-0", 
-  "M16w Hiradoumi 0-0", 
-  "J1e Tohakuryu 0-0", 
-  "J1w Chiyomaru 0-0", 
-  "J2e Churanoumi 0-0", 
-  "J2w Bushozan 0-0", 
-  "J3e Tsurugisho 0-0", 
-  "J3w Mitoryu 0-0", 
-  "J4e Hidenoumi 0-0", 
-  "J4w Yutakayama 0-0", 
-  "J5e Akua 0-0", 
-  "J5w Chiyonokuni 0-0", 
-  "J6e Hokuseiho 0-0", 
-  "J6w Kitanowaka 0-0", 
-  "J7e Tochimusashi 0-0", 
-  "J7w Kinbozan 0-0", 
-  "J8e Shimanoumi 0-0", 
-  "J8w Kotokuzan 0-0", 
-  "J9e Daiamami 0-0", 
-  "J9w Daishoho 0-0", 
-  "J10e Chiyosakae 0-0", 
-  "J10w Kaisho 0-0", 
-  "J11e Enho 0-0", 
-  "J11w Takakento 0-0", 
-  "J12e Tokushoryu 0-0", 
-  "J12w Oshoma 0-0", 
-  "J13e Shimazuumi 0-0", 
-  "J13w Roga 0-0", 
-  "J14e Tsushimanada 0-0", 
-  "J14w Gonoyama 0-0"
+  "O1e Takakeisho 12-3 D", 
+  "O1w Shodai 6-9", 
+  "S1e Wakatakakage 8-7", 
+  "S1w Hoshoryu 11-4 G", 
+  "",
+  "S2w Mitakeumi 6-9", 
+  "K1e Tamawashi 6-9", 
+  "K1w Kiribayama 8-7", 
+  "K2e Tobizaru 7-8", 
+  "K2w Daieisho 7-8", 
+  "M1e Takayasu 12-3 DS", 
+  "M1w Kotonowaka 9-6", 
+  "M2e Meisei 9-6", 
+  "M2w Ichinojo 4-11", 
+  "M3e Ura 4-11", 
+  "M3w Midorifuji 8-7", 
+  "M4e Wakamotoharu 10-5", 
+  "M4w Sadanoumi 8-7", 
+  "M5e Hokutofuji 7-8", 
+  "M5w Nishikifuji 9-6", 
+  "M6e Nishikigi 8-7", 
+  "M6w Ryuden 9-6", 
+  "M7e Endo 6-9", 
+  "M7w Myogiryu 8-7", 
+  "M8e Takarafuji 3-12", 
+  "M8w Tochinoshin 6-9", 
+  "M9e Takanosho 7-8", 
+  "M9w Abi 12-3 YK", 
+  "M10e Aoiyama 7-8", 
+  "M10w Chiyoshoma 7-8", 
+  "M11e Onosho 9-6", 
+  "M11w Kotoshoho 7-8", 
+  "M12e Kotoeko 7-8", 
+  "M12w Chiyotairyu 2-6", 
+  "M13e Okinoumi 8-7", 
+  "M13w Oho 10-5", 
+  "M14e Ichiyamamoto 7-8", 
+  "M14w Azumaryu 7-8", 
+  "M15e Kagayaki 9-6", 
+  "M15w Atamifuji 4-11", 
+  "M16e Terutsuyoshi 0-15", 
+  "M16w Hiradoumi 10-5", 
+  "J1e Tohakuryu 5-10", 
+  "J1w Chiyomaru 8-7", 
+  "J2e Churanoumi 4-11", 
+  "J2w Bushozan 8-7", 
+  "J3e Tsurugisho 10-5", 
+  "J3w Mitoryu 9-6", 
+  "J4e Hidenoumi 4-11", 
+  "J4w Yutakayama 5-10", 
+  "J5e Akua 10-5", 
+  "J5w Chiyonokuni 6-9", 
+  "J6e Hokuseiho 10-5", 
+  "J6w Kitanowaka 6-9", 
+  "J7e Tochimusashi 7-8", 
+  "J7w Kinbozan 8-7", 
+  "J8e Shimanoumi 7-8", 
+  "J8w Kotokuzan 8-7", 
+  "J9e Daiamami 11-4 D", 
+  "J9w Daishoho 8-7", 
+  "J10e Chiyosakae 7-8", 
+  "J10w Kaisho 5-10", 
+  "J11e Enho 10-5", 
+  "J11w Takakento 7-8", 
+  "J12e Tokushoryu 4-11", 
+  "J12w Oshoma 11-4 Y", 
+  "J13e Shimazuumi 8-7", 
+  "J13w Roga 9-6", 
+  "J14e Tsushimanada 7-8", 
+  "J14w Gonoyama 9-6"
 ];
 
 window.onload = function() {
@@ -120,8 +120,19 @@ window.onload = function() {
       }
     }
 
+    // Adding position attribute to maegashira cells of banzuke2
     for (var i = theSekitori.length+18; i < theSekitori.length+66; i++) 
       cell[i].setAttribute("data-pos", i-theSekitori.length-18);
+
+    // This process removes drop update delay in first column of banzuke2
+    var rows = document.getElementsByTagName("tr");
+
+    for (var i = theSekitori.length/2; i < rows.length; i++) {
+      var invCell = document.createElement("td");
+      
+      rows[i].insertBefore(invCell, rows[i].firstChild);
+      invCell.style.display = "none";
+    }
 
   }
   else {
@@ -137,7 +148,7 @@ window.onload = function() {
   cards.forEach(card => {
 
     card.addEventListener("mousedown", function() {
-      this.parentNode.style.backgroundColor = "lightblue";
+      this.parentNode.style.backgroundImage = "url(shadow.png)";
     });
 
     card.addEventListener("mouseup", function() {
@@ -179,8 +190,14 @@ window.onload = function() {
                     case "ju": chgDrag = "↑"; chCell[i].style.color = "forestgreen"; break;
                     default:
                       chgDrag = (posDrag - b2Cell[j].getAttribute("data-pos"))/2;
-                      if      (chgDrag > 0) { chgDrag = "+" + chgDrag; chCell[i].style.color = "forestgreen"; }
-                      else if (chgDrag == 0) { chgDrag = "─"; chCell[i].style.color = "#656565"; }
+                      if (chgDrag > 0) {
+                        chgDrag = "+" + chgDrag;
+                        chCell[i].style.color = "forestgreen";
+                      }
+                      else if (chgDrag == 0) {
+                        chgDrag = "─"; 
+                        chCell[i].style.color = "#656565";
+                      }
                       else chCell[i].style.color = "red"; 
                   }
                 }
@@ -250,7 +267,6 @@ window.onload = function() {
       window.localStorage.setItem("banzuke2", 
         document.getElementById("banzuke2").innerHTML);
     });
-
   });
 }
 

@@ -19,9 +19,9 @@ header {
 	margin-left: 50px;
 	margin-bottom: 20px;
 	color: white;
-	border-right: 2px solid dimgray;
-	border-bottom: 2px solid dimgray;
+	border: 2px solid dimgray;
 	box-shadow: 5px 5px darkgray;
+	border-radius: 10px;
 }
 
 h1 {
@@ -37,10 +37,11 @@ ul {
 	display: inline-block;
 	font-size: 11pt;
 	line-height: 25px;
+	margin-right: 50px;
 }
 
 table {
-	display: inline-table;
+	display: -webkit-inline-box;
 	font-size: 11pt;
 	margin-bottom: 20px;
 	border: 2px solid dimgray;
@@ -50,14 +51,18 @@ table {
 	box-shadow: 5px 5px darkgray;
 }
 
-button {
-	margin-left: 50px;
+caption {
+	color: white;
+    line-height: 17pt;
+    border-bottom: 2px solid dimgray;
 }
 
-caption {
-	font-weight: bold;
-	background-color: #ffffe0;
-    border: 1px solid;
+#banzuke1 caption {
+	background-color: #d6b31c;
+}
+
+#banzuke2 caption {
+	background-color: #26c22d;
 }
 
 td {
@@ -67,10 +72,14 @@ td {
 	background-color: #e6e1d5;
 	border-bottom: 1px solid dimgray;
 	border-right: 1px solid dimgray;
+	background-repeat: no-repeat;
+    background-position: center;
 }
 
 .theader th {
 	background-color: #88caff;
+	border-bottom: 1px solid dimgray;
+	border-right: 1px solid dimgray;
 }
 
 th {
@@ -83,15 +92,21 @@ th {
 }
 
 .ch {
-	background-color: white !important;
+	background-color: transparent !important;
 	font-size: 10pt;
 	min-width: 34px;
 	line-height: 19px;
 	text-align: center;
 }
 
-tr.san td, tr.san th {
+.san td, .san th {
 	background-color: #efe7a3;
+}
+
+td span::after, td .redips-drag::after {
+	content: "";
+	display: inline-block;
+	width: 100%;
 }
 
 td span {
@@ -103,29 +118,18 @@ td span {
 	margin: 0 auto;
 }
 
-td span::after {
-	content: "";
-	display: inline-block;
-	width: 100%;
-}
-
 td .redips-drag {
-	background-color: white;
 	text-align: justify;
+	background-color: white;
+	box-shadow: 1px 1px 5px #acacac inset;
 	width: 190px;
 	height: 18px;
 	border: 1px solid;
-	border-radius: 2px;
+	border-radius: 3px;
 	padding-left: 3px;
 	padding-right: 3px;
-	margin: 0 auto;
+	margin: auto;
 	cursor: grab;
-}
-
-td .redips-drag::after {
-	content: "";
-	display: inline-block;
-	width: 100%;
 }
 
 footer {
@@ -135,7 +139,7 @@ footer {
 	margin-left: 250px;
 	width: 400px;
 	text-align: center;
-	border-right: 2px solid dimgray;
-	border-bottom: 2px solid dimgray;
+	border: 2px solid dimgray;
 	box-shadow: 5px 5px darkgray;
+	border-radius: 10px;
 }
