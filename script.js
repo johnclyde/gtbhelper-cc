@@ -124,16 +124,6 @@ window.onload = function() {
     for (var i = theSekitori.length+18; i < theSekitori.length+66; i++) 
       cell[i].setAttribute("data-pos", i-theSekitori.length-18);
 
-    // This process removes drop update delay in first column of banzuke2
-    var rows = document.getElementsByTagName("tr");
-
-    for (var i = theSekitori.length/2; i < rows.length; i++) {
-      var invCell = document.createElement("td");
-      
-      rows[i].insertBefore(invCell, rows[i].firstChild);
-      invCell.style.display = "none";
-    }
-
   }
   else {
     document.getElementById("banzuke1").innerHTML = 
@@ -148,11 +138,9 @@ window.onload = function() {
   cards.forEach(card => {
 
     card.addEventListener("mousedown", function() {
-      this.parentNode.style.backgroundImage = "url(shadow.png)";
     });
 
     card.addEventListener("mouseup", function() {
-      this.parentNode.removeAttribute("style");
 
       var rdCell = document.querySelectorAll(".redips-only");
       var chCell = document.getElementsByClassName("ch");
@@ -168,98 +156,100 @@ window.onload = function() {
         }
       }
 
-      for (var i = 0; i < rdCell.length; i++) {
-        if (rdCell[i].className.split(' ')[1] === this.id) {
-          if (rdCell[i].style.backgroundColor !== "yellow") {
-            for (var j = 0; j < b2Cell.length; j++) {
-              if (b2Cell[j].style.backgroundColor === "yellow" && 
-                b2Cell[j] !== this.parentNode) {
-                var posDrag = this.getAttribute("data-pos"),
-                    chgDrag;
+      for (var i = 0; i < b2Cell.length; i++) {
+        if (b2Cell[i] === this.parentNode && 
+          b2Cell[i].style.backgroundColor !== "yellow" &&
+          this.style.position === "fixed") 
+          chCell[i].innerHTML = " ";
+      }
 
-                if (j < 18) {
-                  switch (posDrag) {
-                    case "sa": chgDrag = ""; break;
-                    case "ju": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
-                    default:   chgDrag = "↑"; chCell[i].style.color = "forestgreen";
-                  }
+      for (var i = 0; i < b2Cell.length; i++) {
+        if (b2Cell[i].style.backgroundColor === "yellow") {
+          var posDrag = this.getAttribute("data-pos"),
+              chgDrag;
+
+          if (i < 18) {
+            switch (posDrag) {
+              case "sa": chgDrag = " "; break;
+              case "ju": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
+              default:   chgDrag = "↑"; chCell[i].style.color = "forestgreen";
+            }
+          }
+          else if (i < 54) {
+            switch (posDrag) {
+              case "sa": chgDrag = "↓"; chCell[i].style.color = "red"; break;
+              case "ju": chgDrag = "↑"; chCell[i].style.color = "forestgreen"; break;
+              default:
+                chgDrag = (posDrag - b2Cell[i].getAttribute("data-pos"))/2;
+                if (chgDrag > 0) {
+                  chgDrag = "+" + chgDrag;
+                  chCell[i].style.color = "forestgreen";
                 }
-                else if (j < 54) {
-                  switch (posDrag) {
-                    case "sa": chgDrag = "↓"; chCell[i].style.color = "red"; break;
-                    case "ju": chgDrag = "↑"; chCell[i].style.color = "forestgreen"; break;
-                    default:
-                      chgDrag = (posDrag - b2Cell[j].getAttribute("data-pos"))/2;
-                      if (chgDrag > 0) {
-                        chgDrag = "+" + chgDrag;
-                        chCell[i].style.color = "forestgreen";
-                      }
-                      else if (chgDrag == 0) {
-                        chgDrag = "─"; 
-                        chCell[i].style.color = "#656565";
-                      }
-                      else chCell[i].style.color = "red"; 
-                  }
+                else if (chgDrag == 0) {
+                  chgDrag = "─"; 
+                  chCell[i].style.color = "#656565";
                 }
-                else {
-                  switch (posDrag) {
-                    case "sa": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
-                    case "ju": chgDrag = ""; break;
-                    default: chgDrag = "↓"; chCell[i].style.color = "red";
-                  }
-                }
-                chCell[i].innerHTML = chgDrag;
-                
-
-                if (b2Cell[j].firstChild) {                   
-                  var posSwap = b2Cell[j].firstChild.getAttribute("data-pos"), 
-                      chgSwap;
-
-                  if (!this.parentNode.hasAttribute("data-pos")) {
-                    switch (posSwap) {
-                      case "sa": chgSwap = "";    break;
-                      case "ju": chgSwap = "!!!"; break;
-                      default:   chgSwap = "↑";
-                    }
-                  }
-                  else if (this.parentNode.getAttribute("data-pos") < 36) {
-                    switch (posSwap) {
-                      case "sa": chgSwap = "↓"; break;
-                      case "ju": chgSwap = "↑"; break;
-                      default:
-                        chgSwap = (posSwap - this.parentNode.getAttribute("data-pos"))/2;
-                        if      (chgSwap > 0)  chgSwap = "+" + chgSwap;
-                        else if (chgSwap == 0) chgSwap = "─";
-                    }
-                  }
-                  else {
-                    switch (posSwap) {
-                      case "sa": chgSwap = "!!!"; break;
-                      case "ju": chgSwap = "";    break;
-                      default:   chgSwap = "↓"
-                    }
-                  }
-
-                  for (var k = 0; k < rdCell.length; k++) {
-                    if (rdCell[k].className.split(' ')[1] === b2Cell[j].firstChild.id) 
-                      chCell[k].innerHTML = chgSwap;
-                  }
-
-                  this.parentNode.appendChild(b2Cell[j].firstChild);
-                }
-
-                b2Cell[j].appendChild(this);
-                b2Cell[j].removeAttribute("style");
-              }
+                else chCell[i].style.color = "red"; 
             }
           }
           else {
-            rdCell[i].appendChild(this);
-            rdCell[i].removeAttribute("style");
-            chCell[i].innerHTML = "";
+            switch (posDrag) {
+              case "sa": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
+              case "ju": chgDrag = " "; break;
+              default: chgDrag = "↓"; chCell[i].style.color = "red";
+            }
           }
+          chCell[i].innerHTML = chgDrag;
+
+          if (b2Cell[i].firstChild && b2Cell[i].firstChild !== this) {
+            var posSwap = b2Cell[i].firstChild.getAttribute("data-pos"), 
+                chgSwap;
+
+            if (!this.parentNode.hasAttribute("data-pos")) {
+              switch (posSwap) {
+                case "sa": chgSwap = " ";   break;
+                case "ju": chgSwap = "!!!"; break;
+                default:   chgSwap = "↑";
+              }
+            }
+            else if (this.parentNode.getAttribute("data-pos") < 36) {
+              switch (posSwap) {
+                case "sa": chgSwap = "↓"; break;
+                case "ju": chgSwap = "↑"; break;
+                default:
+                  chgSwap = (posSwap - this.parentNode.getAttribute("data-pos"))/2;
+                  if      (chgSwap > 0)  chgSwap = "+" + chgSwap;
+                  else if (chgSwap == 0) chgSwap = "─";
+              }
+            }
+            else {
+              switch (posSwap) {
+                case "sa": chgSwap = "!!!"; break;
+                case "ju": chgSwap = " ";   break;
+                default:   chgSwap = "↓"
+              }
+            }
+
+            for (var j = 0; j < b2Cell.length; j++) {
+              if (b2Cell[j] === this.parentNode) {
+                if (chgSwap > 0 || chgSwap === '↑') 
+                  chCell[j].style.color = "forestgreen";
+                else if (chgSwap < 0 || chgSwap === '↓') 
+                  chCell[j].style.color = "red";
+                else 
+                  chCell[j].style.color = "#656565";
+
+                chCell[j].innerHTML = chgSwap;
+                this.parentNode.appendChild(b2Cell[j].firstChild);
+              }
+            }
+          }
+
+          b2Cell[i].appendChild(this);
+          b2Cell[i].removeAttribute("style");
         }
       }
+      
       this.removeAttribute("style");
 
       window.localStorage.setItem("banzuke1", 

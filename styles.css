@@ -88,7 +88,7 @@ th {
 }
 
 .redips-drag.ju {
-	background-color: #fffaca;
+	background: linear-gradient(#acacac, #fffaca 25%);
 }
 
 .ch {
@@ -120,8 +120,7 @@ td span {
 
 td .redips-drag {
 	text-align: justify;
-	background-color: white;
-	box-shadow: 1px 1px 5px #acacac inset;
+	background: linear-gradient(#acacac, white 25%);
 	width: 190px;
 	height: 18px;
 	border: 1px solid;
