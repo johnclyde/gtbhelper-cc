@@ -95,8 +95,9 @@ th {
 	background-color: transparent !important;
 	font-size: 10pt;
 	min-width: 34px;
-	line-height: 19px;
+	line-height: 20px;
 	text-align: center;
+	color: blue;
 }
 
 .san td, .san th {

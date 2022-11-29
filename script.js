@@ -138,9 +138,11 @@ window.onload = function() {
   cards.forEach(card => {
 
     card.addEventListener("mousedown", function() {
+      this.parentNode.style.backgroundImage = "url(shadow.png)";
     });
 
     card.addEventListener("mouseup", function() {
+      this.parentNode.style.removeProperty("background-image");
 
       var rdCell = document.querySelectorAll(".redips-only");
       var chCell = document.getElementsByClassName("ch");
@@ -158,94 +160,91 @@ window.onload = function() {
 
       for (var i = 0; i < b2Cell.length; i++) {
         if (b2Cell[i] === this.parentNode && 
-          b2Cell[i].style.backgroundColor !== "yellow" &&
-          this.style.position === "fixed") 
-          chCell[i].innerHTML = " ";
+          this.style.position === "fixed") {
+          if (b2Cell[i].children.length > 0) {
+            chCell[i].innerHTML = "";
+            for (var j = 0; j < b2Cell[i].children.length; j++) {
+              var pos = b2Cell[i].children[j].getAttribute("data-pos"),
+                  chg;
+
+              if (b2Cell[i].children[j] !== this) {
+                if (i < 18) {
+                  switch (pos) {
+                    case "sa": chg = " "; break;
+                    case "ju": chg = "!!!"; break;
+                    default:   chg = "↑";
+                  }
+                }
+                else if (i < 54) {
+                  switch (pos) {
+                    case "sa": chg = "↓"; break;
+                    case "ju": chg = "↑"; break;
+                    default:
+                      chg = (pos - b2Cell[i].getAttribute("data-pos"))/2;
+                      if (chg > 0) 
+                        chg = "+" + chg;
+                      else if (chg == 0) 
+                        chg = "─"; 
+                  }
+                }
+                else {
+                  switch (pos) {
+                    case "sa": chg = "!!!"; break;
+                    case "ju": chg = " "; break;
+                    default: chg = "↓";
+                  }
+                }
+                if (chCell[i].innerHTML.length == 0) 
+                  chCell[i].innerHTML = chg;
+                else 
+                  chCell[i].innerHTML += "<br>" + chg;
+              }
+            }
+          }
+        }
       }
 
       for (var i = 0; i < b2Cell.length; i++) {
         if (b2Cell[i].style.backgroundColor === "yellow") {
-          var posDrag = this.getAttribute("data-pos"),
-              chgDrag;
+          chCell[i].innerHTML = "";
+          this.remove();
+          b2Cell[i].appendChild(this);
+          for (var j = 0; j < b2Cell[i].children.length; j++) {
+            var pos = b2Cell[i].children[j].getAttribute("data-pos"),
+                chg;
 
-          if (i < 18) {
-            switch (posDrag) {
-              case "sa": chgDrag = " "; break;
-              case "ju": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
-              default:   chgDrag = "↑"; chCell[i].style.color = "forestgreen";
-            }
-          }
-          else if (i < 54) {
-            switch (posDrag) {
-              case "sa": chgDrag = "↓"; chCell[i].style.color = "red"; break;
-              case "ju": chgDrag = "↑"; chCell[i].style.color = "forestgreen"; break;
-              default:
-                chgDrag = (posDrag - b2Cell[i].getAttribute("data-pos"))/2;
-                if (chgDrag > 0) {
-                  chgDrag = "+" + chgDrag;
-                  chCell[i].style.color = "forestgreen";
-                }
-                else if (chgDrag == 0) {
-                  chgDrag = "─"; 
-                  chCell[i].style.color = "#656565";
-                }
-                else chCell[i].style.color = "red"; 
-            }
-          }
-          else {
-            switch (posDrag) {
-              case "sa": chgDrag = "!!!"; chCell[i].style.color = "#656565"; break;
-              case "ju": chgDrag = " "; break;
-              default: chgDrag = "↓"; chCell[i].style.color = "red";
-            }
-          }
-          chCell[i].innerHTML = chgDrag;
-
-          if (b2Cell[i].firstChild && b2Cell[i].firstChild !== this) {
-            var posSwap = b2Cell[i].firstChild.getAttribute("data-pos"), 
-                chgSwap;
-
-            if (!this.parentNode.hasAttribute("data-pos")) {
-              switch (posSwap) {
-                case "sa": chgSwap = " ";   break;
-                case "ju": chgSwap = "!!!"; break;
-                default:   chgSwap = "↑";
+            if (i < 18) {
+              switch (pos) {
+                case "sa": chg = " "; break;
+                case "ju": chg = "!!!"; break;
+                default:   chg = "↑";
               }
             }
-            else if (this.parentNode.getAttribute("data-pos") < 36) {
-              switch (posSwap) {
-                case "sa": chgSwap = "↓"; break;
-                case "ju": chgSwap = "↑"; break;
+            else if (i < 54) {
+              switch (pos) {
+                case "sa": chg = "↓"; break;
+                case "ju": chg = "↑"; break;
                 default:
-                  chgSwap = (posSwap - this.parentNode.getAttribute("data-pos"))/2;
-                  if      (chgSwap > 0)  chgSwap = "+" + chgSwap;
-                  else if (chgSwap == 0) chgSwap = "─";
+                  chg = (pos - b2Cell[i].getAttribute("data-pos"))/2;
+                  if (chg > 0) 
+                    chg = "+" + chg;
+                  else if (chg == 0) 
+                    chg = "─"; 
               }
             }
             else {
-              switch (posSwap) {
-                case "sa": chgSwap = "!!!"; break;
-                case "ju": chgSwap = " ";   break;
-                default:   chgSwap = "↓"
+              switch (pos) {
+                case "sa": chg = "!!!"; break;
+                case "ju": chg = " "; break;
+                default: chg = "↓";
               }
             }
-
-            for (var j = 0; j < b2Cell.length; j++) {
-              if (b2Cell[j] === this.parentNode) {
-                if (chgSwap > 0 || chgSwap === '↑') 
-                  chCell[j].style.color = "forestgreen";
-                else if (chgSwap < 0 || chgSwap === '↓') 
-                  chCell[j].style.color = "red";
-                else 
-                  chCell[j].style.color = "#656565";
-
-                chCell[j].innerHTML = chgSwap;
-                this.parentNode.appendChild(b2Cell[j].firstChild);
-              }
-            }
+            
+            if (chCell[i].innerHTML.length == 0) 
+              chCell[i].innerHTML = chg;
+            else 
+              chCell[i].innerHTML += "<br>" + chg;
           }
-
-          b2Cell[i].appendChild(this);
           b2Cell[i].removeAttribute("style");
         }
       }
@@ -281,14 +280,9 @@ redips.init = function () {
     }
   }
 
-  rd.event.moved = function () {
-    var tbl = rd.findParent("TABLE", rd.obj);
-
-    if (tbl.id === "banzuke1") 
-      rd.dropMode = "single";
-    else 
-      rd.dropMode = "switch";
-  };
+  
+      rd.dropMode = "multiple";
+  
 };
 
 if (window.addEventListener)
