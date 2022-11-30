@@ -88,7 +88,6 @@ window.onload = function() {
 
   if (window.localStorage.getItem("banzuke1") === null) {
     var cell = document.querySelectorAll(".redips-only");
-    var maCardNum = 0;
     
     for (var i = 0; i < theSekitori.length; i++) {
       if (theSekitori[i] !== "") {
@@ -99,31 +98,15 @@ window.onload = function() {
 
         var card = document.createElement("div");
 
-        card.setAttribute("id", theSekitori[i].split(' ')[0]);
-        switch (theSekitori[i].charAt(0)) {
-          case "M":
-            card.setAttribute("class", "redips-drag ma");
-            card.setAttribute("data-pos", maCardNum);
-            maCardNum++;
-            break;
-          case "J":
-            card.setAttribute("class", "redips-drag ju");
-            card.setAttribute("data-pos", "ju");
-            break;
-          default:
-            card.setAttribute("class", "redips-drag ma");
-            card.setAttribute("data-pos", "sa");
-        }
-
+        card.setAttribute("id", theSekitori[i].split(' ')[0].toLowerCase());
+        if (theSekitori[i].charAt(0) == 'J') 
+          card.setAttribute("class", "redips-drag ju");
+        else 
+          card.setAttribute("class", "redips-drag ma");
         card.innerHTML = theSekitori[i];
         cell[i].appendChild(card);
       }
     }
-
-    // Adding position attribute to maegashira cells of banzuke2
-    for (var i = theSekitori.length+18; i < theSekitori.length+66; i++) 
-      cell[i].setAttribute("data-pos", i-theSekitori.length-18);
-
   }
   else {
     document.getElementById("banzuke1").innerHTML = 
@@ -147,14 +130,20 @@ window.onload = function() {
       var rdCell = document.querySelectorAll(".redips-only");
       var chCell = document.getElementsByClassName("ch");
       var b2Cell = document.getElementsByClassName("redips-only b2");
+      var makRik = document.getElementById("makRik");
 
       for (var i = 0; i < rdCell.length; i++) {
         if (rdCell[i].style.backgroundColor === "yellow") {
           if (rdCell[i].className === "redips-only b2" && 
-          this.parentNode.className !== "redips-only b2") 
+          this.parentNode.className !== "redips-only b2") {
             this.parentNode.children[0].style.display = "block";
-          else if (rdCell[i].className !== "redips-only b2")
+            makRik.innerHTML++;
+          }
+          else if (rdCell[i].className !== "redips-only b2" && 
+            rdCell[i] !== this.parentNode) {
             rdCell[i].children[0].style.display = "none";
+            makRik.innerHTML--;
+          }
         }
       }
 
@@ -164,36 +153,35 @@ window.onload = function() {
           if (b2Cell[i].children.length > 0) {
             chCell[i].innerHTML = "";
             for (var j = 0; j < b2Cell[i].children.length; j++) {
-              var pos = b2Cell[i].children[j].getAttribute("data-pos"),
+              var rank = b2Cell[i].children[j].id,
                   chg;
 
               if (b2Cell[i].children[j] !== this) {
                 if (i < 18) {
-                  switch (pos) {
-                    case "sa": chg = " "; break;
-                    case "ju": chg = "!!!"; break;
-                    default:   chg = "↑";
-                  }
-                }
-                else if (i < 54) {
-                  switch (pos) {
-                    case "sa": chg = "↓"; break;
-                    case "ju": chg = "↑"; break;
-                    default:
-                      chg = (pos - b2Cell[i].getAttribute("data-pos"))/2;
-                      if (chg > 0) 
-                        chg = "+" + chg;
-                      else if (chg == 0) 
-                        chg = "─"; 
+                  switch (rank.charAt(0)) {
+                    case 'm': chg = "↑"; break;
+                    case 'j': chg = "!!!"; break;
+                    default: chg = " "; break;
                   }
                 }
                 else {
-                  switch (pos) {
-                    case "sa": chg = "!!!"; break;
-                    case "ju": chg = " "; break;
+                  switch (rank.charAt(0)) {
+                    case 'm': 
+                      var maPos = rank.slice(1, -1)*2-2;
+                      
+                      if (rank.slice(-1) == 'w') 
+                        maPos++;
+                      chg = (maPos-i+18)/2;
+                      if (chg > 0) 
+                        chg = "+" + chg;
+                      else if (chg == 0) 
+                        chg = "─";
+                      break;
+                    case 'j': chg = "↑"; break;
                     default: chg = "↓";
                   }
                 }
+
                 if (chCell[i].innerHTML.length == 0) 
                   chCell[i].innerHTML = chg;
                 else 
@@ -207,39 +195,36 @@ window.onload = function() {
       for (var i = 0; i < b2Cell.length; i++) {
         if (b2Cell[i].style.backgroundColor === "yellow") {
           chCell[i].innerHTML = "";
-          this.remove();
           b2Cell[i].appendChild(this);
           for (var j = 0; j < b2Cell[i].children.length; j++) {
-            var pos = b2Cell[i].children[j].getAttribute("data-pos"),
+            var rank = b2Cell[i].children[j].id,
                 chg;
 
             if (i < 18) {
-              switch (pos) {
-                case "sa": chg = " "; break;
-                case "ju": chg = "!!!"; break;
-                default:   chg = "↑";
-              }
-            }
-            else if (i < 54) {
-              switch (pos) {
-                case "sa": chg = "↓"; break;
-                case "ju": chg = "↑"; break;
-                default:
-                  chg = (pos - b2Cell[i].getAttribute("data-pos"))/2;
-                  if (chg > 0) 
-                    chg = "+" + chg;
-                  else if (chg == 0) 
-                    chg = "─"; 
+              switch (rank.charAt(0)) {
+                case 'm': chg = "↑"; break;
+                case 'j': chg = "!!!"; break;
+                default: chg = " "; break;
               }
             }
             else {
-              switch (pos) {
-                case "sa": chg = "!!!"; break;
-                case "ju": chg = " "; break;
+              switch (rank.charAt(0)) {
+                case 'm': 
+                  var maPos = rank.slice(1, -1)*2-2;
+                  
+                  if (rank.slice(-1) == 'w') 
+                    maPos++;
+                  chg = (maPos-i+18)/2;
+                  if (chg > 0) 
+                    chg = "+" + chg;
+                  else if (chg == 0) 
+                    chg = "─";
+                  break;
+                case 'j': chg = "↑"; break;
                 default: chg = "↓";
               }
             }
-            
+
             if (chCell[i].innerHTML.length == 0) 
               chCell[i].innerHTML = chg;
             else 
@@ -268,21 +253,17 @@ redips.init = function () {
   
   rd.init();
   rd.hover.colorTd = "yellow";
+  rd.dropMode = "multiple";
 
   rd.only.divClass.ma = "b2";
   rd.only.divClass.ju = "b2";
-
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
-      var rank = theSekitori[i].split(' ')[0];
+      var rank = theSekitori[i].split(' ')[0].toLowerCase();
 
       rd.only.div[rank] = rank;
     }
   }
-
-  
-      rd.dropMode = "multiple";
-  
 };
 
 if (window.addEventListener)
