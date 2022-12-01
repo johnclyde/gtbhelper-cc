@@ -99,10 +99,17 @@ window.onload = function() {
         var card = document.createElement("div");
 
         card.setAttribute("id", theSekitori[i].split(' ')[0].toLowerCase());
-        if (theSekitori[i].charAt(0) == 'J') 
-          card.setAttribute("class", "redips-drag ju");
+        card.setAttribute("class", "redips-drag se");
+        if (theSekitori[i].split(' ')[1] == "Chiyotairyu" || 
+          theSekitori[i].split(' ')[1] == "Yutakayama") {
+          card.style.background = "linear-gradient(#acacac, #e9e9e9 25%)";
+          card.setAttribute("class", "redips-nodrag");
+          card.setAttribute("title", "Retired");
+        }
+        else if (theSekitori[i].split(' ')[2].split('-')[0] < 8) 
+          card.style.background = "linear-gradient(#acacac, #ffd9cc 25%)";
         else 
-          card.setAttribute("class", "redips-drag ma");
+          card.style.background = "linear-gradient(#acacac, #d3ffa5 25%)";
         card.innerHTML = theSekitori[i];
         cell[i].appendChild(card);
       }
@@ -132,26 +139,13 @@ window.onload = function() {
       var b2Cell = document.getElementsByClassName("redips-only b2");
       var makRik = document.getElementById("makRik");
 
-      for (var i = 0; i < rdCell.length; i++) {
-        if (rdCell[i].style.backgroundColor === "yellow") {
-          if (rdCell[i].className === "redips-only b2" && 
-          this.parentNode.className !== "redips-only b2") {
-            this.parentNode.children[0].style.display = "block";
-            makRik.innerHTML++;
-          }
-          else if (rdCell[i].className !== "redips-only b2" && 
-            rdCell[i] !== this.parentNode) {
-            rdCell[i].children[0].style.display = "none";
-            makRik.innerHTML--;
-          }
-        }
-      }
+      
 
       for (var i = 0; i < b2Cell.length; i++) {
         if (b2Cell[i] === this.parentNode && 
           this.style.position === "fixed") {
+          chCell[i].innerHTML = "";
           if (b2Cell[i].children.length > 0) {
-            chCell[i].innerHTML = "";
             for (var j = 0; j < b2Cell[i].children.length; j++) {
               var rank = b2Cell[i].children[j].id,
                   chg;
@@ -192,9 +186,27 @@ window.onload = function() {
         }
       }
 
+      for (var i = 0; i < rdCell.length; i++) {
+        if (rdCell[i].style.backgroundColor === "yellow") {
+          if (rdCell[i].className === "redips-only b2" && 
+          this.parentNode.className !== "redips-only b2") {
+            this.parentNode.children[0].style.display = "block";
+            makRik.innerHTML++;
+          }
+          else if (rdCell[i].className !== "redips-only b2" && 
+            rdCell[i] !== this.parentNode) {
+            rdCell[i].children[0].style.display = "none";
+            rdCell[i].appendChild(this);
+            rdCell[i].removeAttribute("style");
+            makRik.innerHTML--;
+          }
+        }
+      }
+
       for (var i = 0; i < b2Cell.length; i++) {
         if (b2Cell[i].style.backgroundColor === "yellow") {
           chCell[i].innerHTML = "";
+          this.remove();
           b2Cell[i].appendChild(this);
           for (var j = 0; j < b2Cell[i].children.length; j++) {
             var rank = b2Cell[i].children[j].id,
@@ -233,8 +245,10 @@ window.onload = function() {
           b2Cell[i].removeAttribute("style");
         }
       }
-      
-      this.removeAttribute("style");
+      this.style.removeProperty("z-index");
+      this.style.removeProperty("position");
+      this.style.removeProperty("top");
+      this.style.removeProperty("left");
 
       window.localStorage.setItem("banzuke1", 
         document.getElementById("banzuke1").innerHTML);
@@ -255,8 +269,7 @@ redips.init = function () {
   rd.hover.colorTd = "yellow";
   rd.dropMode = "multiple";
 
-  rd.only.divClass.ma = "b2";
-  rd.only.divClass.ju = "b2";
+  rd.only.divClass.se = "b2";
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
       var rank = theSekitori[i].split(' ')[0].toLowerCase();

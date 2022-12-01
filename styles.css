@@ -87,10 +87,6 @@ th {
 	font-weight: normal;
 }
 
-.redips-drag.ju {
-	background: linear-gradient(#acacac, #fffaca 25%);
-}
-
 .ch {
 	background-color: transparent !important;
 	font-size: 10pt;
@@ -104,7 +100,7 @@ th {
 	background-color: #efe7a3;
 }
 
-td span::after, td .redips-drag::after {
+td span::after, td .redips-drag::after, .redips-nodrag::after {
 	content: "";
 	display: inline-block;
 	width: 100%;
@@ -119,9 +115,8 @@ td span {
 	margin: 0 auto;
 }
 
-td .redips-drag {
+td .redips-drag, .redips-nodrag {
 	text-align: justify;
-	background: linear-gradient(#acacac, white 25%);
 	width: 190px;
 	height: 18px;
 	border: 1px solid;
