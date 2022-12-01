@@ -97,20 +97,20 @@ window.onload = function() {
         holder.style.display = "none";
 
         var card = document.createElement("div");
+        var rikiData = theSekitori[i].split(' ');
 
-        card.setAttribute("id", theSekitori[i].split(' ')[0].toLowerCase());
+        card.innerHTML = theSekitori[i];
+        card.setAttribute("id", rikiData[0].toLowerCase());
         card.setAttribute("class", "redips-drag se");
-        if (theSekitori[i].split(' ')[1] == "Chiyotairyu" || 
-          theSekitori[i].split(' ')[1] == "Yutakayama") {
+        if (rikiData[1] == "Chiyotairyu" || rikiData[1] == "Yutakayama") {
           card.style.background = "linear-gradient(#acacac, #e9e9e9 25%)";
           card.setAttribute("class", "redips-nodrag");
           card.setAttribute("title", "Retired");
         }
-        else if (theSekitori[i].split(' ')[2].split('-')[0] < 8) 
+        else if (rikiData[2].split('-')[0] < 8) 
           card.style.background = "linear-gradient(#acacac, #ffd9cc 25%)";
         else 
           card.style.background = "linear-gradient(#acacac, #d3ffa5 25%)";
-        card.innerHTML = theSekitori[i];
         cell[i].appendChild(card);
       }
     }
@@ -138,8 +138,6 @@ window.onload = function() {
       var chCell = document.getElementsByClassName("ch");
       var b2Cell = document.getElementsByClassName("redips-only b2");
       var makRik = document.getElementById("makRik");
-
-      
 
       for (var i = 0; i < b2Cell.length; i++) {
         if (b2Cell[i] === this.parentNode && 
@@ -206,7 +204,6 @@ window.onload = function() {
       for (var i = 0; i < b2Cell.length; i++) {
         if (b2Cell[i].style.backgroundColor === "yellow") {
           chCell[i].innerHTML = "";
-          this.remove();
           b2Cell[i].appendChild(this);
           for (var j = 0; j < b2Cell[i].children.length; j++) {
             var rank = b2Cell[i].children[j].id,
