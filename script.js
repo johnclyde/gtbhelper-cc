@@ -76,7 +76,7 @@ var theSekitori = [
 
 window.onload = function() {
 
-  document.getElementById("resetBanzuke").addEventListener("click", function() {
+  document.getElementById("resetChanges").addEventListener("click", function() {
     if (confirm("Reset the banzuke?") == true) {
       window.localStorage.removeItem("banzuke1");
       window.localStorage.removeItem("banzuke2");
