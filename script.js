@@ -76,15 +76,32 @@ var theSekitori = [
 
 window.onload = function() {
 
-  var resetButton = document.getElementById("resetChanges");
-
-  resetButton.addEventListener("click", function() {
+  document.getElementById("resetBanzuke").addEventListener("click", function() {
     if (confirm("Reset the banzuke?") == true) {
       window.localStorage.removeItem("banzuke1");
       window.localStorage.removeItem("banzuke2");
       location.reload();
     }
-  })
+  });
+/*
+  document.getElementById("saveBanzuke").addEventListener("click", function() {
+
+    window.localStorage.setItem("banzuke1", 
+      document.getElementById("banzuke1").innerHTML);
+    window.localStorage.setItem("banzuke2", 
+      document.getElementById("banzuke2").innerHTML);
+
+    var table = document.getElementsByTagName("table");
+
+    table[0].style.border = "2px solid lightgreen"
+    table[1].style.border = "2px solid lightgreen";
+    setTimeout(changeBorder, 300);
+    function changeBorder() {
+      table[0].style.border = "2px solid dimgray";
+      table[1].style.border = "2px solid dimgray";
+    }
+  
+  });*/
 
   if (window.localStorage.getItem("banzuke1") === null) {
     var cell = document.querySelectorAll(".redips-only");
@@ -104,6 +121,7 @@ window.onload = function() {
         card.setAttribute("class", "redips-drag se");
         if (rikiData[1] == "Chiyotairyu" || rikiData[1] == "Yutakayama") {
           card.style.background = "linear-gradient(#acacac, #e9e9e9 25%)";
+          card.style.cursor = "default";
           card.setAttribute("class", "redips-nodrag");
           card.setAttribute("title", "Retired");
         }
@@ -127,132 +145,141 @@ window.onload = function() {
 
   cards.forEach(card => {
 
-    card.addEventListener("mousedown", function() {
-      this.parentNode.style.backgroundImage = "url(shadow.png)";
-    });
+    card.addEventListener("touchstart", cardDown);
+    card.addEventListener("mousedown", cardDown);
 
-    card.addEventListener("mouseup", function() {
-      this.parentNode.style.removeProperty("background-image");
+    card.addEventListener("mouseup", cardUp);
+    card.addEventListener("touchend", cardUp);
+  });
+  function cardDown() {
+    var style = this.getBoundingClientRect();
+    //console.log(style.top);
+    //console.log(style.left);
+    this.parentNode.style.backgroundImage = "url(shadow.png)";
+  }
+  function cardUp() {
+    this.parentNode.style.removeProperty("background-image");
 
-      var rdCell = document.querySelectorAll(".redips-only");
-      var chCell = document.getElementsByClassName("ch");
-      var b2Cell = document.getElementsByClassName("redips-only b2");
-      var makRik = document.getElementById("makRik");
+    var rdCell = document.querySelectorAll(".redips-only");
+    var chCell = document.getElementsByClassName("ch");
+    var b2Cell = document.getElementsByClassName("redips-only b2");
+    var makRik = document.getElementById("makRik");
 
-      for (var i = 0; i < b2Cell.length; i++) {
-        if (b2Cell[i] === this.parentNode && 
-          this.style.position === "fixed") {
-          chCell[i].innerHTML = "";
-          if (b2Cell[i].children.length > 0) {
-            for (var j = 0; j < b2Cell[i].children.length; j++) {
-              var rank = b2Cell[i].children[j].id,
-                  chg;
-
-              if (b2Cell[i].children[j] !== this) {
-                if (i < 18) {
-                  switch (rank.charAt(0)) {
-                    case 'm': chg = "↑"; break;
-                    case 'j': chg = "!!!"; break;
-                    default: chg = " "; break;
-                  }
-                }
-                else {
-                  switch (rank.charAt(0)) {
-                    case 'm': 
-                      var maPos = rank.slice(1, -1)*2-2;
-                      
-                      if (rank.slice(-1) == 'w') 
-                        maPos++;
-                      chg = (maPos-i+18)/2;
-                      if (chg > 0) 
-                        chg = "+" + chg;
-                      else if (chg == 0) 
-                        chg = "─";
-                      break;
-                    case 'j': chg = "↑"; break;
-                    default: chg = "↓";
-                  }
-                }
-
-                if (chCell[i].innerHTML.length == 0) 
-                  chCell[i].innerHTML = chg;
-                else 
-                  chCell[i].innerHTML += "<br>" + chg;
-              }
-            }
-          }
-        }
-      }
-
-      for (var i = 0; i < rdCell.length; i++) {
-        if (rdCell[i].style.backgroundColor === "yellow") {
-          if (rdCell[i].className === "redips-only b2" && 
-          this.parentNode.className !== "redips-only b2") {
-            this.parentNode.children[0].style.display = "block";
-            makRik.innerHTML++;
-          }
-          else if (rdCell[i].className !== "redips-only b2" && 
-            rdCell[i] !== this.parentNode) {
-            rdCell[i].children[0].style.display = "none";
-            rdCell[i].appendChild(this);
-            rdCell[i].removeAttribute("style");
-            makRik.innerHTML--;
-          }
-        }
-      }
-
-      for (var i = 0; i < b2Cell.length; i++) {
-        if (b2Cell[i].style.backgroundColor === "yellow") {
-          chCell[i].innerHTML = "";
-          b2Cell[i].appendChild(this);
+    for (var i = 0; i < b2Cell.length; i++) {
+      if (b2Cell[i] === this.parentNode && 
+        this.style.position === "fixed") {
+        chCell[i].innerHTML = "";
+        if (b2Cell[i].children.length > 0) {
           for (var j = 0; j < b2Cell[i].children.length; j++) {
             var rank = b2Cell[i].children[j].id,
                 chg;
 
-            if (i < 18) {
-              switch (rank.charAt(0)) {
-                case 'm': chg = "↑"; break;
-                case 'j': chg = "!!!"; break;
-                default: chg = " "; break;
+            if (b2Cell[i].children[j] !== this) {
+              if (i < 18) {
+                switch (rank.charAt(0)) {
+                  case 'm': chg = "↑"; break;
+                  case 'j': chg = "!!!"; break;
+                  default: chg = " "; break;
+                }
               }
-            }
-            else {
-              switch (rank.charAt(0)) {
-                case 'm': 
-                  var maPos = rank.slice(1, -1)*2-2;
-                  
-                  if (rank.slice(-1) == 'w') 
-                    maPos++;
-                  chg = (maPos-i+18)/2;
-                  if (chg > 0) 
-                    chg = "+" + chg;
-                  else if (chg == 0) 
-                    chg = "─";
-                  break;
-                case 'j': chg = "↑"; break;
-                default: chg = "↓";
+              else {
+                switch (rank.charAt(0)) {
+                  case 'm': 
+                    var maPos = rank.slice(1, -1)*2-2;
+                    
+                    if (rank.slice(-1) == 'w') 
+                      maPos++;
+                    chg = (maPos-i+18)/2;
+                    if (chg > 0) 
+                      chg = "+" + chg;
+                    else if (chg == 0) 
+                      chg = "─";
+                    break;
+                  case 'j': chg = "↑"; break;
+                  default: chg = "↓";
+                }
               }
-            }
 
-            if (chCell[i].innerHTML.length == 0) 
-              chCell[i].innerHTML = chg;
-            else 
-              chCell[i].innerHTML += "<br>" + chg;
+              if (chCell[i].innerHTML.length == 0) 
+                chCell[i].innerHTML = chg;
+              else 
+                chCell[i].innerHTML += "<br>" + chg;
+            }
           }
-          b2Cell[i].removeAttribute("style");
         }
       }
-      this.style.removeProperty("z-index");
-      this.style.removeProperty("position");
-      this.style.removeProperty("top");
-      this.style.removeProperty("left");
+    }
 
+    for (var i = 0; i < rdCell.length; i++) {
+      if (rdCell[i].style.backgroundColor === "yellow") {
+        if (rdCell[i].className === "redips-only b2" && 
+        this.parentNode.className !== "redips-only b2") {
+          this.parentNode.children[0].style.display = "block";
+          makRik.innerHTML++;
+        }
+        else if (rdCell[i].className !== "redips-only b2" && 
+          rdCell[i] !== this.parentNode) {
+          rdCell[i].children[0].style.display = "none";
+          rdCell[i].appendChild(this);
+          rdCell[i].removeAttribute("style");
+          makRik.innerHTML--;
+        }
+      }
+    }
+
+    for (var i = 0; i < b2Cell.length; i++) {
+      if (b2Cell[i].style.backgroundColor === "yellow") {
+        chCell[i].innerHTML = "";
+        b2Cell[i].appendChild(this);
+        for (var j = 0; j < b2Cell[i].children.length; j++) {
+          var rank = b2Cell[i].children[j].id,
+              chg;
+
+          if (i < 18) {
+            switch (rank.charAt(0)) {
+              case 'm': chg = "↑"; break;
+              case 'j': chg = "!!!"; break;
+              default: chg = " "; break;
+            }
+          }
+          else {
+            switch (rank.charAt(0)) {
+              case 'm': 
+                var maPos = rank.slice(1, -1)*2-2;
+                
+                if (rank.slice(-1) == 'w') 
+                  maPos++;
+                chg = (maPos-i+18)/2;
+                if (chg > 0) 
+                  chg = "+" + chg;
+                else if (chg == 0) 
+                  chg = "─";
+                break;
+              case 'j': chg = "↑"; break;
+              default: chg = "↓";
+            }
+          }
+
+          if (chCell[i].innerHTML.length == 0) 
+            chCell[i].innerHTML = chg;
+          else 
+            chCell[i].innerHTML += "<br>" + chg;
+        }
+        b2Cell[i].removeAttribute("style");
+      }
+    }
+    this.style.removeProperty("z-index");
+    this.style.removeProperty("position");
+    this.style.removeProperty("top");
+    this.style.removeProperty("left");
+
+    //if (document.getElementById("autosave").checked) {
       window.localStorage.setItem("banzuke1", 
         document.getElementById("banzuke1").innerHTML);
       window.localStorage.setItem("banzuke2", 
         document.getElementById("banzuke2").innerHTML);
-    });
-  });
+    //}
+  }
 }
 
 'use strict';
