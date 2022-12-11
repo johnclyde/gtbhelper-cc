@@ -1,0 +1,153 @@
+
+body {
+	font-family: Helvetica, sans-serif;
+	background-image: url(gtb_bg.png);
+    background-size: 150px;
+    background-attachment: fixed;
+}
+
+#gtb {
+	font-family: Verdana;
+    text-shadow: 3px 3px #ff236c;
+}
+
+header {
+	width: 800px;
+	padding: 10px;
+	padding-left: 20px;
+    background-color: #ffa726;
+	margin-left: 50px;
+	margin-bottom: 20px;
+	color: white;
+	border: 2px solid dimgray;
+	box-shadow: 5px 5px darkgray;
+	border-radius: 10px;
+}
+
+h1 {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+header a {
+	margin-right: 10px;
+}
+
+div a {
+	color: darkblue;
+}
+
+ul {
+	display: inline-block;
+	font-size: 11pt;
+	line-height: 25px;
+	margin-right: 50px;
+}
+
+table {
+	display: -webkit-inline-box;
+	font-size: 11pt;
+	margin-bottom: 20px;
+	border: 2px solid dimgray;
+	border-spacing: 6px;
+	background-color: white;
+	margin-left: 50px;
+	box-shadow: 5px 5px darkgray;
+}
+
+.tableTitle {
+	color: white;
+    border-bottom: 2px solid dimgray;
+}
+
+#banzuke1 .tableTitle {
+	background-color: #d6b31c;
+}
+
+#banzuke2 .tableTitle {
+	background-color: #26c22d;
+}
+
+td, th {
+	border-radius: 3px;
+}
+
+td {
+	min-width: 200px;
+	height: 21px;
+	padding: 0;
+	background-color: #e6e1d5;
+	background-repeat: no-repeat;
+    background-position: center;
+}
+
+.theader th {
+	background-color: #88caff;
+}
+
+th {
+	background-color: #e6e1d5;
+	font-weight: normal;
+}
+
+.ch {
+	background-color: transparent !important;
+	font-size: 10pt;
+	min-width: 34px;
+	line-height: 20px;
+	text-align: center;
+	color: blue;
+	border: solid dimgray;
+	border-width: 0px 1px 1px 0px;
+}
+
+.san td, .san th {
+	background-color: #efe7a3;
+}
+
+td span::after, td .redips-drag::after, .redips-nodrag::after {
+	content: "";
+	display: inline-block;
+	width: 100%;
+}
+
+td span {
+	text-align: justify;
+	width: 190px;
+	height: 18px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin: 0 auto;
+}
+
+td .redips-drag, .redips-nodrag {
+	text-align: justify;
+	width: 190px;
+	height: 18px;
+	border: 1px solid;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin: auto;
+	cursor: grab;
+}
+
+footer {
+	padding: 10px;
+    background-color: #ffa726;
+	color: white;
+	margin-left: 250px;
+	width: 400px;
+	text-align: center;
+	border: 2px solid dimgray;
+	box-shadow: 5px 5px darkgray;
+	border-radius: 10px;
+}
