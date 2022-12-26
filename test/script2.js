@@ -1,9 +1,84 @@
 
-/* To get these, enable "One Column" option in SumoDB, copy & paste the tables 
- * as plain text and then turn them into array. Don't forget to add the empty 
- * spots in the banzuke (as empty string ""). Put the character ' ' in 
- * between the record and special letter Y, S, DK ... As ' ' is not 
- * considered a regular whitespace, it will not expand.
+var shikonaKanji = [
+"照ノ富士",
+"",
+"貴景勝",
+"正代",
+"若隆景",
+"豊昇龍",
+"",
+"御嶽海",
+"玉鷲",
+"霧馬山",
+"翔猿",
+"大栄翔",
+"高安",
+"琴ノ若",
+"明生",
+"逸ノ城",
+"宇良",
+"翠富士",
+"若元春",
+"佐田の海",
+"北勝富士",
+"錦富士",
+"錦木",
+"竜電",
+"遠藤",
+"妙義龍",
+"宝富士",
+"栃ノ心",
+"隆の勝",
+"阿炎",
+"碧山",
+"千代翔馬",
+"阿武咲",
+"琴勝峰",
+"琴恵光",
+"千代大龍",
+"隠岐の海",
+"王鵬",
+"一山本",
+"東龍",
+"輝",
+"熱海富士",
+"照強",
+"平戸海",
+"東白龍",
+"千代丸",
+"美ノ海",
+"武将山",
+"剣翔",
+"水戸龍",
+"英乃海",
+"豊山",
+"天空海",
+"千代の国",
+"北青鵬",
+"北の若",
+"栃武蔵",
+"金峰山",
+"志摩ノ海",
+"荒篤山",
+"大奄美",
+"大翔鵬",
+"千代栄",
+"魁勝",
+"炎鵬",
+"貴健斗",
+"徳勝龍",
+"欧勝馬",
+"島津海",
+"狼雅",
+"對馬洋",
+"豪ノ山"
+];
+
+/* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
+ * as plain text and then turn them into array like this. Don't forget to add 
+ * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
+ * in between the record and special letter Y, S, DK ... As ' ' 
+ * is not considered a regular whitespace, it will not expand.
  */ 
 var theSekitori = [
   "Y1e Terunofuji 0-0-15", 
@@ -161,14 +236,16 @@ var sekitoriID = [
   12688
 ];
 
-//***** Just update the variable endedBasho and you're done. *****
+//***** Just update the 'basho' variable and you're all done. *****
 
 window.onload = function() {
 
-  var endedBasho = "202211", 
+  var basho      = "202211", // The date of the basho just ended
+      bashoYear  = parseInt(basho.substring(0, 4)), 
+      bashoMonth = parseInt(basho.slice(-2)), 
       tableTitle = document.getElementsByClassName("tableTitle");
 
-  const bashoLookup = {
+  const bashoMonthLookup = {
           1: "Hatsu", 
           3: "Haru", 
           5: "Natsu", 
@@ -176,25 +253,22 @@ window.onload = function() {
           9: "Aki",
           11: "Kyushu"
         }, 
-        getBasho = (month) => bashoLookup[month];
+        getBashoName = (bMonth) => bashoMonthLookup[bMonth];
 
-  tableTitle[0].innerHTML = getBasho(parseInt(endedBasho.slice(-2))) + ' ' + 
-                            endedBasho.substring(0, 4);
+  tableTitle[0].innerHTML = getBashoName(bashoMonth) + ' ' + bashoYear;
 
-  if (endedBasho.slice(-2) == "11") {
-    tableTitle[1].innerHTML = "Hatsu " + (parseInt(endedBasho.substring(0, 4)) + 1) + 
-                              " Guess - " + tableTitle[1].innerHTML;
-  }
+  if (bashoMonth == 11) 
+    tableTitle[1].innerHTML = "Hatsu " + (bashoYear+1) + " Guess - " + tableTitle[1].innerHTML;
   else {
-    tableTitle[1].innerHTML = getBasho(parseInt(endedBasho.slice(-2)) + 2) + ' ' + 
-                              endedBasho.substring(0, 4) + " Guess - " + 
-                              tableTitle[1].innerHTML;
+    tableTitle[1].innerHTML = getBashoName(bashoMonth+2) + ' ' + bashoYear + 
+                              " Guess - " + tableTitle[1].innerHTML;
   }
 
   document.getElementById("resetBanzuke").addEventListener("click", function() {
     if (confirm("Reset the banzuke?") == true) {
       window.localStorage.removeItem("banzuke1");
       window.localStorage.removeItem("banzuke2");
+      window.localStorage.removeItem("radioButton");
       location.reload();
     }
   });
@@ -204,36 +278,60 @@ window.onload = function() {
     
     for (var i = 0; i < theSekitori.length; i++) {
       if (theSekitori[i] !== "") {
-        var holder = document.createElement("span");
-        holder.innerHTML = theSekitori[i];
-        cell[i].appendChild(holder);
-        holder.style.display = "none";
-
-        var card = document.createElement("div"), 
+        var card     = document.createElement("div"), 
             rikiData = theSekitori[i].split(' ');
 
         card.setAttribute("id", rikiData[0]);
-        card.setAttribute("class", "redips-drag se");
+        card.className = "redips-drag se";
         card.setAttribute("data-rid", sekitoriID[i]);
-        if (rikiData[1] == "Chiyotairyu" || rikiData[1] == "Yutakayama") {
-          card.style.background = "linear-gradient(#acacac, #e9e9e9 25%)";
-          card.style.cursor = "text";
-          card.style.color = "#464646";
-          card.setAttribute("class", "redips-nodrag");
-          card.setAttribute("title", "Retired");
-        }
-        else if (rikiData[2].split('-')[0] < 8) 
-          card.style.background = "linear-gradient(#acacac, #ffd9cc 25%)";
-        else 
-          card.style.background = "linear-gradient(#acacac, #d3ffa5 25%)";
 
-        rikiData[2] = '<a target="_blank" href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=' + 
-                      sekitoriID[i] + "&b=" + endedBasho + '">' + rikiData[2] + "</a>";
+        /*
+        var bgShikona = document.createElement("span");
+        bgShikona.className = "shi";
+        shikonaKanji[i] = shikonaKanji[i].repeat(12/shikonaKanji[i].length);
+        bgShikona.innerHTML = shikonaKanji[i];
+        card.appendChild(bgShikona);
+        */
+        
+        if (rikiData[2].split('-')[0] < 8) 
+          card.style.backgroundColor = "#ffd2d2";
+        else 
+          card.style.backgroundColor = "#c2ff9f";
+
+        var cardText = document.createElement("span");
+        cardText.className = "ctxt";
+
+        rikiData[2] = '<a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=' + 
+                      sekitoriID[i] + "&b=" + basho + '" target="_blank">' + rikiData[2] + "</a>";
+
         card.innerHTML = rikiData.join(' ');
 
+        rikiData[1] = '<a href="https://sumodb.sumogames.de/Rikishi.aspx?r=' + 
+                      sekitoriID[i] + '" target="_blank">' + rikiData[1] + "</a>";
+
+        if (rikiData[1].includes("Chiyotairyu") || rikiData[1].includes("Yutakayama")) {
+          card.innerHTML = rikiData.join(' ');
+          card.style.backgroundColor = "#dadada";
+          card.style.cursor = "text";
+          card.style.color = "#3c3c3c";
+          card.className = "redips-nodrag";
+          card.setAttribute("title", "Retired");
+        }
+
+        var holder = document.createElement("span");
+        holder.innerHTML = rikiData.join(' ');
+        holder.style.display = "none";
+        holder.className = "hold";
+
+        cell[i].appendChild(holder);
+        //card.appendChild(cardText);
         cell[i].appendChild(card);
       }
     }
+    var b2Cell = document.querySelectorAll(".b2");
+
+    for (var i = 0; i < b2Cell.length; i++) 
+      b2Cell[i].style.border = "1px dashed dimgray"
   }
   else {
     document.getElementById("banzuke1").innerHTML = 
@@ -242,6 +340,18 @@ window.onload = function() {
     document.getElementById("banzuke2").innerHTML = 
     window.localStorage.getItem("banzuke2");
   }
+
+  var radioButton = document.getElementsByClassName("checkbox"), 
+      radioLocal  = window.localStorage.getItem("radioButton");
+
+  if (radioLocal === null || radioLocal == "openRikishiPage")
+    radioButton[0].checked = true;
+  else 
+    radioButton[1].checked = true;
+}
+
+function saveRadio(radioButton) {
+  window.localStorage.setItem("radioButton", radioButton.value);
 }
 
 'use strict';
@@ -255,6 +365,7 @@ redips.init = function () {
   //rd.hover.borderTd = "1px solid #32568E";
   rd.dropMode = "multiple";
   rd.only.divClass.se = "b2";
+  rd.animation = "off";
 
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
@@ -264,8 +375,59 @@ redips.init = function () {
   }
 
   rd.event.dblClicked = function() {
-    var rikishiURL = "https://sumodb.sumogames.de/Rikishi.aspx?r=" + rd.obj.dataset.rid;
-    window.open(rikishiURL, "_blank").focus();
+
+    var radioButton = document.getElementsByTagName("input");
+    var rikishiURL  = "https://sumodb.sumogames.de/Rikishi.aspx?r=" + rd.obj.dataset.rid;
+    var thisRank    = rd.obj.id, 
+        b1Cell      = document.getElementsByTagName("td"), 
+        currentCell = rd.findParent('TD', rd.obj), 
+        currentChgCell;
+    
+    if (radioButton[0].checked) 
+      window.open(rikishiURL, "_blank").focus();
+    else if (!currentCell.classList.contains("b2")) {
+      rd.relocate(currentCell, rd.td.previous);
+    }
+    else 
+    for (var i = 0; i < theSekitori.length; i++) {
+      if (b1Cell[i].classList.contains(thisRank) && 
+        currentCell.classList.contains("b2")) {
+        if (currentCell.previousSibling.className == "ch") 
+          currentChgCell = currentCell.previousSibling;
+        else if (currentCell.nextSibling.className == "ch")
+          currentChgCell = currentCell.nextSibling;
+
+        if (currentCell.children.length > 1) {
+          var chgs = currentChgCell.innerHTML.split("<br>");
+
+          for (var j = 0; j < currentCell.children.length; j++) {
+            if (currentCell.children[j] == rd.obj) {
+              chgs.splice(j, 1);
+              currentChgCell.innerHTML = chgs.join("<br>");
+            }
+          }
+        }
+        else {
+          currentChgCell.innerHTML = " ";
+          currentCell.style.border = "1px dashed dimgray";
+        }
+
+        rd.moveObject({
+          obj: rd.obj, 
+          target: b1Cell[i], 
+          callback: function () {
+            document.getElementById("makRik").innerHTML--;
+            b1Cell[i].children[0].style.display = "none";
+            b1Cell[i].style.removeProperty("border");
+            window.localStorage.setItem("banzuke1", 
+              document.getElementById("banzuke1").innerHTML);
+            window.localStorage.setItem("banzuke2", 
+              document.getElementById("banzuke2").innerHTML);
+          }
+        });
+      }
+    }
+
   };
 
   rd.event.clicked = function(currentCell) {
@@ -289,11 +451,13 @@ redips.init = function () {
     if (!currentCell.classList.contains("b2") && 
       targetCell.classList.contains("b2")) {
       currentCell.children[0].style.display = "block";
+      currentCell.style.border = "1px dashed dimgray";
       rikiCount.innerHTML++;
     }
     else if (currentCell.classList.contains("b2") && 
       !targetCell.classList.contains("b2")) {
       targetCell.children[0].style.display = "none";
+      targetCell.style.removeProperty("border");
       rikiCount.innerHTML--;
     }
     
@@ -302,9 +466,7 @@ redips.init = function () {
         currentChgCell = currentCell.previousSibling;
       else if (currentCell.nextSibling.className == "ch")
         currentChgCell = currentCell.nextSibling;
-    }
 
-    if (typeof currentChgCell !== "undefined") {
       if (currentCell.children.length > 1) {
         var chgs = currentChgCell.innerHTML.split("<br>");
 
@@ -315,8 +477,10 @@ redips.init = function () {
           }
         }
       }
-      else 
+      else {
         currentChgCell.innerHTML = " ";
+        currentCell.style.border = "1px dashed dimgray";
+      }
     }
 
   };
@@ -325,6 +489,7 @@ redips.init = function () {
 
     if (targetCell.classList.contains("b2")) {
       var thisRank = rd.obj.id, 
+          rikishiWins = rd.obj.innerText.split(' ')[2].split('-')[0], 
           thisChg, targetChgCell, targetCellRank;
 
       if (targetCell.previousSibling.className == "ch") {
@@ -336,14 +501,7 @@ redips.init = function () {
         targetCellRank = targetCell.previousSibling.innerHTML + 'w';
       }
 
-      if (targetCellRank.charAt(0) != 'M') {
-        switch (thisRank.charAt(0)) {
-          case 'M': thisChg = "↑"; break;
-          case 'J': thisChg = "!!!"; break;
-          default:  thisChg = " ";
-        }
-      }
-      else {
+      if (targetCellRank.charAt(0) == 'M') {
         switch (thisRank.charAt(0)) {
           case 'M': 
             var thisMaeNum  = parseInt(thisRank.slice(1, -1)), 
@@ -359,13 +517,40 @@ redips.init = function () {
             else if (thisChg == 0) 
               thisChg = "─";
             break;
-          case 'J': thisChg = "↑"; break;
-          default:  thisChg = "↓";
+          case 'J': thisChg = " ↑ "; break;
+          default:
+            thisChg = " ↓ ";
+            thisRank = thisRank.substring(0, 1);
+        }
+      }
+      else if (targetCellRank.charAt(0) == 'J') {
+        targetCellRank = 'J';
+        switch (thisRank.charAt(0)) {
+          case 'M': thisChg = " ↓ "; break;
+          case 'J': thisChg = "⇄"; break;
+          default:  thisChg = "!!!";
+        }
+      }
+      else {
+        switch (thisRank.charAt(0)) {
+          case 'M': 
+            thisChg = " ↑ ";
+            targetCellRank = targetCellRank.substring(0, 1);
+            break;
+          case 'J': thisChg = "!!!"; break;
+          default:  thisChg = "⇄";
         }
       }
 
-      if (targetChgCell.innerHTML == " ") 
+      thisChg = '<a href="https://sumodb.sumogames.de/Query.aspx?show_form=0&form1_rank=' + 
+                thisRank + "&form1_wins=" + rikishiWins + 
+                "&form1_year=193905-194401,194905-now&form2_highlight=on&form2_rank=" + 
+                targetCellRank + '" target="_blank" title="Click to run a SumoDB query">' + thisChg + "</a>";
+
+      if (targetChgCell.innerHTML == " ") {
         targetChgCell.innerHTML = thisChg;
+        targetCell.style.removeProperty("border");
+      }
       else 
         targetChgCell.innerHTML += "<br>" + thisChg;
     }
