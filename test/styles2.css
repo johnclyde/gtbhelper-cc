@@ -1,7 +1,7 @@
 
 body {
 	font-family: Helvetica, sans-serif;
-	background-image: url(../gtb_bg.png);
+	background-image: url(gtb_bg.png);
     background-size: 150px;
     background-attachment: fixed;
 }
@@ -68,18 +68,17 @@ ul {
 	height: auto;
 	width: auto;
 	position: relative;
-	border: 2px solid black;
 	margin-left: 4%;
 	margin-right: 4%;
 }
 
 table {
-	display: inline-table;
+	display: -webkit-inline-box;
 	font-size: 11pt;
 	border: 2px solid dimgray;
 	border-spacing: 6px;
 	background-color: white;
-	box-shadow: 5px 5px #a8a8a8;
+	margin-right: 2%;
 }
 
 .tableTitle {
@@ -204,4 +203,3 @@ footer {
 	box-shadow: 5px 5px darkgray;
 	border-radius: 10px;
 }
-
