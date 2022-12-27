@@ -196,8 +196,9 @@ footer {
     background-color: #ffa726;
 	color: white;
 	margin-top: 30px;
-	margin-left: 250px;
-	width: 400px;
+	margin-left: 30%;
+	margin-right: 30%;
+	width: auto;
 	text-align: center;
 	border: 2px solid dimgray;
 	box-shadow: 5px 5px darkgray;
