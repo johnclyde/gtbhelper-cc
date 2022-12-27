@@ -56,11 +56,10 @@ ul {
 #doubleClickOptions {
 	font-size: 10pt;
 	line-height: 20pt;
-	float: right;
+	display: inline-block;
 }
 
 #resetBanzuke {
- 	margin-top: 50px;
 }
 
 #tableContainer {
@@ -204,4 +203,3 @@ footer {
 	box-shadow: 5px 5px darkgray;
 	border-radius: 10px;
 }
-
