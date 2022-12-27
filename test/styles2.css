@@ -12,11 +12,12 @@ body {
 }
 
 header {
-	width: 850px;
+	width: auto;
 	padding: 10px;
 	padding-left: 20px;
 	background-color: #ffa726;
-	margin-left: 50px;
+	margin-left: 4%;
+	margin-right: 4%;
 	margin-bottom: 30px;
 	color: white;
 	border: 2px solid dimgray;
@@ -62,14 +63,22 @@ ul {
  	margin-top: 50px;
 }
 
+#tableContainer {
+	overflow: auto;
+	height: auto;
+	width: auto;
+	position: relative;
+	border: 2px solid black;
+	margin-left: 4%;
+	margin-right: 4%;
+}
+
 table {
-	display: -webkit-inline-box;
+	display: inline-table;
 	font-size: 11pt;
-	margin-bottom: 20px;
 	border: 2px solid dimgray;
 	border-spacing: 6px;
 	background-color: white;
-	margin-left: 50px;
 	box-shadow: 5px 5px #a8a8a8;
 }
 
@@ -186,6 +195,7 @@ footer {
 	padding: 10px;
     background-color: #ffa726;
 	color: white;
+	margin-top: 30px;
 	margin-left: 250px;
 	width: 400px;
 	text-align: center;
