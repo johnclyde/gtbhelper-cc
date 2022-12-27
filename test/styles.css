@@ -65,12 +65,13 @@ ul {
 }
 
 #tableContainer {
-	overflow: auto;
+	overflow-y: scroll;
 	height: auto;
 	width: auto;
 	position: relative;
 	margin-left: 4%;
 	margin-right: 4%;
+	background-color: #0000ff2b;
 }
 
 #tableLiner {
