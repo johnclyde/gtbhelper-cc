@@ -71,7 +71,8 @@ ul {
 	position: relative;
 	margin-left: 4%;
 	margin-right: 4%;
-	background-color: #0000ff2b;
+	background-color: #00000038;
+	box-shadow: 3px 3px 5px #8c8c8c inset;
 }
 
 #tableLiner {
