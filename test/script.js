@@ -72,9 +72,7 @@ window.onload = function () {
     google.accounts.id.initialize({
         client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com", 
         callback: handleCredentialResponse, 
-        lsb1: window.localStorage.getItem("banzuke1"), 
-        lsb2: window.localStorage.getItem("banzuke2"), 
-        lsrb: window.localStorage.getItem("radioButton")
+        auto_select: true
     });
     google.accounts.id.prompt(); // also display the One Tap dialog
 }
