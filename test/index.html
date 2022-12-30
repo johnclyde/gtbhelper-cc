@@ -7,15 +7,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="redips-drag-min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+  <script type="text/javascript" src="script2.js"></script>
   <title>GTB Helper</title>
   <link rel="stylesheet" href="styles.css" type="text/css"/>
-  <script type="text/javascript" src="script.js"></script>
   <script async defer src="https://apis.google.com/js/api.js"></script>
   <script async defer src="https://accounts.google.com/gsi/client"></script>
 </head>
 <body>
   <header>
-    
     <h1><span id="gtb">Guess the Banzuke </span>Helper Page <small>(NEW)</small></h1>
     <a href="previous.html">Previous basho</a>
     <a href="http://sumodb.sumogames.de/gtb/GTBEntry.aspx" target="_blank">GTB Entry Form</a>
@@ -51,8 +51,10 @@
          data-logo_alignment="left">
     </div>
     -->
-    <button class="signinButton">Sign in with Google</button>
-    <button class="signoutButton">Sign Out</button>
+    <div class="auth-buttons">
+      <button class="signin">Sign In</button>
+      <button class="signout">Sign Out</button>
+    </div>
     <div id="message"></div>
   </header>
   <div id="redips-drag">
