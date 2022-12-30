@@ -1,78 +1,83 @@
 
-var shikonaKanji = [
-"照ノ富士",
-"",
-"貴景勝",
-"正代",
-"若隆景",
-"豊昇龍",
-"",
-"御嶽海",
-"玉鷲",
-"霧馬山",
-"翔猿",
-"大栄翔",
-"高安",
-"琴ノ若",
-"明生",
-"逸ノ城",
-"宇良",
-"翠富士",
-"若元春",
-"佐田の海",
-"北勝富士",
-"錦富士",
-"錦木",
-"竜電",
-"遠藤",
-"妙義龍",
-"宝富士",
-"栃ノ心",
-"隆の勝",
-"阿炎",
-"碧山",
-"千代翔馬",
-"阿武咲",
-"琴勝峰",
-"琴恵光",
-"千代大龍",
-"隠岐の海",
-"王鵬",
-"一山本",
-"東龍",
-"輝",
-"熱海富士",
-"照強",
-"平戸海",
-"東白龍",
-"千代丸",
-"美ノ海",
-"武将山",
-"剣翔",
-"水戸龍",
-"英乃海",
-"豊山",
-"天空海",
-"千代の国",
-"北青鵬",
-"北の若",
-"栃武蔵",
-"金峰山",
-"志摩ノ海",
-"荒篤山",
-"大奄美",
-"大翔鵬",
-"千代栄",
-"魁勝",
-"炎鵬",
-"貴健斗",
-"徳勝龍",
-"欧勝馬",
-"島津海",
-"狼雅",
-"對馬洋",
-"豪ノ山"
-];
+let b64DecodeUnicode = str =>
+  decodeURIComponent(
+    Array.prototype.map.call(atob(str), c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''))
+
+let parseJwt = token =>
+  JSON.parse(
+    b64DecodeUnicode(
+      token.split('.')[1].replace('-', '+').replace('_', '/')
+    )
+  )
+
+window.isAuthenticated = false;
+window.identity = {};
+window.token = '';
+
+function handleCredentialResponse(response) {
+    window.token = response.credential;
+    window.identity = parseJwt(response.credential);
+    window.isAuthenticated = true;
+    showAuthInfo();
+}
+
+function populateTable() {
+    var table = document.getElementById("token-table");
+    var keys = Object.keys(window.identity);
+    var j = 0;
+    for (var i = 1; i < keys.length; i++) {
+        var row = table.insertRow(i);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = keys[j];
+        cell2.innerHTML = window.identity[keys[j]];
+        j++;
+    }
+}
+
+function destroyTable() {
+    var table = document.getElementById("token-table");
+    var rowCount = table.rows.length;
+    for (var i = 1; i < rowCount; i++) {
+        table.deleteRow(i);
+    }
+}
+
+function showAuthInfo() {
+    if (window.isAuthenticated) { 
+      document.getElementById("message").innerHTML = "Hello ${window.identity.name}";
+      /*
+        document.getElementById("authenticated").style.removeProperty('display');
+        document.getElementById("welcome").innerHTML = `Hello <b>${window.identity.name}!</b><img src="${window.identity.picture}" alt="Avatar" style="padding: 0 2rem 0 2rem; border-radius: 50%;">`;
+        document.getElementById("alternative-login").style.setProperty('display', 'none');
+        document.getElementById("raw-token").innerText = window.token;
+        populateTable();
+        */
+    } else {
+      document.getElementById("message").innerHTML = "Hello, not logged in";
+      /*
+        document.getElementById("authenticated").style.setProperty('display', 'none');
+        document.getElementById("welcome").innerText = 'Hello there!';
+        document.getElementById("alternative-login").style.removeProperty('display');
+        destroyTable();
+      */
+    }
+}
+
+window.onload = function () {
+    window.isAuthenticated = false;
+    showAuthInfo();
+    google.accounts.id.initialize({
+        client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com", 
+        callback: handleCredentialResponse, 
+        lsb1: window.localStorage.getItem("banzuke1"), 
+        lsb2: window.localStorage.getItem("banzuke2"), 
+        lsrb: window.localStorage.getItem("radioButton")
+    });
+    google.accounts.id.prompt(); // also display the One Tap dialog
+}
 
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
@@ -240,6 +245,14 @@ var sekitoriID = [
 
 window.onload = function() {
 
+  window.isAuthenticated = false;
+  showAuthInfo();
+  google.accounts.id.initialize({
+      client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com", 
+      callback: handleCredentialResponse
+  });
+  google.accounts.id.prompt(); // also display the One Tap dialog
+
   var basho      = "202211", // The date of the basho just ended
       bashoYear  = parseInt(basho.substring(0, 4)), 
       bashoMonth = parseInt(basho.slice(-2)), 
@@ -285,14 +298,6 @@ window.onload = function() {
         card.className = "redips-drag se";
         card.setAttribute("data-rid", sekitoriID[i]);
 
-        /*
-        var bgShikona = document.createElement("span");
-        bgShikona.className = "shi";
-        shikonaKanji[i] = shikonaKanji[i].repeat(12/shikonaKanji[i].length);
-        bgShikona.innerHTML = shikonaKanji[i];
-        card.appendChild(bgShikona);
-        */
-        
         if (rikiData[2].split('-')[0] < 8) 
           card.style.backgroundColor = "#ffd2d2";
         else 
@@ -324,7 +329,6 @@ window.onload = function() {
         holder.className = "hold";
 
         cell[i].appendChild(holder);
-        //card.appendChild(cardText);
         cell[i].appendChild(card);
       }
     }
@@ -362,7 +366,7 @@ let redips = {},
 redips.init = function () {
   rd.init();
   rd.hover.colorTd = "yellow";
-  //rd.hover.borderTd = "1px solid #32568E";
+  //rd.hover.borderTd = "2px solid blue";
   rd.dropMode = "multiple";
   rd.only.divClass.se = "b2";
   rd.animation = "off";
