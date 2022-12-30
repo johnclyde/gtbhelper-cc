@@ -7,10 +7,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="redips-drag-min.js"></script>
-  <script type="text/javascript" src="script.js"></script>
   <title>GTB Helper</title>
   <link rel="stylesheet" href="styles.css" type="text/css"/>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script type="text/javascript" src="script.js"></script>
+  <script async defer src="https://apis.google.com/js/api.js"></script>
+  <script async defer src="https://accounts.google.com/gsi/client"></script>
 </head>
 <body>
   <header>
@@ -33,6 +34,7 @@
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="returnToOld"> Return it to the old banzuke</label><br>
       <button id="resetBanzuke">Reset Changes</button>
     </div>
+    <!--
     <div id="g_id_onload"
          data-client_id="179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com"
          data-context="signin"
@@ -48,6 +50,9 @@
          data-size="medium"
          data-logo_alignment="left">
     </div>
+    -->
+    <button class="signinButton">Sign in with Google</button>
+    <button class="signoutButton">Sign Out</button>
     <div id="message"></div>
   </header>
   <div id="redips-drag">
