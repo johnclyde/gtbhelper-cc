@@ -47,7 +47,7 @@ function destroyTable() {
 
 function showAuthInfo() {
     if (window.isAuthenticated) { 
-      document.getElementById("message").innerHTML = 'Hello ${window.identity.name}';
+      document.getElementById("message").innerHTML = "Hello, " + window.identity.name;
       /*
         document.getElementById("authenticated").style.removeProperty('display');
         document.getElementById("welcome").innerHTML = `Hello <b>${window.identity.name}!</b><img src="${window.identity.picture}" alt="Avatar" style="padding: 0 2rem 0 2rem; border-radius: 50%;">`;
