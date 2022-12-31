@@ -56,6 +56,7 @@ function showAuthInfo() {
         document.getElementById("raw-token").innerText = window.token;
         populateTable();
         */
+        document.getElementsByClassName("g_id_signin")[0].style.display = "none";
         document.getElementById("message").innerHTML = "Signed in as " + window.identity.name;
     } else {
       /*
