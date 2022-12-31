@@ -1,4 +1,57 @@
 
+window.isAuthenticated = false;
+window.identity = {};
+window.token = '';
+
+function handleCredentialResponse(response) {
+    window.token = response.credential;
+    window.identity = parseJwt(response.credential);
+    window.isAuthenticated = true;
+    showAuthInfo();
+}
+
+function populateTable() {
+    var table = document.getElementById("token-table");
+    var keys = Object.keys(window.identity);
+    var j = 0;
+    for (var i = 1; i < keys.length; i++) {
+        var row = table.insertRow(i);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = keys[j];
+        cell2.innerHTML = window.identity[keys[j]];
+        j++;
+    }
+}
+
+function destroyTable() {
+    var table = document.getElementById("token-table");
+    var rowCount = table.rows.length;
+    for (var i = 1; i < rowCount; i++) {
+        table.deleteRow(i);
+    }
+}
+
+function showAuthInfo() {
+    if (window.isAuthenticated) { 
+      /*
+        document.getElementById("authenticated").style.removeProperty('display');
+        document.getElementById("welcome").innerHTML = `Hello <b>${window.identity.name}!</b><img src="${window.identity.picture}" alt="Avatar" style="padding: 0 2rem 0 2rem; border-radius: 50%;">`;
+        document.getElementById("alternative-login").style.setProperty('display', 'none');
+        document.getElementById("raw-token").innerText = window.token;
+        populateTable();
+        */
+        document.getElementById("message").innerHTML = "Signed in as " + window.identity.name;
+    } else {
+      /*
+        document.getElementById("authenticated").style.setProperty('display', 'none');
+        document.getElementById("welcome").innerText = 'Hello there!';
+        document.getElementById("alternative-login").style.removeProperty('display');
+        destroyTable();
+        */
+        document.getElementById("message").innerHTML = "Not signed in";
+    }
+}
 
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
@@ -167,77 +220,20 @@ var sekitoriID = [
 
 window.onload = function() {
 
-
-var CLIENT_ID = "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com";
-var API_KEY = "AIzaSyDU-D8p3dClGh_MX7EogyJMUdpNmXj-9OE";
-var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-var SCOPES = "https://www.googleapis.com/auth/drive";
-var signinButton = document.getElementsByClassName("signin")[0];
-var signoutButton = document.getElementsByClassName("signout")[0];
-let tokenClient;
-let gapiInited = false;
-let gisInited = false;
-
-
-  gapiLoaded();
-  gisLoaded();
-
-
-function gapiLoaded() {
-  gapi.load("client", initializeGapiClient);
-}
-
-async function initializeGapiClient() {
-  await gapi.client.init({
-    apiKey: API_KEY,
-    discoveryDocs: DISCOVERY_DOCS,
-  });
-  gapiInited = true;
-  showSigninButton();
-}
-
-function gisLoaded() {
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPES,
-    callback: ""
-  });
-  gisInited = true;
-  showSigninButton();
-}
-
-function showSigninButton() {
-  if (gapiInited && gisInited) 
-    signinButton.style.display = "block";
-}
-
-signinButton.addEventListener("click", function() {
-  tokenClient.callback = async (resp) => {
-    if (resp.error !== undefined) 
-      throw (resp);
-    signinButton.style.display = "none";
-    signoutButton.style.display = "block";
-    document.getElementById("message").innerHTML = "Signed in...";
-    //checkFolder();
-  };
-
-  if (gapi.client.getToken() === null) 
-    tokenClient.requestAccessToken({ prompt: "consent" });
-  else 
-    tokenClient.requestAccessToken({ prompt: "" });
-});
-
-signoutButton.addEventListener("click", function() {
-  const token = gapi.client.getToken();
-
-  if (token !== null) {
-    google.accounts.oauth2.revoke(token.access_token);
-    gapi.client.setToken("");
-    signinButton.style.display = "block";
-    signoutButton.style.display = "none";
-    document.getElementById("message").innerHTML = "";
-  }
-});
+  window.isAuthenticated = false;
+    showAuthInfo();
+    google.accounts.id.initialize({
+        client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+        auto_select: true,
+    });
+    /*
+    google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large" }  // customization attributes
+    );
+    */
+    google.accounts.id.prompt(); // also display the One Tap dialog
 
   var basho      = "202211", // The date of the basho just ended
       bashoYear  = parseInt(basho.substring(0, 4)), 
