@@ -1,4 +1,19 @@
 
+// Source: https://stackoverflow.com/a/47574303/4064162 Answer by user "Rafael Quintela"
+
+let b64DecodeUnicode = str =>
+  decodeURIComponent(
+    Array.prototype.map.call(atob(str), c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''))
+
+let parseJwt = token =>
+  JSON.parse(
+    b64DecodeUnicode(
+      token.split('.')[1].replace('-', '+').replace('_', '/')
+    )
+  )
+
 window.isAuthenticated = false;
 window.identity = {};
 window.token = '';
@@ -221,19 +236,19 @@ var sekitoriID = [
 window.onload = function() {
 
   window.isAuthenticated = false;
-    showAuthInfo();
-    google.accounts.id.initialize({
-        client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com",
-        callback: handleCredentialResponse,
-        auto_select: true,
-    });
-    /*
-    google.accounts.id.renderButton(
-        document.getElementById("buttonDiv"),
-        { theme: "outline", size: "large" }  // customization attributes
-    );
-    */
-    google.accounts.id.prompt(); // also display the One Tap dialog
+  showAuthInfo();
+  google.accounts.id.initialize({
+      client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com",
+      callback: handleCredentialResponse,
+      auto_select: true
+  });
+  /*
+  google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" }  // customization attributes
+  );
+  */
+  google.accounts.id.prompt(); // also display the One Tap dialog
 
   var basho      = "202211", // The date of the basho just ended
       bashoYear  = parseInt(basho.substring(0, 4)), 
