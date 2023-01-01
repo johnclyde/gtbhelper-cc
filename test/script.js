@@ -234,7 +234,7 @@ window.onload = function() {
   google.accounts.id.prompt(); // also display the One Tap dialog
 
   document.getElementById("createFolder").addEventListener("click", function() {
-    var access_token = gapi.auth.getToken().access_token;
+    var access_token = gapi.client.getToken();
 
     var request = gapi.client.request({
        'path': '/drive/v2/files/',
