@@ -212,6 +212,7 @@ window.onload = function() {
           document.getElementById("alternative-login").style.removeProperty('display');
           destroyTable();
           */
+          document.getElementsByClassName("g_id_signin")[0].style.display = "block";
         document.getElementById("createFolder").style.display = "none";
           document.getElementById("message").innerHTML = "Not signed in";
       }
@@ -233,7 +234,7 @@ window.onload = function() {
   google.accounts.id.prompt(); // also display the One Tap dialog
 
   document.getElementById("createFolder").addEventListener("click", function() {
-    var access_token = googleAuth.getAccessToken();
+    var access_token = gapi.auth.getToken().access_token;
 
     var request = gapi.client.request({
        'path': '/drive/v2/files/',
