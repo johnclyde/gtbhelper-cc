@@ -1,4 +1,10 @@
 
+/* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
+ * as plain text and then turn them into array like this. Don't forget to add 
+ * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
+ * in between the record and special letter Y, S, DK ... As ' ' 
+ * is not considered a regular whitespace, it will not expand.
+ */ 
 var theSekitori = [
   "Y1e Terunofuji 0-0-15", 
   "", 
@@ -74,64 +80,324 @@ var theSekitori = [
   "J14w Gonoyama 9-6"
 ];
 
+/* Enable "No Rank Colouring" and "One Column" options and then open the 
+ * browser's inspector (F12). Find the table and copy & paste the <tbody> node. 
+ * The rikishi ID is located right after "Rikishi.aspx?r=". Turn the IDs into an 
+ * array (add the empty spots as 0). This array should have the same length as 
+ * theSekitori array.
+ */
+var sekitoriID = [
+  11927, 
+  0, 
+  12191, 
+  12130, 
+  12370, 
+  12451, 
+  0, 
+  12210, 
+  5944, 
+  12231, 
+  12203, 
+  11985, 
+  6480, 
+  12270, 
+  11946, 
+  12107, 
+  12226, 
+  12352, 
+  11980, 
+  2879, 
+  12239, 
+  12351, 
+  6596, 
+  6594, 
+  12055, 
+  11784, 
+  11728, 
+  6599, 
+  11855, 
+  12094, 
+  11786, 
+  11785, 
+  12043, 
+  12449, 
+  7153, 
+  11934, 
+  6463, 
+  12453, 
+  12362, 
+  11723, 
+  11845, 
+  12664, 
+  11868, 
+  12314, 
+  12575, 
+  7240, 
+  12320, 
+  12117, 
+  12113, 
+  12406, 
+  12026, 
+  12292, 
+  11918, 
+  6642, 
+  12646, 
+  12548, 
+  12674, 
+  12721, 
+  12024, 
+  11809, 
+  12273, 
+  12040, 
+  11736, 
+  12075, 
+  12412, 
+  12114, 
+  11726, 
+  12717, 
+  12013, 
+  12516, 
+  12342, 
+  12688
+];
+
+
+//***** Just update the 'basho' variable and you're all done. *****
+
 window.onload = function() {
 
-  document.getElementById("resetChanges").addEventListener("click", function() {
+
+// this source code used updated google sign in options 
+// after the previous button is deprecated
+
+  var CLIENT_ID = '527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com';
+  var API_KEY = 'AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o';
+  var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+  var SCOPES = 
+  'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource';
+  var signinButton = document.getElementsByClassName('signin')[0];
+  var signoutButton = document.getElementsByClassName('signout')[0];
+  let tokenClient;
+  let gapiInited = false;
+  let gisInited = false;
+
+  document.getElementById("buttons").style.display = "none";
+  gapiLoaded();
+  gisLoaded();
+
+  function gapiLoaded() {
+    gapi.load('client', initializeGapiClient);
+  }
+
+  async function initializeGapiClient() {
+    await gapi.client.init({
+      apiKey: API_KEY,
+      discoveryDocs: DISCOVERY_DOCS,
+    });
+    gapiInited = true;
+    maybeEnableButtons();
+  }
+
+  function gisLoaded() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: ''
+    });
+    gisInited = true;
+    maybeEnableButtons();
+  }
+
+  function maybeEnableButtons() {
+    if (gapiInited && gisInited) {
+      signinButton.style.display = 'block'
+    }
+  }
+
+  signinButton.onclick = () => handleAuthClick()
+  function handleAuthClick() {
+    tokenClient.callback = async (resp) => {
+      if (resp.error !== undefined) {
+        throw (resp);
+      }
+      signinButton.style.display = 'none'
+      signoutButton.style.display = 'block'
+      document.getElementById("createFile").style.display = "block";
+      checkFolder();
+    };
+
+    if (gapi.client.getToken() === null) {
+      tokenClient.requestAccessToken({ prompt: 'consent' });
+    } else {
+      tokenClient.requestAccessToken({ prompt: '' });
+    }
+  }
+
+  signoutButton.onclick = () => handleSignoutClick()
+  function handleSignoutClick() {
+    const token = gapi.client.getToken();
+    if (token !== null) {
+      google.accounts.oauth2.revoke(token.access_token);
+      gapi.client.setToken('');
+      signinButton.style.display = 'block'
+      signoutButton.style.display = 'none'
+      document.getElementById("createFile").style.display = "none";
+    }
+  }
+
+  // check for a Backup Folder in google drive
+  function checkFolder() {
+    gapi.client.drive.files.list({
+      'q': 'name = "GTB Helper Folder"',
+    }).then(function (response) {
+      var files = response.result.files;
+      if (files && files.length > 0) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          window.localStorage.setItem('parent_folder', file.id);
+          console.log('Folder Available');
+                  // get files if folder available
+          //showList();
+        }
+      } else {
+              // if folder not available then create
+        createFolder();
+      }
+    })
+  }
+
+  document.getElementById("createFile").addEventListener("click", upload);
+
+  function upload() {
+    if (window.localStorage.getItem("banzuke1") !== null) {
+      const blob = new Blob([window.localStorage.getItem("banzuke1")], { type: 'plain/text' });
+        // get parent folder id from localstorage
+      const parentFolder = window.localStorage.getItem('parent_folder');
+        // set file metadata
+      var metadata = {
+            // get first two words from the input text and set as file name instead of backup-file
+        name: 'banzuke1.txt',
+        mimeType: 'plain/text',
+        parents: [parentFolder]
+      };
+      var formData = new FormData();
+      formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+      formData.append("file", blob);
+
+      fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+        method: 'POST',
+        headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }),
+        body: formData
+      }).then(function (response) {
+        return response.json();
+      }).then(function (value) {
+        console.log(value);
+      });
+    }
+  }
+
+  function createFolder() {
+    var access_token = gapi.auth.getToken().access_token;
+    var request = gapi.client.request({
+      'path': 'drive/v2/files',
+      'method': 'POST',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + access_token,
+      },
+      'body': {
+        'title': 'GTB Helper Folder',
+        'mimeType': 'application/vnd.google-apps.folder'
+      }
+    });
+    request.execute(function (response) {
+      localStorage.setItem('parent_folder', response.id);
+    })
+  }
+
+  var basho      = "202211", // The date of the basho just ended
+      bashoYear  = parseInt(basho.substring(0, 4)), 
+      bashoMonth = parseInt(basho.slice(-2)), 
+      tableTitle = document.getElementsByClassName("tableTitle");
+
+  const bashoMonthLookup = {
+          1: "Hatsu", 
+          3: "Haru", 
+          5: "Natsu", 
+          7: "Nagoya", 
+          9: "Aki",
+          11: "Kyushu"
+        }, 
+        getBashoName = (bMonth) => bashoMonthLookup[bMonth];
+
+  tableTitle[0].innerHTML = getBashoName(bashoMonth) + ' ' + bashoYear;
+
+  if (bashoMonth == 11) 
+    tableTitle[1].innerHTML = "Hatsu " + (bashoYear+1) + " Guess - " + tableTitle[1].innerHTML;
+  else {
+    tableTitle[1].innerHTML = getBashoName(bashoMonth+2) + ' ' + bashoYear + 
+                              " Guess - " + tableTitle[1].innerHTML;
+  }
+
+  document.getElementById("resetBanzuke").addEventListener("click", function() {
     if (confirm("Reset the banzuke?") == true) {
       window.localStorage.removeItem("banzuke1");
       window.localStorage.removeItem("banzuke2");
+      window.localStorage.removeItem("radioButton");
       location.reload();
     }
   });
-/*
-  document.getElementById("saveBanzuke").addEventListener("click", function() {
-
-    window.localStorage.setItem("banzuke1", 
-      document.getElementById("banzuke1").innerHTML);
-    window.localStorage.setItem("banzuke2", 
-      document.getElementById("banzuke2").innerHTML);
-
-    var table = document.getElementsByTagName("table");
-
-    table[0].style.border = "2px solid lightgreen"
-    table[1].style.border = "2px solid lightgreen";
-    setTimeout(changeBorder, 300);
-    function changeBorder() {
-      table[0].style.border = "2px solid dimgray";
-      table[1].style.border = "2px solid dimgray";
-    }
-  
-  });*/
 
   if (window.localStorage.getItem("banzuke1") === null) {
     var cell = document.querySelectorAll(".redips-only");
     
     for (var i = 0; i < theSekitori.length; i++) {
       if (theSekitori[i] !== "") {
-        var holder = document.createElement("span");
-        holder.innerHTML = theSekitori[i];
-        cell[i].appendChild(holder);
-        holder.style.display = "none";
+        var card     = document.createElement("div"), 
+            rikiData = theSekitori[i].split(' ');
 
-        var card = document.createElement("div");
-        var rikiData = theSekitori[i].split(' ');
+        card.setAttribute("id", rikiData[0]);
+        card.className = "redips-drag se";
+        card.setAttribute("data-rid", sekitoriID[i]);
 
-        card.innerHTML = theSekitori[i];
-        card.setAttribute("id", rikiData[0].toLowerCase());
-        card.setAttribute("class", "redips-drag se");
-        if (rikiData[1] == "Chiyotairyu" || rikiData[1] == "Yutakayama") {
-          card.style.background = "linear-gradient(#acacac, #e9e9e9 25%)";
-          card.style.cursor = "default";
-          card.setAttribute("class", "redips-nodrag");
+        if (rikiData[2].split('-')[0] < 8) 
+          card.style.backgroundColor = "#ffd2d2";
+        else 
+          card.style.backgroundColor = "#c2ff9f";
+
+        var cardText = document.createElement("span");
+        cardText.className = "ctxt";
+
+        rikiData[2] = '<a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=' + 
+                      sekitoriID[i] + "&b=" + basho + '" target="_blank">' + rikiData[2] + "</a>";
+
+        card.innerHTML = rikiData.join(' ');
+
+        rikiData[1] = '<a href="https://sumodb.sumogames.de/Rikishi.aspx?r=' + 
+                      sekitoriID[i] + '" target="_blank">' + rikiData[1] + "</a>";
+
+        if (rikiData[1].includes("Chiyotairyu") || rikiData[1].includes("Yutakayama")) {
+          card.innerHTML = rikiData.join(' ');
+          card.style.backgroundColor = "#dadada";
+          card.style.cursor = "text";
+          card.style.color = "#3c3c3c";
+          card.className = "redips-nodrag";
           card.setAttribute("title", "Retired");
         }
-        else if (rikiData[2].split('-')[0] < 8) 
-          card.style.background = "linear-gradient(#acacac, #ffd9cc 25%)";
-        else 
-          card.style.background = "linear-gradient(#acacac, #d3ffa5 25%)";
+
+        var holder = document.createElement("span");
+        holder.innerHTML = rikiData.join(' ');
+        holder.style.display = "none";
+        holder.className = "hold";
+
+        cell[i].appendChild(holder);
         cell[i].appendChild(card);
       }
     }
+    var b2Cell = document.querySelectorAll(".b2");
+
+    for (var i = 0; i < b2Cell.length; i++) 
+      b2Cell[i].style.border = "1px dashed dimgray"
   }
   else {
     document.getElementById("banzuke1").innerHTML = 
@@ -141,166 +407,229 @@ window.onload = function() {
     window.localStorage.getItem("banzuke2");
   }
 
-  var cards = Array.prototype.slice.call(document.querySelectorAll(".redips-drag"));
+  var radioButton = document.getElementsByClassName("checkbox"), 
+      radioLocal  = window.localStorage.getItem("radioButton");
 
-  cards.forEach(card => {
+  if (radioLocal === null || radioLocal == "openRikishiPage")
+    radioButton[0].checked = true;
+  else 
+    radioButton[1].checked = true;
+}
 
-    card.addEventListener("touchstart", cardDown);
-    card.addEventListener("mousedown", cardDown);
-
-    card.addEventListener("mouseup", cardUp);
-    card.addEventListener("touchend", cardUp);
-  });
-  function cardDown() {
-    var style = this.getBoundingClientRect();
-    //console.log(style.top);
-    //console.log(style.left);
-    this.parentNode.style.backgroundImage = "url(shadow.png)";
-  }
-  function cardUp() {
-    this.parentNode.style.removeProperty("background-image");
-
-    var rdCell = document.querySelectorAll(".redips-only");
-    var chCell = document.getElementsByClassName("ch");
-    var b2Cell = document.getElementsByClassName("redips-only b2");
-    var makRik = document.getElementById("makRik");
-
-    for (var i = 0; i < b2Cell.length; i++) {
-      if (b2Cell[i] === this.parentNode && 
-        this.style.position === "fixed") {
-        chCell[i].innerHTML = "";
-        if (b2Cell[i].children.length > 0) {
-          for (var j = 0; j < b2Cell[i].children.length; j++) {
-            var rank = b2Cell[i].children[j].id,
-                chg;
-
-            if (b2Cell[i].children[j] !== this) {
-              if (i < 18) {
-                switch (rank.charAt(0)) {
-                  case 'm': chg = "↑"; break;
-                  case 'j': chg = "!!!"; break;
-                  default: chg = " "; break;
-                }
-              }
-              else {
-                switch (rank.charAt(0)) {
-                  case 'm': 
-                    var maPos = rank.slice(1, -1)*2-2;
-                    
-                    if (rank.slice(-1) == 'w') 
-                      maPos++;
-                    chg = (maPos-i+18)/2;
-                    if (chg > 0) 
-                      chg = "+" + chg;
-                    else if (chg == 0) 
-                      chg = "─";
-                    break;
-                  case 'j': chg = "↑"; break;
-                  default: chg = "↓";
-                }
-              }
-
-              if (chCell[i].innerHTML.length == 0) 
-                chCell[i].innerHTML = chg;
-              else 
-                chCell[i].innerHTML += "<br>" + chg;
-            }
-          }
-        }
-      }
-    }
-
-    for (var i = 0; i < rdCell.length; i++) {
-      if (rdCell[i].style.backgroundColor === "yellow") {
-        if (rdCell[i].className === "redips-only b2" && 
-        this.parentNode.className !== "redips-only b2") {
-          this.parentNode.children[0].style.display = "block";
-          makRik.innerHTML++;
-        }
-        else if (rdCell[i].className !== "redips-only b2" && 
-          rdCell[i] !== this.parentNode) {
-          rdCell[i].children[0].style.display = "none";
-          rdCell[i].appendChild(this);
-          rdCell[i].removeAttribute("style");
-          makRik.innerHTML--;
-        }
-      }
-    }
-
-    for (var i = 0; i < b2Cell.length; i++) {
-      if (b2Cell[i].style.backgroundColor === "yellow") {
-        chCell[i].innerHTML = "";
-        b2Cell[i].appendChild(this);
-        for (var j = 0; j < b2Cell[i].children.length; j++) {
-          var rank = b2Cell[i].children[j].id,
-              chg;
-
-          if (i < 18) {
-            switch (rank.charAt(0)) {
-              case 'm': chg = "↑"; break;
-              case 'j': chg = "!!!"; break;
-              default: chg = " "; break;
-            }
-          }
-          else {
-            switch (rank.charAt(0)) {
-              case 'm': 
-                var maPos = rank.slice(1, -1)*2-2;
-                
-                if (rank.slice(-1) == 'w') 
-                  maPos++;
-                chg = (maPos-i+18)/2;
-                if (chg > 0) 
-                  chg = "+" + chg;
-                else if (chg == 0) 
-                  chg = "─";
-                break;
-              case 'j': chg = "↑"; break;
-              default: chg = "↓";
-            }
-          }
-
-          if (chCell[i].innerHTML.length == 0) 
-            chCell[i].innerHTML = chg;
-          else 
-            chCell[i].innerHTML += "<br>" + chg;
-        }
-        b2Cell[i].removeAttribute("style");
-      }
-    }
-    this.style.removeProperty("z-index");
-    this.style.removeProperty("position");
-    this.style.removeProperty("top");
-    this.style.removeProperty("left");
-
-    //if (document.getElementById("autosave").checked) {
-      window.localStorage.setItem("banzuke1", 
-        document.getElementById("banzuke1").innerHTML);
-      window.localStorage.setItem("banzuke2", 
-        document.getElementById("banzuke2").innerHTML);
-    //}
-  }
+function saveRadio(radioButton) {
+  window.localStorage.setItem("radioButton", radioButton.value);
 }
 
 'use strict';
 
-let redips = {};
+let redips = {}, 
+    rd = REDIPS.drag;
 
 redips.init = function () {
-  let rd = REDIPS.drag;
-  
   rd.init();
   rd.hover.colorTd = "yellow";
+  //rd.hover.borderTd = "2px solid blue";
   rd.dropMode = "multiple";
-
   rd.only.divClass.se = "b2";
+  rd.animation = "off";
+
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
-      var rank = theSekitori[i].split(' ')[0].toLowerCase();
-
+      var rank = theSekitori[i].split(' ')[0];
       rd.only.div[rank] = rank;
     }
   }
+
+  rd.event.dblClicked = function() {
+
+    var radioButton = document.getElementsByTagName("input");
+    var rikishiURL  = "https://sumodb.sumogames.de/Rikishi.aspx?r=" + rd.obj.dataset.rid;
+    var thisRank    = rd.obj.id, 
+        b1Cell      = document.getElementsByTagName("td"), 
+        currentCell = rd.findParent('TD', rd.obj), 
+        currentChgCell;
+    
+    if (radioButton[0].checked) 
+      window.open(rikishiURL, "_blank").focus();
+    else if (!currentCell.classList.contains("b2")) {
+      rd.relocate(currentCell, rd.td.previous);
+    }
+    else 
+    for (var i = 0; i < theSekitori.length; i++) {
+      if (b1Cell[i].classList.contains(thisRank) && 
+        currentCell.classList.contains("b2")) {
+        if (currentCell.previousSibling.className == "ch") 
+          currentChgCell = currentCell.previousSibling;
+        else if (currentCell.nextSibling.className == "ch")
+          currentChgCell = currentCell.nextSibling;
+
+        if (currentCell.children.length > 1) {
+          var chgs = currentChgCell.innerHTML.split("<br>");
+
+          for (var j = 0; j < currentCell.children.length; j++) {
+            if (currentCell.children[j] == rd.obj) {
+              chgs.splice(j, 1);
+              currentChgCell.innerHTML = chgs.join("<br>");
+            }
+          }
+        }
+        else {
+          currentChgCell.innerHTML = " ";
+          currentCell.style.border = "1px dashed dimgray";
+        }
+
+        rd.moveObject({
+          obj: rd.obj, 
+          target: b1Cell[i], 
+          callback: function () {
+            document.getElementById("makRik").innerHTML--;
+            b1Cell[i].children[0].style.display = "none";
+            b1Cell[i].style.removeProperty("border");
+            window.localStorage.setItem("banzuke1", 
+              document.getElementById("banzuke1").innerHTML);
+            window.localStorage.setItem("banzuke2", 
+              document.getElementById("banzuke2").innerHTML);
+          }
+        });
+      }
+    }
+
+  };
+
+  rd.event.clicked = function(currentCell) {
+    currentCell.style.backgroundColor = "lightblue";
+  };
+
+  rd.event.notMoved = function() {
+    var currentCell = rd.findParent('TD', rd.obj); 
+    currentCell.style.removeProperty("background-color");
+  };
+
+  rd.event.droppedBefore = function(targetCell) {
+
+    var rikiCount   = document.getElementById("makRik"), 
+        thisCard    = rd.obj, 
+        currentCell = rd.findParent('TD', thisCard), 
+        currentChgCell;
+
+    currentCell.style.removeProperty("background-color");
+
+    if (!currentCell.classList.contains("b2") && 
+      targetCell.classList.contains("b2")) {
+      currentCell.children[0].style.display = "block";
+      currentCell.style.border = "1px dashed dimgray";
+      rikiCount.innerHTML++;
+    }
+    else if (currentCell.classList.contains("b2") && 
+      !targetCell.classList.contains("b2")) {
+      targetCell.children[0].style.display = "none";
+      targetCell.style.removeProperty("border");
+      rikiCount.innerHTML--;
+    }
+    
+    if (currentCell.classList.contains("b2")) {
+      if (currentCell.previousSibling.className == "ch") 
+        currentChgCell = currentCell.previousSibling;
+      else if (currentCell.nextSibling.className == "ch")
+        currentChgCell = currentCell.nextSibling;
+
+      if (currentCell.children.length > 1) {
+        var chgs = currentChgCell.innerHTML.split("<br>");
+
+        for (var i = 0; i < currentCell.children.length; i++) {
+          if (currentCell.children[i] == thisCard) {
+            chgs.splice(i, 1);
+            currentChgCell.innerHTML = chgs.join("<br>");
+          }
+        }
+      }
+      else {
+        currentChgCell.innerHTML = " ";
+        currentCell.style.border = "1px dashed dimgray";
+      }
+    }
+
+  };
+
+  rd.event.dropped = function(targetCell) {
+
+    if (targetCell.classList.contains("b2")) {
+      var thisRank = rd.obj.id, 
+          rikishiWins = rd.obj.innerText.split(' ')[2].split('-')[0], 
+          thisChg, targetChgCell, targetCellRank;
+
+      if (targetCell.previousSibling.className == "ch") {
+        targetChgCell = targetCell.previousSibling;
+        targetCellRank = targetCell.nextSibling.innerHTML + 'e';
+      }
+      else if (targetCell.nextSibling.className == "ch") {
+        targetChgCell = targetCell.nextSibling;
+        targetCellRank = targetCell.previousSibling.innerHTML + 'w';
+      }
+
+      if (targetCellRank.charAt(0) == 'M') {
+        switch (thisRank.charAt(0)) {
+          case 'M': 
+            var thisMaeNum  = parseInt(thisRank.slice(1, -1)), 
+                targetMaeNum = parseInt(targetCellRank.slice(1, -1));
+            
+            if (thisRank.slice(-1) == 'w')       thisMaeNum += 0.5;
+            if (targetCellRank.slice(-1) == 'w') targetMaeNum += 0.5;
+
+            thisChg = thisMaeNum - targetMaeNum;
+
+            if (thisChg > 0) 
+              thisChg = "+" + thisChg;
+            else if (thisChg == 0) 
+              thisChg = "─";
+            break;
+          case 'J': thisChg = " ↑ "; break;
+          default:
+            thisChg = " ↓ ";
+            thisRank = thisRank.substring(0, 1);
+        }
+      }
+      else if (targetCellRank.charAt(0) == 'J') {
+        targetCellRank = 'J';
+        switch (thisRank.charAt(0)) {
+          case 'M': thisChg = " ↓ "; break;
+          case 'J': thisChg = "⇄"; break;
+          default:  thisChg = "!!!";
+        }
+      }
+      else {
+        switch (thisRank.charAt(0)) {
+          case 'M': 
+            thisChg = " ↑ ";
+            targetCellRank = targetCellRank.substring(0, 1);
+            break;
+          case 'J': thisChg = "!!!"; break;
+          default:  thisChg = "⇄";
+        }
+      }
+
+      thisChg = '<a href="https://sumodb.sumogames.de/Query.aspx?show_form=0&form1_rank=' + 
+                thisRank + "&form1_wins=" + rikishiWins + 
+                "&form1_year=193905-194401,194905-now&form2_highlight=on&form2_rank=" + 
+                targetCellRank + '" target="_blank" title="Click to run a SumoDB query">' + thisChg + "</a>";
+
+      if (targetChgCell.innerHTML == " ") {
+        targetChgCell.innerHTML = thisChg;
+        targetCell.style.removeProperty("border");
+      }
+      else 
+        targetChgCell.innerHTML += "<br>" + thisChg;
+    }
+
+  };
+
+  rd.event.finish = function() {
+    window.localStorage.setItem("banzuke1", 
+      document.getElementById("banzuke1").innerHTML);
+    window.localStorage.setItem("banzuke2", 
+      document.getElementById("banzuke2").innerHTML);
+  };
+
 };
 
 if (window.addEventListener)
