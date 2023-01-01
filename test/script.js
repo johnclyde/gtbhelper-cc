@@ -1,5 +1,95 @@
 
 
+
+  // Source: https://stackoverflow.com/a/47574303/4064162 Answer by user "Rafael Quintela"
+
+  let b64DecodeUnicode = str =>
+    decodeURIComponent(
+      Array.prototype.map.call(atob(str), c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join(''))
+
+  let parseJwt = token =>
+    JSON.parse(
+      b64DecodeUnicode(
+        token.split('.')[1].replace('-', '+').replace('_', '/')
+      )
+    )
+
+  window.isAuthenticated = false;
+  window.identity = {};
+  window.token = '';
+
+  function handleCredentialResponse(response) {
+      window.token = response.credential;
+      window.identity = parseJwt(response.credential);
+      window.isAuthenticated = true;
+      showAuthInfo();
+  }
+
+  function showAuthInfo() {
+      if (window.isAuthenticated) { 
+        /*
+          document.getElementById("authenticated").style.removeProperty('display');
+          document.getElementById("welcome").innerHTML = `Hello <b>${window.identity.name}!</b><img src="${window.identity.picture}" alt="Avatar" style="padding: 0 2rem 0 2rem; border-radius: 50%;">`;
+          document.getElementById("alternative-login").style.setProperty('display', 'none');
+          document.getElementById("raw-token").innerText = window.token;
+          populateTable();
+          */
+        document.getElementById("createFolder").style.display = "block";
+          document.getElementsByClassName("g_id_signin")[0].style.display = "none";
+          document.getElementById("message").innerHTML = "Signed in as " + window.identity.name;
+      } else {
+        /*
+          document.getElementById("authenticated").style.setProperty('display', 'none');
+          document.getElementById("welcome").innerText = 'Hello there!';
+          document.getElementById("alternative-login").style.removeProperty('display');
+          destroyTable();
+          */
+          document.getElementsByClassName("g_id_signin")[0].style.display = "block";
+        document.getElementById("createFolder").style.display = "none";
+          document.getElementById("message").innerHTML = "Not signed in";
+      }
+  }
+window.onload = function() {
+  window.isAuthenticated = false;
+  showAuthInfo();
+  google.accounts.id.initialize({
+      client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+      //auto_select: true
+  });
+  /*
+  google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" }  // customization attributes
+  );
+  */
+  google.accounts.id.prompt(); // also display the One Tap dialog
+}
+
+  document.getElementById("createFolder").addEventListener("click", function() {
+    var access_token = gapi.client.getToken();
+
+    var request = gapi.client.request({
+       'path': '/drive/v2/files/',
+       'method': 'POST',
+       'headers': {
+           'Content-Type': 'application/json',
+           'Authorization': 'Bearer ' + access_token,             
+       },
+       'body':{
+           "title" : "GTB Folder",
+           "mimeType" : "application/vnd.google-apps.folder",
+       }
+    });
+
+    request.execute(function(resp) { 
+       console.log(resp); 
+       document.getElementById("message").innerHTML = "Created folder: " + resp.title;
+    });
+  });
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -166,95 +256,6 @@ var sekitoriID = [
 //***** Just update the 'basho' variable and you're all done. *****
 
 window.onload = function() {
-
-
-  // Source: https://stackoverflow.com/a/47574303/4064162 Answer by user "Rafael Quintela"
-
-  let b64DecodeUnicode = str =>
-    decodeURIComponent(
-      Array.prototype.map.call(atob(str), c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      ).join(''))
-
-  let parseJwt = token =>
-    JSON.parse(
-      b64DecodeUnicode(
-        token.split('.')[1].replace('-', '+').replace('_', '/')
-      )
-    )
-
-  window.isAuthenticated = false;
-  window.identity = {};
-  window.token = '';
-
-  function handleCredentialResponse(response) {
-      window.token = response.credential;
-      window.identity = parseJwt(response.credential);
-      window.isAuthenticated = true;
-      showAuthInfo();
-  }
-
-  function showAuthInfo() {
-      if (window.isAuthenticated) { 
-        /*
-          document.getElementById("authenticated").style.removeProperty('display');
-          document.getElementById("welcome").innerHTML = `Hello <b>${window.identity.name}!</b><img src="${window.identity.picture}" alt="Avatar" style="padding: 0 2rem 0 2rem; border-radius: 50%;">`;
-          document.getElementById("alternative-login").style.setProperty('display', 'none');
-          document.getElementById("raw-token").innerText = window.token;
-          populateTable();
-          */
-        document.getElementById("createFolder").style.display = "block";
-          document.getElementsByClassName("g_id_signin")[0].style.display = "none";
-          document.getElementById("message").innerHTML = "Signed in as " + window.identity.name;
-      } else {
-        /*
-          document.getElementById("authenticated").style.setProperty('display', 'none');
-          document.getElementById("welcome").innerText = 'Hello there!';
-          document.getElementById("alternative-login").style.removeProperty('display');
-          destroyTable();
-          */
-          document.getElementsByClassName("g_id_signin")[0].style.display = "block";
-        document.getElementById("createFolder").style.display = "none";
-          document.getElementById("message").innerHTML = "Not signed in";
-      }
-  }
-
-  window.isAuthenticated = false;
-  showAuthInfo();
-  google.accounts.id.initialize({
-      client_id: "179194878949-krr7ijas2hl6blghgov8skhlj8rq0if6.apps.googleusercontent.com",
-      callback: handleCredentialResponse
-      //auto_select: true
-  });
-  /*
-  google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" }  // customization attributes
-  );
-  */
-  google.accounts.id.prompt(); // also display the One Tap dialog
-
-  document.getElementById("createFolder").addEventListener("click", function() {
-    var access_token = gapi.client.getToken();
-
-    var request = gapi.client.request({
-       'path': '/drive/v2/files/',
-       'method': 'POST',
-       'headers': {
-           'Content-Type': 'application/json',
-           'Authorization': 'Bearer ' + access_token,             
-       },
-       'body':{
-           "title" : "GTB Folder",
-           "mimeType" : "application/vnd.google-apps.folder",
-       }
-    });
-
-    request.execute(function(resp) { 
-       console.log(resp); 
-       document.getElementById("message").innerHTML = "Created folder: " + resp.title;
-    });
-  });
 
   var basho      = "202211", // The date of the basho just ended
       bashoYear  = parseInt(basho.substring(0, 4)), 
