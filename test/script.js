@@ -220,7 +220,8 @@ window.onload = function() {
       }
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
-      checkFolder()
+      document.getElementById("createFile").style.display = "block";
+      checkFolder();
     };
 
     if (gapi.client.getToken() === null) {
@@ -238,9 +239,79 @@ window.onload = function() {
       gapi.client.setToken('');
       signinButton.style.display = 'block'
       signoutButton.style.display = 'none'
+      document.getElementById("createFile").style.display = "none";
     }
   }
 
+  // check for a Backup Folder in google drive
+  function checkFolder() {
+    gapi.client.drive.files.list({
+      'q': 'name = "GTB Helper Folder"',
+    }).then(function (response) {
+      var files = response.result.files;
+      if (files && files.length > 0) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          window.localStorage.setItem('parent_folder', file.id);
+          console.log('Folder Available');
+                  // get files if folder available
+          //showList();
+        }
+      } else {
+              // if folder not available then create
+        createFolder();
+      }
+    })
+  }
+
+  document.getElementById("createFile").addEventListener("click", upload);
+
+  function upload() {
+    if (window.localStorage.getItem("banzuke1") !== null) {
+      const blob = new Blob([window.localStorage.getItem("banzuke1")], { type: 'plain/text' });
+        // get parent folder id from localstorage
+      const parentFolder = window.localStorage.getItem('parent_folder');
+        // set file metadata
+      var metadata = {
+            // get first two words from the input text and set as file name instead of backup-file
+        name: 'banzuke1.txt',
+        mimeType: 'plain/text',
+        parents: [parentFolder]
+      };
+      var formData = new FormData();
+      formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+      formData.append("file", blob);
+
+      fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+        method: 'POST',
+        headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }),
+        body: formData
+      }).then(function (response) {
+        return response.json();
+      }).then(function (value) {
+        console.log(value);
+      });
+    }
+  }
+
+  function createFolder() {
+    var access_token = gapi.auth.getToken().access_token;
+    var request = gapi.client.request({
+      'path': 'drive/v2/files',
+      'method': 'POST',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + access_token,
+      },
+      'body': {
+        'title': 'GTB Helper Folder',
+        'mimeType': 'application/vnd.google-apps.folder'
+      }
+    });
+    request.execute(function (response) {
+      localStorage.setItem('parent_folder', response.id);
+    })
+  }
 
   var basho      = "202211", // The date of the basho just ended
       bashoYear  = parseInt(basho.substring(0, 4)), 
