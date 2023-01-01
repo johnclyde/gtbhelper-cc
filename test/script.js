@@ -173,7 +173,8 @@ window.onload = function() {
   var CLIENT_ID = '527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com';
   var API_KEY = 'AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o';
   var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-  var SCOPES = 'https://www.googleapis.com/auth/drive';
+  var SCOPES = 
+  'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource';
   var signinButton = document.getElementsByClassName('signin')[0];
   var signoutButton = document.getElementsByClassName('signout')[0];
   let tokenClient;
