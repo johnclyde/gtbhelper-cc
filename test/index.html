@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css" type="text/css"/>
   <script async defer src="https://apis.google.com/js/api.js"></script>
   <script async defer src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
 </head>
 <body>
   <header>
@@ -35,8 +36,8 @@
     </div>
     <button class="signin">Sign In</button>
     <button class="signout">Sign Out</button>
-    <div id="message"></div>
     <button id="createFile">Create File</button>
+    <div id="message">Not singed in</div>
   </header>
   <div id="redips-drag">
     <div id="tableContainer">
