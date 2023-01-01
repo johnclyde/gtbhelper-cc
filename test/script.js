@@ -643,4 +643,3 @@ if (window.addEventListener)
   window.addEventListener('load', redips.init, false);
 else if (window.attachEvent)
   window.attachEvent('onload', redips.init);
-
