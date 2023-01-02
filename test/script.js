@@ -202,8 +202,8 @@ window.onload = function() {
     maybeEnableButtons();
   }
 
-  function handleCredentialResponse(response) {
-    window.identity = jwt_decode(response.credential);
+  function handleCredentialResponse() {
+    window.identity = jwt_decode(gapi.client.getToken().credential);
   }
 
   function gisLoaded() {
