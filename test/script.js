@@ -189,6 +189,11 @@ window.onload = function() {
   gapiLoaded();
   gisLoaded();
 
+  google.accounts.id.renderButton(
+      signinButton,
+      { }  // customization attributes
+  );
+
   function gapiLoaded() {
     gapi.load('client', initializeGapiClient);
   }
@@ -212,15 +217,27 @@ window.onload = function() {
   }
 
   function maybeEnableButtons() {
-    if (gapiInited && gisInited) {
+    if (gapiInited && gisInited) 
       signinButton.style.display = 'block';
-    }
   }
+
+  let b64DecodeUnicode = str =>
+  decodeURIComponent(
+    Array.prototype.map.call(atob(str), c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join(''))
+
+  let parseJwt = token =>
+  JSON.parse(
+    b64DecodeUnicode(
+      token.split('.')[1].replace('-', '+').replace('_', '/')
+      )
+    )
 
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
-      //const responsePayload = jwt_decode(resp.credential);
+      //const responsePayload = parseJwt(resp.credential);
 
       if (resp.error !== undefined) {
         throw (resp);
@@ -263,7 +280,7 @@ window.onload = function() {
           var file = files[i];
           window.localStorage.setItem('parent_folder', file.id);
           console.log('Folder Available');
-                  // get files if folder available
+          // get files if folder available
           //showList();
         }
       } else {
@@ -350,7 +367,7 @@ window.onload = function() {
     if (confirm("Reset the banzuke?") == true) {
       window.localStorage.removeItem("banzuke1");
       window.localStorage.removeItem("banzuke2");
-      window.localStorage.removeItem("radioButton");
+      //window.localStorage.removeItem("radioButton");
       location.reload();
     }
   });
