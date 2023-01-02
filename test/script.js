@@ -203,7 +203,7 @@ window.onload = function() {
     maybeEnableButtons();
   }
 
-  handleCredentialResponse(response) {
+  function handleCredentialResponse(response) {
     window.identity = jwt_decode(response.credential);
   }
 
