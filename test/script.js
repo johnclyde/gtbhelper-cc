@@ -216,26 +216,10 @@ window.onload = function() {
       signinButton.style.display = 'block';
   }
 
-  function b64DecodeUnicode(str) {
-    return decodeURIComponent(
-    Array.prototype.map.call(atob(str), c =>
-      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      ).join('')
-    );
-  }
-
-  function parseJwt(token) {
-    return JSON.parse(
-    b64DecodeUnicode(
-      token.split('.')[1].replace('-', '+').replace('_', '/')
-      )
-    );
-  }
-
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
-      const responsePayload = parseJwt(resp.credential);
+      const responsePayload = jwtDecode(resp.credential);
 
       if (resp.error !== undefined) {
         throw (resp);
