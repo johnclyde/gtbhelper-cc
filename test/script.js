@@ -161,15 +161,14 @@ var sekitoriID = [
   12688
 ];
 
-window.identity = {};
-
 //***** Just update the 'basho' variable and you're all done. *****
 
 window.onload = function() {
 
+  window.identity = {};
 
-// this source code used updated google sign in options 
-// after the previous button is deprecated
+  // this source code used updated google sign in options 
+  // after the previous button is deprecated
 
   var CLIENT_ID = '527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com';
   var API_KEY = 'AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o';
