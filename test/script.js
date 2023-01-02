@@ -228,7 +228,7 @@ window.onload = function() {
       signoutButton.style.display = 'block'
       messageLine.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
       document.getElementById("createFile").style.display = "block";
-      checkFolder();
+      //checkFolder();
     };
 
     if (gapi.client.getToken() === null) {
