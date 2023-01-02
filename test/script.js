@@ -161,6 +161,7 @@ var sekitoriID = [
   12688
 ];
 
+window.identity = {};
 
 //***** Just update the 'basho' variable and you're all done. *****
 
@@ -205,7 +206,11 @@ window.onload = function() {
   function gisLoaded() {
     tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: CLIENT_ID,
-      scope: SCOPES
+      scope: SCOPES, 
+      prompt: "", 
+      callback: (response) => {
+        window.identity = jwt_decode(response.credential);
+      }
     });
     gisInited = true;
     maybeEnableButtons();
@@ -219,14 +224,12 @@ window.onload = function() {
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
-      const responsePayload = jwt_decode(resp.credential);
-
       if (resp.error !== undefined) {
         throw (resp);
       }
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
-      messageLine.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
+      messageLine.innerHTML = "Signed in as <b>" + window.identity.name + "</b>";
       document.getElementById("createFile").style.display = "block";
       //checkFolder();
     };
