@@ -177,7 +177,7 @@ window.onload = function() {
   'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource';
   var signinButton = document.getElementsByClassName('signin')[0];
   var signoutButton = document.getElementsByClassName('signout')[0];
-  var message = document.getElementById("message");
+  var messageLine = document.getElementById("message");
   let tokenClient;
   let gapiInited = false;
   let gisInited = false;
@@ -188,11 +188,6 @@ window.onload = function() {
   
   gapiLoaded();
   gisLoaded();
-
-  google.accounts.id.renderButton(
-      signinButton,
-      { }  // customization attributes
-  );
 
   function gapiLoaded() {
     gapi.load('client', initializeGapiClient);
@@ -237,14 +232,14 @@ window.onload = function() {
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
-      //const responsePayload = parseJwt(resp.credential);
+      const responsePayload = parseJwt(resp.credential);
 
       if (resp.error !== undefined) {
         throw (resp);
       }
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
-      //message.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
+      messageLine.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
       document.getElementById("createFile").style.display = "block";
       checkFolder();
     };
@@ -265,7 +260,7 @@ window.onload = function() {
       signinButton.style.display = 'block'
       signoutButton.style.display = 'none'
       document.getElementById("createFile").style.display = "none";
-      message.innerHTML = "Not signed in";
+      messageLine.innerHTML = "Not signed in";
     }
   }
 
