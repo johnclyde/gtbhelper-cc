@@ -220,14 +220,14 @@ window.onload = function() {
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
-      const responsePayload = jwt_decode(resp.credential);
+      //const responsePayload = jwt_decode(resp.credential);
 
       if (resp.error !== undefined) {
         throw (resp);
       }
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
-      message.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
+      //message.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
       document.getElementById("createFile").style.display = "block";
       checkFolder();
     };
