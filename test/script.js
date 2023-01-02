@@ -220,7 +220,7 @@ window.onload = function() {
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
-      const responsePayload = decodeJwtResponse(resp.credential);
+      const responsePayload = jwt_decode(resp.credential);
 
       if (resp.error !== undefined) {
         throw (resp);
