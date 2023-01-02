@@ -203,14 +203,16 @@ window.onload = function() {
     maybeEnableButtons();
   }
 
+  handleCredentialResponse(response) {
+    window.identity = jwt_decode(response.credential);
+  }
+
   function gisLoaded() {
     tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: CLIENT_ID,
       scope: SCOPES, 
       prompt: "", 
-      callback: (response) => {
-        window.identity = jwt_decode(response.credential);
-      }
+      callback: handleCredentialResponse
     });
     gisInited = true;
     maybeEnableButtons();
@@ -230,9 +232,9 @@ window.onload = function() {
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
       document.getElementById("createFile").style.display = "block";
-      //checkFolder();
+      messageLine.innerHTML = "Signed in as <b>" + window.identity.name + "</b>";
+      checkFolder();
     };
-    messageLine.innerHTML = "Signed in as <b>" + window.identity.name + "</b>";
 
     if (gapi.client.getToken() === null) {
       tokenClient.requestAccessToken({ prompt: 'consent' });
