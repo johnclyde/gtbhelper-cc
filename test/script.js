@@ -205,8 +205,7 @@ window.onload = function() {
   function gisLoaded() {
     tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: CLIENT_ID,
-      scope: SCOPES,
-      callback: handleCredentialResponse
+      scope: SCOPES
     });
     gisInited = true;
     maybeEnableButtons();
@@ -218,19 +217,17 @@ window.onload = function() {
     }
   }
 
-  function handleCredentialResponse(response) {
-    const responsePayload = decodeJwtResponse(response.credential);
-    message.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
-  }
-
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
+      const responsePayload = decodeJwtResponse(resp.credential);
+
       if (resp.error !== undefined) {
         throw (resp);
       }
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
+      message.innerHTML = "Signed in as <b>" + responsePayload.name + "</b>";
       document.getElementById("createFile").style.display = "block";
       checkFolder();
     };
