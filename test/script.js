@@ -174,7 +174,7 @@ window.onload = function() {
   var API_KEY = 'AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o';
   var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
   var SCOPES = 
-  'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource';
+  'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource';
   var signinButton = document.getElementsByClassName('signin')[0];
   var signoutButton = document.getElementsByClassName('signout')[0];
   var messageLine = document.getElementById("message");
@@ -202,8 +202,8 @@ window.onload = function() {
     maybeEnableButtons();
   }
 
-  function handleCredentialResponse() {
-    window.identity = jwt_decode(gapi.client.getToken().credential);
+  function handleCredentialResponse(response) {
+    window.identity = jwt_decode(response.credential);
   }
 
   function gisLoaded() {
