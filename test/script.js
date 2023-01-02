@@ -228,6 +228,7 @@ window.onload = function() {
       if (resp.error !== undefined) {
         throw (resp);
       }
+      console.log(resp.credential);
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
       document.getElementById("createFile").style.display = "block";
