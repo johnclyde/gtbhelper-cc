@@ -229,10 +229,10 @@ window.onload = function() {
       }
       signinButton.style.display = 'none'
       signoutButton.style.display = 'block'
-      messageLine.innerHTML = "Signed in as <b>" + window.identity.name + "</b>";
       document.getElementById("createFile").style.display = "block";
       //checkFolder();
     };
+    messageLine.innerHTML = "Signed in as <b>" + window.identity.name + "</b>";
 
     if (gapi.client.getToken() === null) {
       tokenClient.requestAccessToken({ prompt: 'consent' });
