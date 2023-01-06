@@ -1,3 +1,4 @@
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -226,7 +227,6 @@ window.onload = function() {
       signoutButton.style.display = "block";
       saveToDriveButton.style.display = "block";
       loadSaveButton.style.display = "block";
-      messageLine.innerHTML = "Signed in";
       checkFolder("GTB Helper Save (do not modify)");
     };
 
@@ -245,7 +245,8 @@ window.onload = function() {
       gapi.client.setToken("");
       signinButton.style.display = "block";
       signoutButton.style.display = "none";
-      document.getElementById("createFile").style.display = "none";
+      saveToDriveButton.style.display = "none";
+      loadSaveButton.style.display = "none";
       messageLine.innerHTML = "Not signed in";
     }
   }
@@ -267,6 +268,7 @@ window.onload = function() {
       }
       else {
         createFolder("GTB Helper Save (do not modify)");
+        messageLine.innerHTML = "no save";
       }
     })
   }
@@ -312,7 +314,6 @@ window.onload = function() {
     });
     request.execute(function (response) {
       window.localStorage.setItem("backupFolderId", response.id);
-      messageLine.innerHTML = "no save";
     })
   }
 
@@ -338,8 +339,8 @@ window.onload = function() {
 
   function showSave() {
     gapi.client.drive.files.list({
-      'q': "parents in '" + window.localStorage.getItem("backupFolderId") + 
-           "' and name = 'gtb_helper_save'"
+      'q': "name = 'gtb_helper_save.txt' and parents in '" + 
+           window.localStorage.getItem("backupFolderId") + "'"
     }).then(function (response) {
       var files = response.result.files;
 
