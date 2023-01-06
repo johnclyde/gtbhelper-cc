@@ -6,78 +6,78 @@
  * is not considered a regular whitespace, it will not expand.
  */ 
 var theSekitori = [
-  "Y1e Terunofuji 0-0-15", 
+  "Y1e Terunofuji 0-0", 
   "", 
-  "O1e Takakeisho 12-3 D", 
-  "O1w Shodai 6-9", 
-  "S1e Wakatakakage 8-7", 
-  "S1w Hoshoryu 11-4 G", 
-  "",
-  "S2w Mitakeumi 6-9", 
-  "K1e Tamawashi 6-9", 
-  "K1w Kiribayama 8-7", 
-  "K2e Tobizaru 7-8", 
-  "K2w Daieisho 7-8", 
-  "M1e Takayasu 12-3 DS", 
-  "M1w Kotonowaka 9-6", 
-  "M2e Meisei 9-6", 
-  "M2w Ichinojo 4-11", 
-  "M3e Ura 4-11", 
-  "M3w Midorifuji 8-7", 
-  "M4e Wakamotoharu 10-5", 
-  "M4w Sadanoumi 8-7", 
-  "M5e Hokutofuji 7-8", 
-  "M5w Nishikifuji 9-6", 
-  "M6e Nishikigi 8-7", 
-  "M6w Ryuden 9-6", 
-  "M7e Endo 6-9", 
-  "M7w Myogiryu 8-7", 
-  "M8e Takarafuji 3-12", 
-  "M8w Tochinoshin 6-9", 
-  "M9e Takanosho 7-8", 
-  "M9w Abi 12-3 YK", 
-  "M10e Aoiyama 7-8", 
-  "M10w Chiyoshoma 7-8", 
-  "M11e Onosho 9-6", 
-  "M11w Kotoshoho 7-8", 
-  "M12e Kotoeko 7-8", 
-  "M12w Chiyotairyu 2-6", 
-  "M13e Okinoumi 8-7", 
-  "M13w Oho 10-5", 
-  "M14e Ichiyamamoto 7-8", 
-  "M14w Azumaryu 7-8", 
-  "M15e Kagayaki 9-6", 
-  "M15w Atamifuji 4-11", 
-  "M16e Terutsuyoshi 0-15", 
-  "M16w Hiradoumi 10-5", 
-  "J1e Tohakuryu 5-10", 
-  "J1w Chiyomaru 8-7", 
-  "J2e Churanoumi 4-11", 
-  "J2w Bushozan 8-7", 
-  "J3e Tsurugisho 10-5", 
-  "J3w Mitoryu 9-6", 
-  "J4e Hidenoumi 4-11", 
-  "J4w Yutakayama 5-10", 
-  "J5e Akua 10-5", 
-  "J5w Chiyonokuni 6-9", 
-  "J6e Hokuseiho 10-5", 
-  "J6w Kitanowaka 6-9", 
-  "J7e Tochimusashi 7-8", 
-  "J7w Kinbozan 8-7", 
-  "J8e Shimanoumi 7-8", 
-  "J8w Kotokuzan 8-7", 
-  "J9e Daiamami 11-4 D", 
-  "J9w Daishoho 8-7", 
-  "J10e Chiyosakae 7-8", 
-  "J10w Kaisho 5-10", 
-  "J11e Enho 10-5", 
-  "J11w Takakento 7-8", 
-  "J12e Tokushoryu 4-11", 
-  "J12w Oshoma 11-4 Y", 
-  "J13e Shimazuumi 8-7", 
-  "J13w Roga 9-6", 
-  "J14e Tsushimanada 7-8", 
-  "J14w Gonoyama 9-6"
+  "", 
+  "O1w Takakeisho 0-0", 
+  "S1e Wakatakakage 0-0", 
+  "S1w Hoshoryu 0-0", 
+  "S2e Takayasu 0-0", 
+  "S2w Shodai 0-0", 
+  "K1e Kiribayama 0-0", 
+  "K1w Kotonowaka 0-0", 
+  "K2e Meisei 0-0", 
+  "K2w Wakamotoharu 0-0", 
+  "M1e Tobizaru 0-0", 
+  "M1w Daieisho 0-0", 
+  "M2e Mitakeumi 0-0", 
+  "M2w Tamawashi 0-0", 
+  "M3e Abi 0-0", 
+  "M3w Midorifuji 0-0", 
+  "M4e Nishikifuji 0-0", 
+  "M4w Sadanoumi 0-0", 
+  "M5e Ryuden 0-0", 
+  "M5w Nishikigi 0-0", 
+  "M6e Hokutofuji 0-0", 
+  "M6w Myogiryu 0-0", 
+  "M7e Ichinojo 0-0", 
+  "M7w Ura 0-0", 
+  "M8e Onosho 0-0", 
+  "M8w Oho 0-0", 
+  "M9e Takanosho 0-0", 
+  "M9w Endo 0-0", 
+  "M10e Aoiyama 0-0", 
+  "M10w Hiradoumi 0-0", 
+  "M11e Chiyoshoma 0-0", 
+  "M11w Tochinoshin 0-0", 
+  "M12e Kagayaki 0-0", 
+  "M12w Okinoumi 0-0", 
+  "M13e Kotoshoho 0-0", 
+  "M13w Kotoeko 0-0", 
+  "M14e Ichiyamamoto 0-0", 
+  "M14w Azumaryu 0-0", 
+  "M15e Tsurugisho 0-0", 
+  "M15w Mitoryu 0-0", 
+  "M16e Takarafuji 0-0", 
+  "M16w Chiyomaru 0-0", 
+  "J1e Akua 0-0", 
+  "J1w Bushozan 0-0", 
+  "J2e Hokuseiho 0-0", 
+  "J2w Daiamami 0-0", 
+  "J3e Atamifuji 0-0", 
+  "J3w Oshoma 0-0", 
+  "J4e Tohakuryu 0-0", 
+  "J4w Enho 0-0", 
+  "J5e Kinbozan 0-0", 
+  "J5w Kotokuzan 0-0", 
+  "J6e Churanoumi 0-0", 
+  "J6w Daishoho 0-0", 
+  "J7e Chiyonokuni 0-0", 
+  "J7w Tochimusashi 0-0", 
+  "J8e Shimanoumi 0-0", 
+  "J8w Kitanowaka 0-0", 
+  "J9e Roga 0-0", 
+  "J9w Hidenoumi 0-0", 
+  "J10e Gonoyama 0-0", 
+  "J10w Terutsuyoshi 0-0", 
+  "J11e Chiyosakae 0-0", 
+  "J11w Shimazuumi 0-0", 
+  "J12e Takakento 0-0", 
+  "J12w Asanoyama 0-0", 
+  "J13e Shonannoumi 0-0", 
+  "J13w Kaisho 0-0", 
+  "J14e Tsushimanada 0-0", 
+  "J14w Hakuyozan 0-0"
 ];
 
 /* Enable "No Rank Colouring" and "One Column" options and then open the 
@@ -89,121 +89,117 @@ var theSekitori = [
 var sekitoriID = [
   11927, 
   0, 
+  0, 
   12191, 
-  12130, 
   12370, 
   12451, 
-  0, 
-  12210, 
-  5944, 
-  12231, 
-  12203, 
-  11985, 
   6480, 
+  12130, 
+  12231, 
   12270, 
   11946, 
+  11980, 
+  12203, 
+  11985, 
+  12210, 
+  5944, 
+  12094, 
+  12352, 
+  12351, 
+  2879, 
+  6594, 
+  6596, 
+  12239, 
+  11784, 
   12107, 
   12226, 
-  12352, 
-  11980, 
-  2879, 
-  12239, 
-  12351, 
-  6596, 
-  6594, 
-  12055, 
-  11784, 
-  11728, 
-  6599, 
-  11855, 
-  12094, 
-  11786, 
-  11785, 
   12043, 
+  12453, 
+  11855, 
+  12055, 
+  11786, 
+  12314, 
+  11785, 
+  6599, 
+  11845, 
+  6463, 
   12449, 
   7153, 
-  11934, 
-  6463, 
-  12453, 
   12362, 
   11723, 
-  11845, 
-  12664, 
-  11868, 
-  12314, 
-  12575, 
-  7240, 
-  12320, 
-  12117, 
   12113, 
   12406, 
-  12026, 
-  12292, 
+  11728, 
+  7240, 
   11918, 
-  6642, 
+  12117, 
   12646, 
-  12548, 
-  12674, 
-  12721, 
-  12024, 
-  11809, 
   12273, 
-  12040, 
-  11736, 
-  12075, 
-  12412, 
-  12114, 
-  11726, 
+  12664, 
   12717, 
-  12013, 
+  12575, 
+  12412, 
+  12721, 
+  11809, 
+  12320, 
+  12040, 
+  6642, 
+  12674, 
+  12024, 
+  12548, 
   12516, 
+  12026, 
+  12688, 
+  11868, 
+  11736, 
+  12013, 
+  12114, 
+  12291, 
+  12162, 
+  12075, 
   12342, 
-  12688
+  11943
 ];
 
-//***** Just update the 'basho' variable and you're all done. *****
+//***** Just update the "basho" variable and you're all done. *****
 
 window.onload = function() {
 
   window.identity = {};
 
-  // this source code used updated google sign in options 
-  // after the previous button is deprecated
-
-  var CLIENT_ID = '527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com';
-  var API_KEY = 'AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o';
+  var CLIENT_ID = "527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com";
+  var API_KEY = "AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o";
   var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-  var SCOPES = 
-  'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource';
-  var signinButton = document.getElementsByClassName('signin')[0];
-  var signoutButton = document.getElementsByClassName('signout')[0];
-  var messageLine = document.getElementById("message");
+  // https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid
+  var SCOPES = "https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource";
+  var signinButton = document.getElementById("signinButton");
+  var signoutButton = document.getElementById("signoutButton");
+  var saveToDriveButton = document.getElementById("saveToDrive");
+  var loadSaveButton = document.getElementById("loadSave");
+  var messageLine = document.getElementById("messageLine");
   let tokenClient;
   let gapiInited = false;
   let gisInited = false;
 
   signinButton.style.display = "none";
   signoutButton.style.display = "none";
-  document.getElementById("createFile").style.display = "none";
-  
+  saveToDriveButton.style.display = "none";
+  loadSaveButton.style.display = "none";
+
   gapiLoaded();
   gisLoaded();
 
   function gapiLoaded() {
-    gapi.load('client', initializeGapiClient);
+    gapi.load("client", initializeGapiClient);
   }
 
   async function initializeGapiClient() {
     await gapi.client.init({
       apiKey: API_KEY,
-      discoveryDocs: DISCOVERY_DOCS,
+      discoveryDocs: DISCOVERY_DOCS
     });
     gapiInited = true;
     maybeEnableButtons();
-  }
-
-  function handleCredentialResponse(response) {
-    window.identity = jwt_decode(response.credential);
   }
 
   function gisLoaded() {
@@ -211,7 +207,7 @@ window.onload = function() {
       client_id: CLIENT_ID,
       scope: SCOPES, 
       prompt: "", 
-      callback: handleCredentialResponse
+      callback: ""
     });
     gisInited = true;
     maybeEnableButtons();
@@ -219,147 +215,214 @@ window.onload = function() {
 
   function maybeEnableButtons() {
     if (gapiInited && gisInited) 
-      signinButton.style.display = 'block';
+      signinButton.style.display = "block";
   }
 
   signinButton.onclick = () => handleAuthClick()
   function handleAuthClick() {
     tokenClient.callback = async (resp) => {
-      if (resp.error !== undefined) {
+      if (resp.error !== undefined) 
         throw (resp);
-      }
-      console.log(gapi.client.getToken().access_token);
-      signinButton.style.display = 'none'
-      signoutButton.style.display = 'block'
-      document.getElementById("createFile").style.display = "block";
-      messageLine.innerHTML = "Signed in as <b>" + window.identity.name + "</b>";
-      checkFolder();
+      signinButton.style.display = "none";
+      signoutButton.style.display = "block";
+      saveToDriveButton.style.display = "block";
+      loadSaveButton.style.display = "block";
+      messageLine.innerHTML = "Signed in";
+      checkFolder("GTB Helper Save (do not modify)");
     };
 
-    if (gapi.client.getToken() === null) {
-      tokenClient.requestAccessToken({ prompt: 'consent' });
-    } else {
-      tokenClient.requestAccessToken({ prompt: '' });
-    }
+    if (gapi.client.getToken() === null) 
+      tokenClient.requestAccessToken({ prompt: "consent" });
+    else 
+      tokenClient.requestAccessToken({ prompt: "" });
   }
 
   signoutButton.onclick = () => handleSignoutClick()
   function handleSignoutClick() {
     const token = gapi.client.getToken();
+
     if (token !== null) {
       google.accounts.oauth2.revoke(token.access_token);
-      gapi.client.setToken('');
-      signinButton.style.display = 'block'
-      signoutButton.style.display = 'none'
+      gapi.client.setToken("");
+      signinButton.style.display = "block";
+      signoutButton.style.display = "none";
       document.getElementById("createFile").style.display = "none";
       messageLine.innerHTML = "Not signed in";
     }
   }
 
-  // check for a Backup Folder in google drive
-  function checkFolder() {
+  function checkFolder(folderName) {
     gapi.client.drive.files.list({
-      'q': 'name = "GTB Helper Folder"',
+      'q': "name = " + folderName
     }).then(function (response) {
       var files = response.result.files;
+
       if (files && files.length > 0) {
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
-          window.localStorage.setItem('parent_folder', file.id);
-          console.log('Folder Available');
-          // get files if folder available
-          //showList();
+
+          window.localStorage.setItem("backupFolderId", file.id);
+          console.log("Folder available");
+          showSave();
         }
-      } else {
-              // if folder not available then create
-        createFolder();
+      }
+      else {
+        createFolder("GTB Helper Save (do not modify)");
       }
     })
   }
 
-  document.getElementById("createFile").addEventListener("click", upload);
+  function uploadSave() {
+    const blob = new Blob([window.localStorage.getItem("banzuke")], { type: "plain/text" });
+    const parentFolder = window.localStorage.getItem("backupFolderId");
+    var metadata = {
+      name: "gtb_helper_save.txt", 
+      mimeType: "plain/text", 
+      parents: [parentFolder]
+    };
+    var formData = new FormData();
 
-  function upload() {
-    if (window.localStorage.getItem("banzuke1") !== null) {
-      const blob = new Blob([window.localStorage.getItem("banzuke1")], { type: 'plain/text' });
-        // get parent folder id from localstorage
-      const parentFolder = window.localStorage.getItem('parent_folder');
-        // set file metadata
-      var metadata = {
-            // get first two words from the input text and set as file name instead of backup-file
-        name: 'banzuke1.txt',
-        mimeType: 'plain/text',
-        parents: [parentFolder]
-      };
-      var formData = new FormData();
-      formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-      formData.append("file", blob);
+    formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
+    formData.append("file", blob);
 
-      fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
-        method: 'POST',
-        headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }),
-        body: formData
-      }).then(function (response) {
-        return response.json();
-      }).then(function (value) {
-        console.log(value);
-      });
-    }
+    fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+      method: "POST", 
+      headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }), 
+      body: formData
+    }).then(function (response) {
+      return response.json();
+    }).then(function (value) {
+      console.log(value);
+      showSave();
+    });
   }
 
-  function createFolder() {
+  function createFolder(folderName) {
     var access_token = gapi.auth.getToken().access_token;
     var request = gapi.client.request({
-      'path': 'drive/v2/files',
-      'method': 'POST',
-      'headers': {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + access_token,
-      },
-      'body': {
-        'title': 'GTB Helper Folder',
-        'mimeType': 'application/vnd.google-apps.folder'
+      "path": "drive/v2/files",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json", 
+        "Authorization": "Bearer " + access_token
+      }, 
+      "body": {
+        "title": folderName, 
+        "mimeType": "application/vnd.google-apps.folder"
       }
     });
     request.execute(function (response) {
-      localStorage.setItem('parent_folder', response.id);
+      window.localStorage.setItem("backupFolderId", response.id);
     })
   }
 
-  var basho      = "202211", // The date of the basho just ended
-      bashoYear  = parseInt(basho.substring(0, 4)), 
-      bashoMonth = parseInt(basho.slice(-2)), 
-      tableTitle = document.getElementsByClassName("tableTitle");
+  saveToDriveButton.addEventListener("click", function() {
+    if (window.localStorage.getItem("banzuke") !== null) {
+      if (messageLine.innerHTML == "no save") 
+        uploadSave();
+      else 
+        updateSave();
+    }
+  });
 
-  const bashoMonthLookup = {
-          1: "Hatsu", 
-          3: "Haru", 
-          5: "Natsu", 
-          7: "Nagoya", 
-          9: "Aki",
-          11: "Kyushu"
-        }, 
-        getBashoName = (bMonth) => bashoMonthLookup[bMonth];
+  loadSaveButton.addEventListener("click", function() {
+    var saveId = document.getElementById("saveDate").getAttribute("data-saveId");
 
-  tableTitle[0].innerHTML = getBashoName(bashoMonth) + ' ' + bashoYear;
+    gapi.client.drive.files.get({
+      fileId: saveId, 
+      alt: "media"
+    }).then(function (res) {
+      document.getElementById("tableLiner").innerHTML = res.body;
+    });
+  });
 
-  if (bashoMonth == 11) 
-    tableTitle[1].innerHTML = "Hatsu " + (bashoYear+1) + " Guess - " + tableTitle[1].innerHTML;
+  function showSave() {
+    gapi.client.drive.files.list({
+      'q': "parents in '" + window.localStorage.getItem("backupFolderId") + 
+           "' and name = 'gtb_helper_save'"
+    }).then(function (response) {
+      var files = response.result.files;
+
+      if (files && files.length > 0) {
+        for (var i = 0; i < files.length; i++) {
+          messageLine.innerHTML = '<span id="saveDate" data-saveId="' + files[i].id + 
+                                  '">from ' + files[i].modifiedDate + "</span>";
+          loadSaveButton.disabled = false;
+        }
+      }
+      else {
+        messageLine.innerHTML = "no save";
+        loadSaveButton.disabled = true;
+      }
+    })
+  }
+
+  function updateSave() {
+    var saveId = document.getElementById("saveDate").getAttribute("data-saveId");
+    var url = "https://www.googleapis.com/upload/drive/v3/files/" + saveId + "?uploadType=media";
+    
+    fetch(url, {
+      method: "PATCH",
+      headers: new Headers({
+        Authorization: "Bearer " + gapi.auth.getToken().access_token,
+        "Content-type": "plain/text"
+      }), 
+      body: window.localStorage.getItem("banzuke")
+    }).then(value => {
+      console.log("Saved progress to Drive successfully");
+      showSave();
+    }).catch(err => console.error(err))
+  }
+
+
+  var basho = "202301"; // The date of the basho just ended
+
+  if (window.localStorage.getItem("banzuke1") !== null) {
+    window.localStorage.removeItem("banzuke1");
+    window.localStorage.removeItem("banzuke2");
+  }
+  if (window.localStorage.getItem("banzuke") === null) {
+    writeTableTitles(basho);
+    populateSlots();
+  }
   else {
+    document.getElementById("tableLiner").innerHTML = 
+    window.localStorage.getItem("banzuke");
+  }
+
+  var radioButton = document.getElementsByClassName("checkbox"), 
+      radioLocal  = window.localStorage.getItem("radioButton");
+
+  if (radioLocal === null || radioLocal == "openRikishiPage")
+    radioButton[0].checked = true;
+  else 
+    radioButton[1].checked = true;
+
+  function writeTableTitles(endedBashoDate) {
+    var bashoYear  = parseInt(endedBashoDate.substring(0, 4)), 
+        bashoMonth = parseInt(endedBashoDate.slice(-2)), 
+        tableTitle = document.getElementsByClassName("tableTitle");
+
+    const bashoMonthLookup = {
+            1: "Hatsu", 
+            3: "Haru", 
+            5: "Natsu", 
+            7: "Nagoya", 
+            9: "Aki",
+            11: "Kyushu"
+          }, 
+          getBashoName = (bMonth) => bashoMonthLookup[bMonth];
+
+    tableTitle[0].innerHTML = getBashoName(bashoMonth) + ' ' + bashoYear;
+    if (bashoMonth > 9) {
+      bashoYear++;
+      bashoMonth = -1;
+    }
     tableTitle[1].innerHTML = getBashoName(bashoMonth+2) + ' ' + bashoYear + 
                               " Guess - " + tableTitle[1].innerHTML;
   }
 
-  document.getElementById("resetBanzuke").addEventListener("click", function() {
-    if (confirm("Reset the banzuke?") == true) {
-      window.localStorage.removeItem("banzuke1");
-      window.localStorage.removeItem("banzuke2");
-      //window.localStorage.removeItem("radioButton");
-      location.reload();
-    }
-  });
-
-  if (window.localStorage.getItem("banzuke1") === null) {
+  function populateSlots() {
     var cell = document.querySelectorAll(".redips-only");
     
     for (var i = 0; i < theSekitori.length; i++) {
@@ -371,13 +434,12 @@ window.onload = function() {
         card.className = "redips-drag se";
         card.setAttribute("data-rid", sekitoriID[i]);
 
+        /*
         if (rikiData[2].split('-')[0] < 8) 
           card.style.backgroundColor = "#ffd2d2";
         else 
           card.style.backgroundColor = "#c2ff9f";
-
-        var cardText = document.createElement("span");
-        cardText.className = "ctxt";
+        */
 
         rikiData[2] = '<a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=' + 
                       sekitoriID[i] + "&b=" + basho + '" target="_blank">' + rikiData[2] + "</a>";
@@ -399,32 +461,12 @@ window.onload = function() {
         var holder = document.createElement("span");
         holder.innerHTML = rikiData.join(' ');
         holder.style.display = "none";
-        holder.className = "hold";
 
         cell[i].appendChild(holder);
         cell[i].appendChild(card);
       }
     }
-    var b2Cell = document.querySelectorAll(".b2");
-
-    for (var i = 0; i < b2Cell.length; i++) 
-      b2Cell[i].style.border = "1px dashed dimgray"
   }
-  else {
-    document.getElementById("banzuke1").innerHTML = 
-    window.localStorage.getItem("banzuke1");
-
-    document.getElementById("banzuke2").innerHTML = 
-    window.localStorage.getItem("banzuke2");
-  }
-
-  var radioButton = document.getElementsByClassName("checkbox"), 
-      radioLocal  = window.localStorage.getItem("radioButton");
-
-  if (radioLocal === null || radioLocal == "openRikishiPage")
-    radioButton[0].checked = true;
-  else 
-    radioButton[1].checked = true;
 }
 
 function saveRadio(radioButton) {
@@ -434,7 +476,9 @@ function saveRadio(radioButton) {
 'use strict';
 
 let redips = {}, 
-    rd = REDIPS.drag;
+    rd     = REDIPS.drag;
+
+rd.animation = "off";
 
 redips.init = function () {
   rd.init();
@@ -442,7 +486,6 @@ redips.init = function () {
   //rd.hover.borderTd = "2px solid blue";
   rd.dropMode = "multiple";
   rd.only.divClass.se = "b2";
-  rd.animation = "off";
 
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
@@ -462,46 +505,41 @@ redips.init = function () {
     
     if (radioButton[0].checked) 
       window.open(rikishiURL, "_blank").focus();
-    else if (!currentCell.classList.contains("b2")) {
-      rd.relocate(currentCell, rd.td.previous);
-    }
-    else 
-    for (var i = 0; i < theSekitori.length; i++) {
-      if (b1Cell[i].classList.contains(thisRank) && 
-        currentCell.classList.contains("b2")) {
-        if (currentCell.previousSibling.className == "ch") 
-          currentChgCell = currentCell.previousSibling;
-        else if (currentCell.nextSibling.className == "ch")
-          currentChgCell = currentCell.nextSibling;
+    else if (currentCell.classList.contains("b2")) {
+      for (var i = 0; i <= theSekitori.length; i++) {
+        if (b1Cell[i].classList.contains(thisRank)) {
+          if (currentCell.previousSibling.className == "ch") 
+            currentChgCell = currentCell.previousSibling;
+          else if (currentCell.nextSibling.className == "ch")
+            currentChgCell = currentCell.nextSibling;
 
-        if (currentCell.children.length > 1) {
-          var chgs = currentChgCell.innerHTML.split("<br>");
+          if (currentCell.children.length > 1) {
+            var chgs = currentChgCell.innerHTML.split("<br>");
 
-          for (var j = 0; j < currentCell.children.length; j++) {
-            if (currentCell.children[j] == rd.obj) {
-              chgs.splice(j, 1);
-              currentChgCell.innerHTML = chgs.join("<br>");
+            for (var j = 0; j < currentCell.children.length; j++) {
+              if (currentCell.children[j] == rd.obj) {
+                chgs.splice(j, 1);
+                currentChgCell.innerHTML = chgs.join("<br>");
+              }
             }
           }
-        }
-        else {
-          currentChgCell.innerHTML = " ";
-          currentCell.style.border = "1px dashed dimgray";
-        }
-
-        rd.moveObject({
-          obj: rd.obj, 
-          target: b1Cell[i], 
-          callback: function () {
-            document.getElementById("makRik").innerHTML--;
-            b1Cell[i].children[0].style.display = "none";
-            b1Cell[i].style.removeProperty("border");
-            window.localStorage.setItem("banzuke1", 
-              document.getElementById("banzuke1").innerHTML);
-            window.localStorage.setItem("banzuke2", 
-              document.getElementById("banzuke2").innerHTML);
+          else {
+            currentChgCell.innerHTML = " ";
+            currentCell.style.border = "1px dashed dimgray";
           }
-        });
+
+          rd.moveObject({
+            obj: rd.obj, 
+            target: b1Cell[i], 
+            callback: function () {
+              document.getElementById("makRik").innerHTML--;
+              b1Cell[i].children[0].style.display = "none";
+              b1Cell[i].style.removeProperty("border");
+              window.localStorage.setItem("banzuke", 
+                document.getElementById("tableLiner").innerHTML);
+            }
+          });
+        }
       }
     }
 
@@ -626,7 +664,7 @@ redips.init = function () {
 
       if (targetChgCell.innerHTML == " ") {
         targetChgCell.innerHTML = thisChg;
-        targetCell.style.removeProperty("border");
+        targetCell.style.border = "none";
       }
       else 
         targetChgCell.innerHTML += "<br>" + thisChg;
@@ -635,12 +673,40 @@ redips.init = function () {
   };
 
   rd.event.finish = function() {
-    window.localStorage.setItem("banzuke1", 
-      document.getElementById("banzuke1").innerHTML);
-    window.localStorage.setItem("banzuke2", 
-      document.getElementById("banzuke2").innerHTML);
+    window.localStorage.setItem("banzuke", document.getElementById("tableLiner").innerHTML);
   };
 
+};
+
+redips.resetBanzuke = function() {
+  if (confirm("Reset the banzuke?") == true) {
+    var b1Cell  = document.getElementsByTagName("td"), 
+        b2Cell  = document.querySelectorAll(".b2"), 
+        chgCell = document.getElementsByClassName("ch");
+
+    window.localStorage.removeItem("banzuke");
+    document.getElementById("makRik").innerHTML = 0;
+    
+    for (var i = 0; i < b2Cell.length; i++) {
+      if (b2Cell[i].children.length > 0) {
+        b2Cell[i].style.border = "1px dashed dimgray";
+        chgCell[i].innerHTML = ' ';
+        for (var j = b2Cell[i].children.length-1; j >= 0 ; j--) {
+          for (var k = 0; k <= theSekitori.length; k++) {
+            if (b1Cell[k].classList.contains(b2Cell[i].children[j].id)) {
+              rd.moveObject({
+                obj: b2Cell[i].children[j], 
+                target: b1Cell[k]
+              });
+              b1Cell[k].children[0].style.display = "none";
+              b1Cell[k].style.removeProperty("border");
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 if (window.addEventListener)

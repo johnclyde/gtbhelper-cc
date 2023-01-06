@@ -32,16 +32,19 @@
       <b>Double-click on rikishi</b><br>
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="openRikishiPage"> Open Rikishi Information page</label><br>
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="returnToOld"> Return it to the old banzuke</label><br>
-      <button id="resetBanzuke">Reset Changes</button>
+      <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset Changes</button>
     </div>
-    <button class="signin">Sign In</button>
-    <button class="signout">Sign Out</button>
-    <button id="createFile">Create File</button>
-    <div id="message">Not signed in</div>
+    <div>
+      <button id="signinButton">Sign in with Google</button>
+      <button id="signoutButton">Sign out</button>
+      <button id="saveToDrive">Save progress to Drive</button>
+      <button id="loadSave">Load save</button>
+      <div id="messageLine">Not signed in</div>
+    </div>
   </header>
   <div id="redips-drag">
     <div id="tableContainer">
-      <table id="tableLiner">
+      <table id="tableLiner" class="mainTable">
         <tr><td class="banzukeContainer">
           <table id="banzuke1">
             <thead>
@@ -94,7 +97,7 @@
             </tbody>
           </table>
         </td><td class="banzukeContainer">
-          <table id="banzuke2">
+          <table id="banzuke2" class="mainTable">
             <thead>
               <tr>
                 <th class="tableTitle" colspan="5"><span id="makRik">0</span> rikishi placed</th>
