@@ -313,6 +313,7 @@ window.onload = function() {
     });
     request.execute(function (response) {
       window.localStorage.setItem("backupFolderId", response.id);
+      messageLine.innerHTML = "no save";
     })
   }
 
