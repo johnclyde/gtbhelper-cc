@@ -64,6 +64,15 @@ ul {
 	margin-top: 10px;
 }
 
+#messageLine {
+	display: inline-block;
+}
+
+button {
+  	padding: 2px 6px;
+  	font-family: Helvetica, sans-serif;
+}
+
 #tableContainer {
 	overflow-y: scroll;
 	height: auto;
@@ -123,6 +132,10 @@ td {
     box-sizing: border-box;
 }
 
+.b2 {
+	border: 1px dashed dimgray;
+}
+
 .theader th {
 	background-color: #88caff;
 }
@@ -154,17 +167,10 @@ th {
 	background-color: #efe7a3;
 }
 
-.hold {
-}
-
-.hold::after, td .redips-drag::after, .redips-nodrag::after {
+#banzuke1 td span::after, td .redips-drag::after, .redips-nodrag::after {
 	content: "";
 	display: inline-block;
 	width: 100%;
-}
-
-div span:: after {
-
 }
 
 .shi {
@@ -176,12 +182,6 @@ div span:: after {
 	font-weight: bold;
 	width: 180px;
 	font-family: serif;
-}
-
-.ctxt {
-	padding: 1px;
-	/* position: relative; */
-	text-shadow: 1px 1px white;
 }
 
 td span {
