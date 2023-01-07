@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -317,26 +316,6 @@ window.onload = function() {
     })
   }
 
-  saveToDriveButton.addEventListener("click", function() {
-    if (window.localStorage.getItem("banzuke") !== null) {
-      if (messageLine.innerHTML == "no save") 
-        uploadSave();
-      else 
-        updateSave();
-    }
-  });
-
-  loadSaveButton.addEventListener("click", function() {
-    var saveId = document.getElementById("saveDate").getAttribute("data-saveId");
-
-    gapi.client.drive.files.get({
-      fileId: saveId, 
-      alt: "media"
-    }).then(function (res) {
-      document.getElementById("tableLiner").innerHTML = res.body;
-    });
-  });
-
   function showSave() {
     gapi.client.drive.files.list({
       'q': "name = 'gtb_helper_save.txt' and parents in '" + 
@@ -375,6 +354,30 @@ window.onload = function() {
     }).catch(err => console.error(err))
   }
 
+  saveToDriveButton.addEventListener("click", function() {
+    if (window.localStorage.getItem("banzuke") !== null) {
+      if (messageLine.innerHTML == "no save") 
+        uploadSave();
+      else 
+        updateSave();
+    }
+  });
+
+  loadSaveButton.addEventListener("click", function() {
+    var saveId = document.getElementById("saveDate").getAttribute("data-saveId");
+
+    gapi.client.drive.files.get({
+      fileId: saveId, 
+      alt: "media"
+    }).then(function (res) {
+      document.getElementById("tableLiner").innerHTML = res.body;
+      window.localStorage.setItem("banzuke", res.body);
+      if (window.addEventListener)
+        window.addEventListener("load", redips.init, false);
+      else if (window.attachEvent)
+        window.attachEvent("onload", redips.init);
+    });
+  });
 
   var basho = "202301"; // The date of the basho just ended
 
@@ -711,6 +714,6 @@ redips.resetBanzuke = function() {
 };
 
 if (window.addEventListener)
-  window.addEventListener('load', redips.init, false);
+  window.addEventListener("load", redips.init, false);
 else if (window.attachEvent)
-  window.attachEvent('onload', redips.init);
+  window.attachEvent("onload", redips.init);
