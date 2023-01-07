@@ -1,3 +1,4 @@
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -372,10 +373,7 @@ window.onload = function() {
     }).then(function (res) {
       document.getElementById("tableLiner").innerHTML = res.body;
       window.localStorage.setItem("banzuke", res.body);
-      if (window.addEventListener)
-        window.addEventListener("load", redips.init, false);
-      else if (window.attachEvent)
-        window.attachEvent("onload", redips.init);
+      redips.init();
     });
   });
 
