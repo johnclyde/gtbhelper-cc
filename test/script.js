@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -318,6 +317,8 @@ window.onload = function() {
   }
 
   function showSave() {
+    var saveId = "";
+
     gapi.client.drive.files.list({
       'q': "name = 'gtb_helper_save.txt' and parents in '" + 
            window.localStorage.getItem("backupFolderId") + "'"
@@ -325,17 +326,24 @@ window.onload = function() {
       var files = response.result.files;
 
       if (files && files.length > 0) {
-        for (var i = 0; i < files.length; i++) {
-          messageLine.innerHTML = '<span id="saveDate" data-saveId="' + files[i].id + 
-                                  '">from ' + files[i].modifiedTime + "</span>";
-          loadSaveButton.disabled = false;
-        }
+        for (var i = 0; i < files.length; i++) 
+          saveId = files[i].id;
       }
       else {
         messageLine.innerHTML = "no save";
         loadSaveButton.disabled = true;
       }
     })
+    if (saveId != "") {
+      gapi.client.drive.files.get({
+        fileId: saveId, 
+        fields: "modifiedTime"
+      }).then(function (response) {
+        messageLine.innerHTML = '<span id="saveDate" data-saveId="' + saveId + 
+                                '">from ' + response.modifiedTime + "</span>";
+        loadSaveButton.disabled = false;
+      });
+    }
   }
 
   function updateSave() {
