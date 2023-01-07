@@ -1,3 +1,4 @@
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -318,9 +319,8 @@ window.onload = function() {
 
   function showSave() {
     gapi.client.drive.files.list({
-      "fields": "modifiedTime", 
       'q': "name = 'gtb_helper_save.txt' and parents in '" + 
-           window.localStorage.getItem("backupFolderId") + "'", 
+           window.localStorage.getItem("backupFolderId") + "'"
     }).then(function (response) {
       var files = response.result.files;
 
