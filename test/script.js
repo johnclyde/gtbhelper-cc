@@ -1,3 +1,4 @@
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -373,7 +374,7 @@ window.onload = function() {
       else 
         updateSave();
 
-      document.getElementById("progressText").innerHTML = "Saved to Drive";
+      document.getElementById("progressText").innerHTML = "Saved!";
       setTimeout(function() {
         document.getElementById("progressText").innerHTML = "";
       }, 1000);
@@ -700,7 +701,7 @@ redips.init = function () {
 };
 
 redips.resetBanzuke = function() {
-  if (confirm("Reset the banzuke?") == true) {
+  if (confirm("Reset the banzuke? This will not reset your save in Google Drive") == true) {
     var b1Cell  = document.getElementsByTagName("td"), 
         b2Cell  = document.querySelectorAll(".b2"), 
         chgCell = document.getElementsByClassName("ch");
