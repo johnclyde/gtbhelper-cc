@@ -1,5 +1,4 @@
 
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -216,7 +215,7 @@ window.onload = function() {
 
   function maybeEnableButtons() {
     if (gapiInited && gisInited) 
-      signinButton.style.display = "block";
+      signinButton.style.display = "inline-block";
   }
 
   signinButton.onclick = () => handleAuthClick()
@@ -225,9 +224,9 @@ window.onload = function() {
       if (resp.error !== undefined) 
         throw (resp);
       signinButton.style.display = "none";
-      signoutButton.style.display = "block";
-      saveToDriveButton.style.display = "block";
-      loadSaveButton.style.display = "block";
+      signoutButton.style.display = "inline-block";
+      saveToDriveButton.style.display = "inline-block";
+      loadSaveButton.style.display = "inline-block";
       checkFolder("GTB Helper Save (do not modify)");
     };
 
@@ -244,7 +243,7 @@ window.onload = function() {
     if (token !== null) {
       google.accounts.oauth2.revoke(token.access_token);
       gapi.client.setToken("");
-      signinButton.style.display = "block";
+      signinButton.style.display = "inline-block";
       signoutButton.style.display = "none";
       saveToDriveButton.style.display = "none";
       loadSaveButton.style.display = "none";
@@ -338,21 +337,21 @@ window.onload = function() {
             var modifiedTime = moment(res.result.modifiedTime, 
               "YYYY-MM-DDThh:mm:ss.SSSZ").format("dddd, MMMM Do YYYY, h:mm:ss a");
 
-            messageLine.innerHTML = '<span id="saveDate" data-saveId="' + saveId + 
-                                    '">from ' + modifiedTime + "</span>";
+            messageLine.setAttribute("data-saveId", saveId);
+            messageLine.innerHTML = "from " + modifiedTime;
             loadSaveButton.disabled = false;
           })
         }
       }
       else {
-        messageLine.innerHTML = "no save";
         loadSaveButton.disabled = true;
+        messageLine.innerHTML = "no save in Drive";
       }
     })
   }
 
   function updateSave() {
-    var saveId = document.getElementById("saveDate").getAttribute("data-saveId");
+    var saveId = messageLine.getAttribute("data-saveId");
     var url = "https://www.googleapis.com/upload/drive/v3/files/" + saveId + "?uploadType=media";
     
     fetch(url, {
@@ -380,6 +379,7 @@ window.onload = function() {
   loadSaveButton.addEventListener("click", function() {
     var saveId = document.getElementById("saveDate").getAttribute("data-saveId");
 
+    document.getElementById("progressText").innerHTML = "...";
     gapi.client.drive.files.get({
       fileId: saveId, 
       alt: "media"
@@ -387,6 +387,7 @@ window.onload = function() {
       document.getElementById("tableLiner").innerHTML = res.body;
       window.localStorage.setItem("banzuke", res.body);
       redips.init();
+      document.getElementById("progressText").innerHTML = "";
     });
   });
 
