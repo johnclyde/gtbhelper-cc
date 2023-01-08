@@ -34,12 +34,12 @@
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="returnToOld"> Return it to the old banzuke</label><br>
       <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset Changes</button>
     </div>
-    <div>
+    <div id="saveLoadProgress">
       <button id="signinButton">Sign in with Google</button>
       <button id="signoutButton">Sign out</button>
-      <button id="saveToDrive">Save progress to Drive</button>
-      <button id="loadSave">Load save</button>
-      <span id="messageLine">Not signed in</span>
+      <button id="saveToDrive">Save banzuke</button>
+      <button id="loadSave">Load banzuke</button>
+      <span id="messageLine">Save or load your banzuke</span>
       <span id="progressText"></span>
     </div>
   </header>

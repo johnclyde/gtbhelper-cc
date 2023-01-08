@@ -1,3 +1,4 @@
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -164,8 +165,6 @@ var sekitoriID = [
 
 window.onload = function() {
 
-  window.identity = {};
-
   var CLIENT_ID = "527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com";
   var API_KEY = "AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o";
   var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
@@ -246,7 +245,7 @@ window.onload = function() {
       signoutButton.style.display = "none";
       saveToDriveButton.style.display = "none";
       loadSaveButton.style.display = "none";
-      messageLine.innerHTML = "Not signed in";
+      messageLine.innerHTML = "Save or load your banzuke";
     }
   }
 
@@ -261,13 +260,13 @@ window.onload = function() {
           var file = files[i];
 
           window.localStorage.setItem("backupFolderId", file.id);
-          console.log("Folder available");
+          //console.log("Folder available");
           showSave();
         }
       }
       else {
         createFolder("GTB Helper Save (do not modify)");
-        messageLine.innerHTML = "no save";
+        messageLine.innerHTML = "No save";
       }
     })
   }
@@ -292,7 +291,7 @@ window.onload = function() {
     }).then(function (response) {
       return response.json();
     }).then(function (value) {
-      console.log(value);
+      //console.log(value);
       showSave();
     });
   }
@@ -337,14 +336,14 @@ window.onload = function() {
               "YYYY-MM-DDThh:mm:ss.SSSZ").format("dddd, MMMM Do YYYY, h:mm:ss a");
 
             messageLine.setAttribute("data-saveId", saveId);
-            messageLine.innerHTML = "from " + modifiedTime;
+            messageLine.innerHTML = "Last saved " + modifiedTime;
             loadSaveButton.disabled = false;
           })
         }
       }
       else {
         loadSaveButton.disabled = true;
-        messageLine.innerHTML = "no save in Drive";
+        messageLine.innerHTML = "No save";
       }
     })
   }
@@ -361,17 +360,24 @@ window.onload = function() {
       }), 
       body: window.localStorage.getItem("banzuke")
     }).then(value => {
-      console.log("Saved progress to Drive successfully");
+      //console.log("Saved progress to Drive successfully");
       showSave();
     }).catch(err => console.error(err))
   }
 
   saveToDriveButton.addEventListener("click", function() {
     if (window.localStorage.getItem("banzuke") !== null) {
-      if (messageLine.innerHTML == "no save") 
+      document.getElementById("progressText").innerHTML = "...";
+
+      if (messageLine.innerHTML == "No save") 
         uploadSave();
       else 
         updateSave();
+
+      document.getElementById("progressText").innerHTML = "Saved to Drive!";
+      setTimeout(function() {
+        document.getElementById("progressText").innerHTML = "";
+      }, 1500);
     }
   });
 
@@ -379,6 +385,7 @@ window.onload = function() {
     var saveId = messageLine.getAttribute("data-saveId");
 
     document.getElementById("progressText").innerHTML = "...";
+
     gapi.client.drive.files.get({
       fileId: saveId, 
       alt: "media"
