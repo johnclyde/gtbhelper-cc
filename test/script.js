@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -334,12 +333,11 @@ window.onload = function() {
             "fileId": saveId, 
             "fields": "modifiedTime"
           }).then(function (res) {
-            var saveModifiedTime = moment(res.result.modifiedTime, "YYYY-MM-DDThh:mm:ss.SSSZ");
-            var timeString = saveModifiedTime.toLocaleDateString() + ' ' + 
-                             saveModifiedTime.toLocaleTimeString();
+            var modifiedTime = moment(res.result.modifiedTime, 
+              "YYYY-MM-DDThh:mm:ss.SSSZ").format("dddd, MMMM Do YYYY, h:mm:ss a");
 
             messageLine.innerHTML = '<span id="saveDate" data-saveId="' + saveId + 
-                                    '">from ' + timeString + "</span>";
+                                    '">from ' + modifiedTime + "</span>";
             loadSaveButton.disabled = false;
           })
         }
