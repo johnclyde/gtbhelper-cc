@@ -64,9 +64,14 @@ ul {
 	margin-top: 10px;
 }
 
-#messageLine {
+#messageLine, #progressText {
 	display: inline-block;
 	font-family: serif;
+}
+
+#progressText {
+	font-weight: bold;
+	color: darkblue;
 }
 
 button {
