@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -377,7 +376,7 @@ window.onload = function() {
   });
 
   loadSaveButton.addEventListener("click", function() {
-    var saveId = document.getElementById("saveDate").getAttribute("data-saveId");
+    var saveId = messageLine.getAttribute("data-saveId");
 
     document.getElementById("progressText").innerHTML = "...";
     gapi.client.drive.files.get({
