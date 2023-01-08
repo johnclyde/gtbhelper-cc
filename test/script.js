@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -225,6 +224,7 @@ window.onload = function() {
       signoutButton.style.display = "inline-block";
       saveToDriveButton.style.display = "inline-block";
       loadSaveButton.style.display = "inline-block";
+      messageLine.innerHTML = "Please wait...";
       checkFolder("GTB Helper Save (do not modify)");
     };
 
@@ -365,6 +365,10 @@ window.onload = function() {
     }).catch(err => console.error(err))
   }
 
+  function b64_to_utf8(str) {
+    return decodeURIComponent(escape(window.atob(str)));
+  }
+
   saveToDriveButton.addEventListener("click", function() {
     if (window.localStorage.getItem("banzuke") !== null) {
       document.getElementById("progressText").innerHTML = "Please wait...";
@@ -390,8 +394,10 @@ window.onload = function() {
       fileId: saveId, 
       alt: "media"
     }).then(function (res) {
-      document.getElementById("tableLiner").innerHTML = res.body;
-      window.localStorage.setItem("banzuke", res.body);
+      var banzukeHtml = b64_to_utf8(res.body);
+      
+      document.getElementById("tableLiner").innerHTML = banzukeHtml;
+      window.localStorage.setItem("banzuke", banzukeHtml);
       redips.init();
       document.getElementById("progressText").innerHTML = "";
     });
