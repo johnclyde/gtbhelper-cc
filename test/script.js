@@ -337,7 +337,7 @@ window.onload = function() {
               "YYYY-MM-DDThh:mm:ss.SSSZ").format("dddd, MMMM Do YYYY, h:mm:ss a");
 
             messageLine.setAttribute("data-saveId", saveId);
-            messageLine.innerHTML = "Last saved " + modifiedTime;
+            messageLine.innerHTML = "From " + modifiedTime;
             loadSaveButton.disabled = false;
           })
         }
