@@ -6,78 +6,78 @@
  * is not considered a regular whitespace, it will not expand.
  */ 
 var theSekitori = [
-  "Y1e Terunofuji 0-0", 
+  "Y1e Terunofuji 0-0-15", 
   "", 
-  "", 
-  "O1w Takakeisho 0-0", 
-  "S1e Wakatakakage 0-0", 
-  "S1w Hoshoryu 0-0", 
-  "S2e Takayasu 0-0", 
-  "S2w Shodai 0-0", 
-  "K1e Kiribayama 0-0", 
-  "K1w Kotonowaka 0-0", 
-  "K2e Meisei 0-0", 
-  "K2w Wakamotoharu 0-0", 
-  "M1e Tobizaru 0-0", 
-  "M1w Daieisho 0-0", 
-  "M2e Mitakeumi 0-0", 
-  "M2w Tamawashi 0-0", 
-  "M3e Abi 0-0", 
-  "M3w Midorifuji 0-0", 
-  "M4e Nishikifuji 0-0", 
-  "M4w Sadanoumi 0-0", 
-  "M5e Ryuden 0-0", 
-  "M5w Nishikigi 0-0", 
-  "M6e Hokutofuji 0-0", 
-  "M6w Myogiryu 0-0", 
-  "M7e Ichinojo 0-0", 
-  "M7w Ura 0-0", 
-  "M8e Onosho 0-0", 
-  "M8w Oho 0-0", 
-  "M9e Takanosho 0-0", 
-  "M9w Endo 0-0", 
-  "M10e Aoiyama 0-0", 
-  "M10w Hiradoumi 0-0", 
-  "M11e Chiyoshoma 0-0", 
-  "M11w Tochinoshin 0-0", 
-  "M12e Kagayaki 0-0", 
-  "M12w Okinoumi 0-0", 
-  "M13e Kotoshoho 0-0", 
-  "M13w Kotoeko 0-0", 
-  "M14e Ichiyamamoto 0-0", 
-  "M14w Azumaryu 0-0", 
-  "M15e Tsurugisho 0-0", 
-  "M15w Mitoryu 0-0", 
-  "M16e Takarafuji 0-0", 
-  "M16w Chiyomaru 0-0", 
-  "J1e Akua 0-0", 
-  "J1w Bushozan 0-0", 
-  "J2e Hokuseiho 0-0", 
-  "J2w Daiamami 0-0", 
-  "J3e Atamifuji 0-0", 
-  "J3w Oshoma 0-0", 
-  "J4e Tohakuryu 0-0", 
-  "J4w Enho 0-0", 
-  "J5e Kinbozan 0-0", 
-  "J5w Kotokuzan 0-0", 
-  "J6e Churanoumi 0-0", 
-  "J6w Daishoho 0-0", 
-  "J7e Chiyonokuni 0-0", 
-  "J7w Tochimusashi 0-0", 
-  "J8e Shimanoumi 0-0", 
-  "J8w Kitanowaka 0-0", 
-  "J9e Roga 0-0", 
-  "J9w Hidenoumi 0-0", 
-  "J10e Gonoyama 0-0", 
-  "J10w Terutsuyoshi 0-0", 
-  "J11e Chiyosakae 0-0", 
-  "J11w Shimazuumi 0-0", 
-  "J12e Takakento 0-0", 
-  "J12w Asanoyama 0-0", 
-  "J13e Shonannoumi 0-0", 
-  "J13w Kaisho 0-0", 
-  "J14e Tsushimanada 0-0", 
-  "J14w Hakuyozan 0-0"
+  "O1e Takakeisho 12-3 D", 
+  "O1w Shodai 6-9", 
+  "S1e Wakatakakage 8-7", 
+  "S1w Hoshoryu 11-4 G", 
+  "",
+  "S2w Mitakeumi 6-9", 
+  "K1e Tamawashi 6-9", 
+  "K1w Kiribayama 8-7", 
+  "K2e Tobizaru 7-8", 
+  "K2w Daieisho 7-8", 
+  "M1e Takayasu 12-3 DS", 
+  "M1w Kotonowaka 9-6", 
+  "M2e Meisei 9-6", 
+  "M2w Ichinojo 4-11", 
+  "M3e Ura 4-11", 
+  "M3w Midorifuji 8-7", 
+  "M4e Wakamotoharu 10-5", 
+  "M4w Sadanoumi 8-7", 
+  "M5e Hokutofuji 7-8", 
+  "M5w Nishikifuji 9-6", 
+  "M6e Nishikigi 8-7", 
+  "M6w Ryuden 9-6", 
+  "M7e Endo 6-9", 
+  "M7w Myogiryu 8-7", 
+  "M8e Takarafuji 3-12", 
+  "M8w Tochinoshin 6-9", 
+  "M9e Takanosho 7-8", 
+  "M9w Abi 12-3 YK", 
+  "M10e Aoiyama 7-8", 
+  "M10w Chiyoshoma 7-8", 
+  "M11e Onosho 9-6", 
+  "M11w Kotoshoho 7-8", 
+  "M12e Kotoeko 7-8", 
+  "M12w Chiyotairyu 2-6", 
+  "M13e Okinoumi 8-7", 
+  "M13w Oho 10-5", 
+  "M14e Ichiyamamoto 7-8", 
+  "M14w Azumaryu 7-8", 
+  "M15e Kagayaki 9-6", 
+  "M15w Atamifuji 4-11", 
+  "M16e Terutsuyoshi 0-15", 
+  "M16w Hiradoumi 10-5", 
+  "J1e Tohakuryu 5-10", 
+  "J1w Chiyomaru 8-7", 
+  "J2e Churanoumi 4-11", 
+  "J2w Bushozan 8-7", 
+  "J3e Tsurugisho 10-5", 
+  "J3w Mitoryu 9-6", 
+  "J4e Hidenoumi 4-11", 
+  "J4w Yutakayama 5-10", 
+  "J5e Akua 10-5", 
+  "J5w Chiyonokuni 6-9", 
+  "J6e Hokuseiho 10-5", 
+  "J6w Kitanowaka 6-9", 
+  "J7e Tochimusashi 7-8", 
+  "J7w Kinbozan 8-7", 
+  "J8e Shimanoumi 7-8", 
+  "J8w Kotokuzan 8-7", 
+  "J9e Daiamami 11-4 D", 
+  "J9w Daishoho 8-7", 
+  "J10e Chiyosakae 7-8", 
+  "J10w Kaisho 5-10", 
+  "J11e Enho 10-5", 
+  "J11w Takakento 7-8", 
+  "J12e Tokushoryu 4-11", 
+  "J12w Oshoma 11-4 Y", 
+  "J13e Shimazuumi 8-7", 
+  "J13w Roga 9-6", 
+  "J14e Tsushimanada 7-8", 
+  "J14w Gonoyama 9-6"
 ];
 
 /* Enable "No Rank Colouring" and "One Column" options and then open the 
@@ -89,81 +89,83 @@ var theSekitori = [
 var sekitoriID = [
   11927, 
   0, 
-  0, 
   12191, 
+  12130, 
   12370, 
   12451, 
-  6480, 
-  12130, 
-  12231, 
-  12270, 
-  11946, 
-  11980, 
-  12203, 
-  11985, 
+  0, 
   12210, 
   5944, 
-  12094, 
-  12352, 
-  12351, 
-  2879, 
-  6594, 
-  6596, 
-  12239, 
-  11784, 
+  12231, 
+  12203, 
+  11985, 
+  6480, 
+  12270, 
+  11946, 
   12107, 
   12226, 
-  12043, 
-  12453, 
-  11855, 
+  12352, 
+  11980, 
+  2879, 
+  12239, 
+  12351, 
+  6596, 
+  6594, 
   12055, 
-  11786, 
-  12314, 
-  11785, 
+  11784, 
+  11728, 
   6599, 
-  11845, 
-  6463, 
+  11855, 
+  12094, 
+  11786, 
+  11785, 
+  12043, 
   12449, 
   7153, 
+  11934, 
+  6463, 
+  12453, 
   12362, 
   11723, 
+  11845, 
+  12664, 
+  11868, 
+  12314, 
+  12575, 
+  7240, 
+  12320, 
+  12117, 
   12113, 
   12406, 
-  11728, 
-  7240, 
-  11918, 
-  12117, 
-  12646, 
-  12273, 
-  12664, 
-  12717, 
-  12575, 
-  12412, 
-  12721, 
-  11809, 
-  12320, 
-  12040, 
-  6642, 
-  12674, 
-  12024, 
-  12548, 
-  12516, 
   12026, 
-  12688, 
-  11868, 
+  12292, 
+  11918, 
+  6642, 
+  12646, 
+  12548, 
+  12674, 
+  12721, 
+  12024, 
+  11809, 
+  12273, 
+  12040, 
   11736, 
-  12013, 
-  12114, 
-  12291, 
-  12162, 
   12075, 
+  12412, 
+  12114, 
+  11726, 
+  12717, 
+  12013, 
+  12516, 
   12342, 
-  11943
+  12688
 ];
 
 //***** Just update the "basho" variable and you're all done. *****
 
 window.onload = function() {
+
+  var basho = "202211"; // The date of the basho just ended
 
   var CLIENT_ID = "527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com";
   var API_KEY = "AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o";
@@ -247,6 +249,7 @@ window.onload = function() {
       saveToDriveButton.style.display = "none";
       loadSaveButton.style.display = "none";
       messageLine.innerHTML = "Save or load your banzuke";
+      document.getElementById("progressText").innerHTML = "";
     }
   }
 
@@ -270,31 +273,6 @@ window.onload = function() {
         messageLine.innerHTML = "No save";
       }
     })
-  }
-
-  function uploadSave() {
-    const blob = new Blob([window.localStorage.getItem("banzuke")], { type: "plain/text" });
-    const parentFolder = window.localStorage.getItem("backupFolderId");
-    var metadata = {
-      name: "gtb_helper_save.txt", 
-      mimeType: "plain/text", 
-      parents: [parentFolder]
-    };
-    var formData = new FormData();
-
-    formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
-    formData.append("file", blob);
-
-    fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
-      method: "POST", 
-      headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }), 
-      body: formData
-    }).then(function (response) {
-      return response.json();
-    }).then(function (value) {
-      //console.log(value);
-      showSave();
-    });
   }
 
   function createFolder(folderName) {
@@ -349,6 +327,31 @@ window.onload = function() {
     })
   }
 
+  function uploadSave() {
+    const blob = new Blob([window.localStorage.getItem("banzuke")], { type: "plain/text" });
+    const parentFolder = window.localStorage.getItem("backupFolderId");
+    var metadata = {
+      name: "gtb_helper_save.txt", 
+      mimeType: "plain/text", 
+      parents: [parentFolder]
+    };
+    var formData = new FormData();
+
+    formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
+    formData.append("file", blob);
+
+    fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+      method: "POST", 
+      headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }), 
+      body: formData
+    }).then(function (response) {
+      return response.json();
+    }).then(function (value) {
+      //console.log(value);
+      //showSave();
+    });
+  }
+
   function updateSave() {
     var saveId = messageLine.getAttribute("data-saveId");
     var url = "https://www.googleapis.com/upload/drive/v3/files/" + saveId + "?uploadType=media";
@@ -362,7 +365,7 @@ window.onload = function() {
       body: window.localStorage.getItem("banzuke")
     }).then(value => {
       //console.log("Saved progress to Drive successfully");
-      showSave();
+      //showSave();
     }).catch(err => console.error(err))
   }
 
@@ -379,6 +382,7 @@ window.onload = function() {
       else 
         updateSave();
 
+      messageLine.innerHTML = "From " + moment(new Date()).format("dddd, MMMM Do YYYY, h:mm:ss a");
       document.getElementById("progressText").innerHTML = "Saved!";
       setTimeout(function() {
         document.getElementById("progressText").innerHTML = "";
@@ -403,8 +407,6 @@ window.onload = function() {
       document.getElementById("progressText").innerHTML = "";
     });
   });
-
-  var basho = "202301"; // The date of the basho just ended
 
   if (window.localStorage.getItem("banzuke1") !== null) {
     window.localStorage.removeItem("banzuke1");
@@ -463,12 +465,10 @@ window.onload = function() {
         card.className = "redips-drag se";
         card.setAttribute("data-rid", sekitoriID[i]);
 
-        /*
         if (rikiData[2].split('-')[0] < 8) 
           card.style.backgroundColor = "#ffd2d2";
         else 
           card.style.backgroundColor = "#c2ff9f";
-        */
 
         rikiData[2] = '<a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=' + 
                       sekitoriID[i] + "&b=" + basho + '" target="_blank">' + rikiData[2] + "</a>";
@@ -638,51 +638,62 @@ redips.init = function () {
 
       if (targetCell.previousSibling.className == "ch") {
         targetChgCell = targetCell.previousSibling;
-        targetCellRank = targetCell.nextSibling.innerHTML + 'e';
+        if (targetCell.nextSibling.innerHTML == 'J') 
+          targetCellRank = 'J';
+        else 
+          targetCellRank = targetCell.nextSibling.innerHTML + 'e';
       }
       else if (targetCell.nextSibling.className == "ch") {
         targetChgCell = targetCell.nextSibling;
-        targetCellRank = targetCell.previousSibling.innerHTML + 'w';
+        if (targetCell.previousSibling.innerHTML == "J") 
+          targetCellRank = 'J';
+        else 
+          targetCellRank = targetCell.previousSibling.innerHTML + 'w';
       }
 
-      if (targetCellRank.charAt(0) == 'M') {
-        switch (thisRank.charAt(0)) {
-          case 'M': 
-            var thisMaeNum  = parseInt(thisRank.slice(1, -1)), 
-                targetMaeNum = parseInt(targetCellRank.slice(1, -1));
-            
-            if (thisRank.slice(-1) == 'w')       thisMaeNum += 0.5;
-            if (targetCellRank.slice(-1) == 'w') targetMaeNum += 0.5;
-
-            thisChg = thisMaeNum - targetMaeNum;
-
-            if (thisChg > 0) 
-              thisChg = "+" + thisChg;
-            else if (thisChg == 0) 
-              thisChg = "─";
-            break;
-          case 'J': thisChg = " ↑ "; break;
-          default:
-            thisChg = " ↓ ";
-            thisRank = thisRank.substring(0, 1);
-        }
-      }
-      else if (targetCellRank.charAt(0) == 'J') {
-        targetCellRank = 'J';
-        switch (thisRank.charAt(0)) {
-          case 'M': thisChg = " ↓ "; break;
-          case 'J': thisChg = "⇄"; break;
-          default:  thisChg = "!!!";
-        }
-      }
+      if (thisRank == targetCellRank) 
+        thisChg = '─';
       else {
+        const change = [
+          ["calc", " ↓ ", "!!!", "!!!", "!!!", "!!!"], 
+          [" ↑ ", "calc", " ↓ ", "!!!", "!!!", "!!!"], 
+          ["!!!", " ↑ ", "calc", " ↓ ", " ↓ ", "!!!"], 
+          ["!!!", "!!!", " ↑ ", "calc", " ↓ ", "!!!"], 
+          ["!!!", "!!!", " ↑ ", " ↑ ", "calc", " ↓ "], 
+          ["!!!", "!!!", "!!!", "!!!", " ↑ ", '⇄']
+        ]
+        var r1, r2;
+
         switch (thisRank.charAt(0)) {
-          case 'M': 
-            thisChg = " ↑ ";
-            targetCellRank = targetCellRank.substring(0, 1);
-            break;
-          case 'J': thisChg = "!!!"; break;
-          default:  thisChg = "⇄";
+          case 'Y': r1 = 0; break;
+          case 'O': r1 = 1; break;
+          case 'S': r1 = 2; break;
+          case 'K': r1 = 3; break;
+          case 'M': r1 = 4; break;
+          default:  r1 = 5;
+        }
+        switch (targetCellRank.charAt(0)) {
+          case 'Y': r2 = 0; break;
+          case 'O': r2 = 1; break;
+          case 'S': r2 = 2; break;
+          case 'K': r2 = 3; break;
+          case 'M': r2 = 4; break;
+          default:  r2 = 5;
+        }
+
+        if (change[r1][r2] != "calc") 
+          thisChg = change[r1][r2];
+        else {
+          var thisRankNum   = parseInt(thisRank.slice(1, -1)), 
+              targetRankNum = parseInt(targetCellRank.slice(1, -1));
+          
+          if (thisRank.slice(-1) == 'w')       thisRankNum += 0.5;
+          if (targetCellRank.slice(-1) == 'w') targetRankNum += 0.5;
+
+          thisChg = thisRankNum - targetRankNum;
+
+          if (thisChg > 0) 
+            thisChg = '+' + thisChg;
         }
       }
 
