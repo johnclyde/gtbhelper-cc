@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -272,31 +271,6 @@ window.onload = function() {
     })
   }
 
-  function uploadSave() {
-    const blob = new Blob([window.localStorage.getItem("banzuke")], { type: "plain/text" });
-    const parentFolder = window.localStorage.getItem("backupFolderId");
-    var metadata = {
-      name: "gtb_helper_save.txt", 
-      mimeType: "plain/text", 
-      parents: [parentFolder]
-    };
-    var formData = new FormData();
-
-    formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
-    formData.append("file", blob);
-
-    fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
-      method: "POST", 
-      headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }), 
-      body: formData
-    }).then(function (response) {
-      return response.json();
-    }).then(function (value) {
-      //console.log(value);
-      showSave();
-    });
-  }
-
   function createFolder(folderName) {
     var access_token = gapi.auth.getToken().access_token;
     var request = gapi.client.request({
@@ -349,6 +323,31 @@ window.onload = function() {
     })
   }
 
+  function uploadSave() {
+    const blob = new Blob([window.localStorage.getItem("banzuke")], { type: "plain/text" });
+    const parentFolder = window.localStorage.getItem("backupFolderId");
+    var metadata = {
+      name: "gtb_helper_save.txt", 
+      mimeType: "plain/text", 
+      parents: [parentFolder]
+    };
+    var formData = new FormData();
+
+    formData.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
+    formData.append("file", blob);
+
+    fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+      method: "POST", 
+      headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }), 
+      body: formData
+    }).then(function (response) {
+      return response.json();
+    }).then(function (value) {
+      //console.log(value);
+      //showSave();
+    });
+  }
+
   function updateSave() {
     var saveId = messageLine.getAttribute("data-saveId");
     var url = "https://www.googleapis.com/upload/drive/v3/files/" + saveId + "?uploadType=media";
@@ -362,7 +361,7 @@ window.onload = function() {
       body: window.localStorage.getItem("banzuke")
     }).then(value => {
       //console.log("Saved progress to Drive successfully");
-      showSave();
+      //showSave();
     }).catch(err => console.error(err))
   }
 
@@ -379,6 +378,7 @@ window.onload = function() {
       else 
         updateSave();
 
+      messageLine.innerHTML = "From " + moment(new Date()).format("dddd, MMMM Do YYYY, h:mm:ss a");
       document.getElementById("progressText").innerHTML = "Saved!";
       setTimeout(function() {
         document.getElementById("progressText").innerHTML = "";
