@@ -62,7 +62,6 @@ ul {
 
 #resetBanzuke {
 	margin-top: 10px;
-	margin-bottom: 3px;
 }
 
 #messageLine {
@@ -80,6 +79,7 @@ ul {
 button {
   	padding: 2px 6px;
   	font-family: Helvetica, sans-serif;
+  	margin-bottom: 5px;
 }
 
 #tableContainer {
