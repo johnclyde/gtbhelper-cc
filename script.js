@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -318,7 +317,6 @@ window.onload = function() {
 
             messageLine.setAttribute("data-saveId", saveId);
             messageLine.innerHTML = "From " + modifiedTime;
-            loadSaveButton.disabled = false;
           })
         }
       }
@@ -386,6 +384,7 @@ window.onload = function() {
 
       messageLine.innerHTML = "From " + moment(new Date()).format("dddd, MMMM Do YYYY, h:mm:ss a");
       document.getElementById("progressText").innerHTML = "Saved!";
+      loadSaveButton.disabled = false;
       setTimeout(function() {
         document.getElementById("progressText").innerHTML = "";
       }, 1000);
