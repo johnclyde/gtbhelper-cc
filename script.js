@@ -1,3 +1,4 @@
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -176,6 +177,7 @@ window.onload = function() {
   var saveToDriveButton = document.getElementById("saveToDrive");
   var loadSaveButton = document.getElementById("loadSave");
   var messageLine = document.getElementById("messageLine");
+  var progressText = document.getElementById("progressText");
   let tokenClient;
   let gapiInited = false;
   let gisInited = false;
@@ -215,7 +217,7 @@ window.onload = function() {
   function maybeEnableButtons() {
     if (gapiInited && gisInited) {
       signinButton.style.display = "inline-block";
-      document.getElementById("progressText").innerHTML = "";
+      progressText.innerHTML = "";
     }
   }
 
@@ -249,8 +251,8 @@ window.onload = function() {
       signoutButton.style.display = "none";
       saveToDriveButton.style.display = "none";
       loadSaveButton.style.display = "none";
-      messageLine.innerHTML = "Save or load your banzuke";
-      document.getElementById("progressText").innerHTML = "";
+      messageLine.innerHTML = "Save or load your banzuke via Google Drive";
+      progressText.innerHTML = "";
     }
   }
 
@@ -317,7 +319,10 @@ window.onload = function() {
 
             messageLine.setAttribute("data-saveId", saveId);
             messageLine.innerHTML = "From " + modifiedTime;
-          })
+          }).catch(function (err) {
+            console.error(err);
+            progressText.innerHTML = "Access token expired. Please sign out and try again";
+          });
         }
       }
       else {
@@ -345,10 +350,15 @@ window.onload = function() {
       headers: new Headers({ "Authorization": "Bearer " + gapi.auth.getToken().access_token }), 
       body: formData
     }).then(function (response) {
+      progressText.innerHTML = "Saved!";
+      showSave();
+      setTimeout(function() {
+        progressText.innerHTML = "";
+      }, 1000);
       return response.json();
-    }).then(function (value) {
-      //console.log(value);
-      //showSave();
+    }).catch(function (error) {
+      console.error(error);
+      progressText.innerHTML = "Access token expired. Please sign out and try again";
     });
   }
 
@@ -365,8 +375,15 @@ window.onload = function() {
       body: window.localStorage.getItem("banzuke")
     }).then(value => {
       //console.log("Saved progress to Drive successfully");
-      //showSave();
-    }).catch(err => console.error(err))
+      progressText.innerHTML = "Saved!";
+      showSave();
+      setTimeout(function() {
+        progressText.innerHTML = "";
+      }, 1000);
+    }).catch(err => {
+      console.error(err);
+      progressText.innerHTML = "Access token expired. Please sign out and try again";
+    });
   }
 
   function b64_to_utf8(str) {
@@ -375,26 +392,21 @@ window.onload = function() {
 
   saveToDriveButton.addEventListener("click", function() {
     if (window.localStorage.getItem("banzuke") !== null) {
-      document.getElementById("progressText").innerHTML = "Please wait...";
+      progressText.innerHTML = "Please wait...";
 
       if (messageLine.innerHTML == "No save") 
         uploadSave();
       else 
         updateSave();
 
-      document.getElementById("progressText").innerHTML = "Saved!";
-      setTimeout(function() {
-        showSave();
-        loadSaveButton.disabled = false;
-        document.getElementById("progressText").innerHTML = "";
-      }, 2000);
+      loadSaveButton.disabled = false;
     }
   });
 
   loadSaveButton.addEventListener("click", function() {
     var saveId = messageLine.getAttribute("data-saveId");
 
-    document.getElementById("progressText").innerHTML = "Please wait...";
+    progressText.innerHTML = "Please wait...";
 
     gapi.client.drive.files.get({
       fileId: saveId, 
@@ -405,9 +417,14 @@ window.onload = function() {
       document.getElementById("tableLiner").innerHTML = banzukeHtml;
       window.localStorage.setItem("banzuke", banzukeHtml);
       redips.init();
-      document.getElementById("progressText").innerHTML = "";
+      progressText.innerHTML = "";
+    }).catch(function (err) {
+      console.error(err);
+      progressText.innerHTML = "Access token expired. Please sign out and try again";
     });
   });
+
+  //****************************************************************************
 
   if (window.localStorage.getItem("banzuke1") !== null) {
     window.localStorage.removeItem("banzuke1");
