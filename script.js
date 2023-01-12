@@ -1,4 +1,3 @@
-
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -274,8 +273,9 @@ window.onload = function() {
       else {
         createFolder("GTB Helper Save (do not modify)");
         messageLine.innerHTML = "No save";
+        loadSaveButton.disabled = true;
       }
-    })
+    });
   }
 
   function createFolder(folderName) {
@@ -319,9 +319,7 @@ window.onload = function() {
 
             messageLine.setAttribute("data-saveId", saveId);
             messageLine.innerHTML = "From " + modifiedTime;
-          }).catch(function (err) {
-            console.error(err);
-            progressText.innerHTML = "Access token expired. Please sign out and try again";
+            loadSaveButton.disabled = false;
           });
         }
       }
@@ -356,10 +354,10 @@ window.onload = function() {
         progressText.innerHTML = "";
       }, 1000);
       return response.json();
-    }).catch(function (error) {
-      console.error(error);
+    }, function() {
+      console.error(err);
       progressText.innerHTML = "Access token expired. Please sign out and try again";
-    });
+    }).catch(err => {});
   }
 
   function updateSave() {
@@ -380,10 +378,10 @@ window.onload = function() {
       setTimeout(function() {
         progressText.innerHTML = "";
       }, 1000);
-    }).catch(err => {
+    }, function() {
       console.error(err);
       progressText.innerHTML = "Access token expired. Please sign out and try again";
-    });
+    }).catch(err => {});
   }
 
   function b64_to_utf8(str) {
@@ -398,8 +396,6 @@ window.onload = function() {
         uploadSave();
       else 
         updateSave();
-
-      loadSaveButton.disabled = false;
     }
   });
 
