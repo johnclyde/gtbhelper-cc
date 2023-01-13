@@ -1,3 +1,4 @@
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -356,7 +357,7 @@ window.onload = function() {
         }, 1000);
       }
       else {
-        console.error(err);
+        console.error(response);
         progressText.innerHTML = "Access token expired. Please sign out and try again";
       }
       //return response.json();
@@ -383,7 +384,7 @@ window.onload = function() {
         }, 1000);
       }
       else {
-        console.error(err);
+        console.error(response);
         progressText.innerHTML = "Access token expired. Please sign out and try again";
       }
     }).catch(function(err) {});
