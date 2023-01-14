@@ -8,27 +8,36 @@ body {
 
 #gtb {
 	font-family: Verdana;
-    text-shadow: 3px 3px #ff236c;
 }
 
 header {
 	width: auto;
 	padding: 10px;
+	  padding-right: 10px;
+	  padding-left: 10px;
 	padding-left: 20px;
-	background-color: #ffa726;
+	background-color: #cbd3de;
 	margin-left: 4%;
 	margin-right: 4%;
 	margin-bottom: 30px;
-	color: white;
-	border: 2px solid dimgray;
-	box-shadow: 5px 5px darkgray;
-	border-radius: 10px;
+	color: #181818;
+	border: 2px solid #8080a4;
+	box-shadow: 0 0 8px #8c8c8c;
 	padding-right: 20px;
 }
 
 h1 {
-	margin-top: 0px;
-	margin-bottom: 10px;
+	margin: 10px;
+	font-variant: petite-caps;
+	color: orangered;
+}
+
+#links {
+	margin: 15px;
+}
+
+#saveLoadProgress {
+	margin-left: 15px;
 }
 
 a {
@@ -51,7 +60,8 @@ ul {
 	font-size: 11pt;
 	line-height: 25px;
 	display: inline-block;
-	margin-right: 3%;
+	margin-right: 5%;
+	margin-top: 0;
 }
 
 #doubleClickOptions {
@@ -89,8 +99,8 @@ button {
 	position: relative;
 	margin-left: 4%;
 	margin-right: 4%;
-	background-color: #00000038;
-	box-shadow: 3px 3px 5px #8c8c8c inset;
+	background-color: #0000002e;
+	box-shadow: 0px 0px 15px #8c8c8c inset;
 }
 
 #tableLiner {
@@ -217,14 +227,15 @@ td .redips-drag, .redips-nodrag {
 
 footer {
 	padding: 10px;
-    background-color: #ffa726;
-	color: white;
+	background-color: #cbd3de;
+	color: #181818;
 	margin-top: 30px;
-	margin-left: 30%;
-	margin-right: 30%;
+	margin-left: 25%;
+	margin-right: 25%;
 	width: auto;
 	text-align: center;
-	border: 2px solid dimgray;
-	box-shadow: 5px 5px darkgray;
-	border-radius: 10px;
+	border: 2px solid #8080a4;
+	box-shadow: 0 0 8px #8c8c8c;
+	font-size: 11pt;
+	line-height: 16pt;
 }
