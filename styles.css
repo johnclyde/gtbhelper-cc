@@ -40,6 +40,10 @@ h1 {
 	margin-left: 15px;
 }
 
+#saveLoadProgress button {
+	margin-bottom: 10px;
+}
+
 a {
 	text-decoration: none;
 }
