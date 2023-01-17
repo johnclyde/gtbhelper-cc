@@ -1,4 +1,6 @@
 
+'use strict';
+
 /* To make this, enable "One Column" option in SumoDB, copy & paste the tables 
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
@@ -9,7 +11,7 @@ var theSekitori = [
   "Y1e Terunofuji 0-0", 
   "", 
   "", 
-  "O1w Takakeisho 0-0", 
+  "O1w Takakeisho 8-1", 
   "S1e Wakatakakage 0-0", 
   "S1w Hoshoryu 0-0", 
   "S2e Takayasu 0-0", 
@@ -58,7 +60,7 @@ var theSekitori = [
   "J3w Oshoma 0-0", 
   "J4e Tohakuryu 0-0", 
   "J4w Enho 0-0", 
-  "J5e Kinbozan 0-0", 
+  "J5e Kinbozan 8-1", 
   "J5w Kotokuzan 0-0", 
   "J6e Churanoumi 0-0", 
   "J6w Daishoho 0-0", 
@@ -73,12 +75,17 @@ var theSekitori = [
   "J11e Chiyosakae 0-0", 
   "J11w Shimazuumi 0-0", 
   "J12e Takakento 0-0", 
-  "J12w Asanoyama 0-0", 
+  "J12w Asanoyama 9-0", 
   "J13e Shonannoumi 0-0", 
   "J13w Kaisho 0-0", 
   "J14e Tsushimanada 0-0", 
   "J14w Hakuyozan 0-0"
 ];
+
+/* Add here the shikona of retired sekitori, who will not appear in the 
+ * following banzuke. If nobody retired leave this array empty
+ */
+var retiredRikishi = ["Okinoumi"];
 
 /* Enable "No Rank Colouring" and "One Column" options and then open the 
  * browser's inspector (F12). Find the table and copy & paste the <tbody> node. 
@@ -161,6 +168,9 @@ var sekitoriID = [
   11943
 ];
 
+let redips = {}, 
+    rd     = REDIPS.drag;
+
 //***** Just update the "basho" variable and you're all done. *****
 
 window.onload = function() {
@@ -217,6 +227,7 @@ window.onload = function() {
   function maybeEnableButtons() {
     if (gapiInited && gisInited) {
       signinButton.style.display = "inline-block";
+      messageLine.innerHTML = "Save or load your banzuke via Google Drive";
       progressText.innerHTML = "";
     }
   }
@@ -464,7 +475,8 @@ window.onload = function() {
           }, 
           getBashoName = (bMonth) => bashoMonthLookup[bMonth];
 
-    tableTitle[0].innerHTML = getBashoName(bashoMonth) + ' ' + bashoYear;
+    tableTitle[0].innerHTML = getBashoName(bashoMonth) + ' ' + bashoYear + 
+                              tableTitle[0].innerHTML;
     if (bashoMonth > 9) {
       bashoYear++;
       bashoMonth = -1;
@@ -481,14 +493,14 @@ window.onload = function() {
         var card     = document.createElement("div"), 
             rikiData = theSekitori[i].split(' ');
 
-        card.setAttribute("id", rikiData[0]);
+        card.id = rikiData[0];
         card.className = "redips-drag se";
         card.setAttribute("data-rid", sekitoriID[i]);
 
         if (rikiData[2].split('-')[0] < 8) 
-          card.style.backgroundColor = "#ffd2d2";
+          card.style.setProperty("background-color", "#ffd4d4");
         else 
-          card.style.backgroundColor = "#c2ff9f";
+          card.style.setProperty("background-color", "#c5ffc5");
 
         rikiData[2] = '<a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=' + 
                       sekitoriID[i] + "&b=" + basho + '" target="_blank">' + rikiData[2] + "</a>";
@@ -498,12 +510,10 @@ window.onload = function() {
         rikiData[1] = '<a href="https://sumodb.sumogames.de/Rikishi.aspx?r=' + 
                       sekitoriID[i] + '" target="_blank">' + rikiData[1] + "</a>";
 
-        if (rikiData[1].includes("Chiyotairyu") || rikiData[1].includes("Yutakayama")) {
+        if (retiredRikishi.includes(theSekitori[i].split(' ')[1])) {
           card.innerHTML = rikiData.join(' ');
-          card.style.backgroundColor = "#dadada";
-          card.style.cursor = "text";
-          card.style.color = "#3c3c3c";
-          card.className = "redips-nodrag";
+          card.style.backgroundColor = "#ffe4b4";
+          card.className = "redips-drag intai";
           card.setAttribute("title", "Retired");
         }
 
@@ -522,10 +532,7 @@ function saveRadio(radioButton) {
   window.localStorage.setItem("radioButton", radioButton.value);
 }
 
-'use strict';
-
-let redips = {}, 
-    rd     = REDIPS.drag;
+// *****************************************************************************
 
 rd.animation = "off";
 
@@ -535,6 +542,8 @@ redips.init = function () {
   //rd.hover.borderTd = "2px solid blue";
   rd.dropMode = "multiple";
   rd.only.divClass.se = "b2";
+
+  rd.enableDrag(false, ".intai");
 
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
