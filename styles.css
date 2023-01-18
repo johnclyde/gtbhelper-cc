@@ -113,7 +113,7 @@ button {
 
 table {
 	display: -webkit-inline-box;
-	font-size: 14px;
+	font-size: 13px;
 	border-spacing: 5px;
 	background-color: white;
 	margin-right: 2%;
@@ -231,7 +231,7 @@ td .redips-drag, .redips-nodrag {
 	border-color: #4f4f4f;
 	border-width: 1px;
 	box-sizing: border-box;
-	line-height: 11pt;
+	line-height: 12pt;
 	box-shadow: -3px -3px inset #0000002b, 2px 2px inset #ffffff82;
 }
 
