@@ -232,7 +232,7 @@ td .redips-drag, .redips-nodrag {
 	border-width: 1px;
 	box-sizing: border-box;
 	line-height: 11pt;
-	box-shadow: -3px -3px inset #0000002b;
+	box-shadow: -3px -3px inset #0000002b, 2px 2px inset #ffffff82;
 }
 
 footer {
