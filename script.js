@@ -515,6 +515,7 @@ window.onload = function() {
           card.style.backgroundColor = "#ffe4b4";
           card.className = "redips-drag intai";
           card.setAttribute("title", "Retired");
+          card.removeAttribute("data-ko");
         }
 
         var holder = document.createElement("span");
