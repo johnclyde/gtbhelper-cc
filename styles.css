@@ -210,16 +210,16 @@ td span {
 	margin: 0 auto;
 }
 
-[data-koshi="0"] {
+[data-ko="0"] {
 	background-color: #ffd4d4 !important;
 }
 
-[data-koshi="1"] {
+[data-ko="1"] {
 	background-color: #c5ffc5 !important;
 }
 
 td .redips-drag, .redips-nodrag {
-	background: linear-gradient(rgba(255, 255, 255, 0.75), transparent 15%, transparent 85%, rgba(0, 0, 0, 0.25));
+	/*background: linear-gradient(rgba(255, 255, 255, 0.75), transparent 15%, transparent 85%, rgba(0, 0, 0, 0.25));*/
 	text-align: justify;
 	width: 195px;
 	height: 18px;
@@ -227,7 +227,7 @@ td .redips-drag, .redips-nodrag {
 	padding-left: 3px;
 	padding-right: 3px;
 	margin: auto;
-	text-shadow: 0 0 2px white;
+	/*text-shadow: 0 0 2px white;*/
 	border-color: #4f4f4f;
 	border-width: 1px;
 	box-sizing: border-box;
