@@ -210,6 +210,14 @@ td span {
 	margin: 0 auto;
 }
 
+[data-koshi="0"] {
+	background-color: #ffd4d4 !important;
+}
+
+[data-koshi="1"] {
+	background-color: #c5ffc5 !important;
+}
+
 td .redips-drag, .redips-nodrag {
 	background: linear-gradient(rgba(255, 255, 255, 0.75), transparent 15%, transparent 85%, rgba(0, 0, 0, 0.25));
 	text-align: justify;

@@ -498,9 +498,9 @@ window.onload = function() {
         card.setAttribute("data-rid", sekitoriID[i]);
 
         if (rikiData[2].split('-')[0] < 8) 
-          card.style.setProperty("background-color", "#ffd4d4");
+          card.setAttribute("data-koshi", "0")
         else 
-          card.style.setProperty("background-color", "#c5ffc5");
+          card.setAttribute("data-koshi", "1")
 
         rikiData[2] = '<a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=' + 
                       sekitoriID[i] + "&b=" + basho + '" target="_blank">' + rikiData[2] + "</a>";
