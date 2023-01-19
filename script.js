@@ -5,7 +5,8 @@
  * as plain text and then turn them into array like this. Don't forget to add 
  * the empty spots in the banzuke (as empty string ""). Put the character ' ' 
  * in between the record and special letter Y, S, DK ... As ' ' 
- * is not considered a regular whitespace, it will not expand.
+ * is not considered a regular whitespace, it will not expand. Also make sure to 
+ * remove any double spaces.
  */ 
 var theSekitori = [
   "Y1e Terunofuji 0-0-11", 
@@ -168,10 +169,10 @@ var sekitoriID = [
   11943
 ];
 
+//***** Just update the "basho" variable and you're all done. *****
+
 let redips = {}, 
     rd     = REDIPS.drag;
-
-//***** Just update the "basho" variable and you're all done. *****
 
 window.onload = function() {
 
@@ -180,8 +181,8 @@ window.onload = function() {
   var CLIENT_ID = "527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com";
   var API_KEY = "AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o";
   var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-  // https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid
-  var SCOPES = "https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource";
+  // https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/drive.install
+  var SCOPES = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.resource";
   var signinButton = document.getElementById("signinButton");
   var signoutButton = document.getElementById("signoutButton");
   var saveToDriveButton = document.getElementById("saveToDrive");
