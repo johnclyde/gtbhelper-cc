@@ -220,7 +220,7 @@ td .redips-drag, .redips-nodrag {
 	padding-left: 3px;
 	padding-right: 3px;
 	margin: auto;
-	text-shadow: -1px -1px white;
+	text-shadow: 1px 1px #ffffff82;
 	border-color: #00000082;
 	border-width: 1px;
 	box-sizing: border-box;
