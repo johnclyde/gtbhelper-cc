@@ -522,7 +522,7 @@ window.onload = function() {
 
         if (retiredRikishi.includes(theSekitori[i].split(' ')[1])) {
           card.innerHTML = rikiData.join(' ');
-          card.style.backgroundColor = "#c6c6c6";
+          card.style.backgroundColor = "rgb(218, 218, 218)";
           card.className = "redips-drag intai";
           card.setAttribute("title", "Retired");
           card.removeAttribute("data-ko");
