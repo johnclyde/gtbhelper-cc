@@ -165,8 +165,10 @@ th {
 }
 
 .divider {
-	background-color: blue;
-	border: none;
+	background-color: dimgray;
+	border-color: white dimgray;
+	border-width: 3px;
+	border-style: solid;
 }
 
 .ch {
