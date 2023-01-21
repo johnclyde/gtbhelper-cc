@@ -9,78 +9,78 @@
  * remove any double spaces.
  */ 
 var theSekitori = [
-  "Y1e Terunofuji 0-0-11", 
-  "", 
-  "", 
-  "O1w Takakeisho 9-2", 
-  "S1e Wakatakakage 5-6", 
-  "S1w Hoshoryu 7-4", 
-  "S2e Takayasu 1-5-5", 
-  "S2w Shodai 5-6", 
-  "K1e Kiribayama 7-4", 
-  "K1w Kotonowaka 5-6", 
-  "K2e Meisei 4-7", 
-  "K2w Wakamotoharu 6-5", 
-  "M1e Tobizaru 4-7", 
-  "M1w Daieisho 7-4", 
-  "M2e Mitakeumi 5-6", 
-  "M2w Tamawashi 8-3", 
-  "M3e Abi 6-5", 
-  "M3w Midorifuji 5-6", 
-  "M4e Nishikifuji 3-8", 
-  "M4w Sadanoumi 3-8", 
-  "M5e Ryuden 6-5", 
-  "M5w Nishikigi 7-4", 
-  "M6e Hokutofuji 6-5", 
-  "M6w Myogiryu 4-7", 
-  "M7e Ichinojo 0-0-11", 
-  "M7w Ura 6-5", 
-  "M8e Onosho 9-2", 
-  "M8w Oho 1-10", 
-  "M9e Takanosho 5-6", 
-  "M9w Endo 7-4", 
-  "M10e Aoiyama 6-5", 
-  "M10w Hiradoumi 7-4", 
-  "M11e Chiyoshoma 5-6", 
-  "M11w Tochinoshin 2-3-6", 
-  "M12e Kagayaki 6-5", 
-  "M12w Okinoumi 0-6-5", 
-  "M13e Kotoshoho 8-3", 
-  "M13w Kotoeko 6-5", 
-  "M14e Ichiyamamoto 7-4", 
-  "M14w Azumaryu 7-4", 
-  "M15e Tsurugisho 4-7", 
-  "M15w Mitoryu 4-7", 
-  "M16e Takarafuji 7-4", 
-  "M16w Chiyomaru 3-8", 
-  "J1e Akua 2-9", 
-  "J1w Bushozan 7-4", 
-  "J2e Hokuseiho 6-5", 
-  "J2w Daiamami 3-8", 
-  "J3e Atamifuji 3-8", 
-  "J3w Oshoma 5-6", 
-  "J4e Tohakuryu 7-4", 
-  "J4w Enho 6-5", 
-  "J5e Kinbozan 10-1", 
-  "J5w Kotokuzan 3-8", 
-  "J6e Churanoumi 4-7", 
-  "J6w Daishoho 9-2", 
-  "J7e Chiyonokuni 8-3", 
-  "J7w Tochimusashi 3-8", 
-  "J8e Shimanoumi 5-6", 
-  "J8w Kitanowaka 4-7", 
-  "J9e Roga 8-3", 
-  "J9w Hidenoumi 5-6", 
-  "J10e Gonoyama 6-5", 
-  "J10w Terutsuyoshi 3-8", 
-  "J11e Chiyosakae 3-8", 
-  "J11w Shimazuumi 6-5", 
-  "J12e Takakento 4-7", 
-  "J12w Asanoyama 10-1", 
-  "J13e Shonannoumi 9-2", 
-  "J13w Kaisho 3-8", 
-  "J14e Tsushimanada 5-6", 
-  "J14w Hakuyozan 7-4"
+ "Y1e Terunofuji 0-0-13", 
+ "", 
+ "", 
+ "O1w Takakeisho 10-3", 
+ "S1e Wakatakakage 7-6", 
+ "S1w Hoshoryu 7-6", 
+ "S2e Takayasu 1-5-7", 
+ "S2w Shodai 6-7", 
+ "K1e Kiribayama 9-4", 
+ "K1w Kotonowaka 6-7", 
+ "K2e Meisei 4-9", 
+ "K2w Wakamotoharu 7-6", 
+ "M1e Tobizaru 6-7", 
+ "M1w Daieisho 9-4", 
+ "M2e Mitakeumi 5-8", 
+ "M2w Tamawashi 8-5", 
+ "M3e Abi 7-6", 
+ "M3w Midorifuji 6-7", 
+ "M4e Nishikifuji 4-9", 
+ "M4w Sadanoumi 4-9", 
+ "M5e Ryuden 8-5", 
+ "M5w Nishikigi 8-5", 
+ "M6e Hokutofuji 7-6", 
+ "M6w Myogiryu 4-9", 
+ "M7e Ichinojo 0-0-13", 
+ "M7w Ura 6-7", 
+ "M8e Onosho 10-3", 
+ "M8w Oho 2-11", 
+ "M9e Takanosho 6-7", 
+ "M9w Endo 8-5", 
+ "M10e Aoiyama 8-5", 
+ "M10w Hiradoumi 7-6", 
+ "M11e Chiyoshoma 5-8", 
+ "M11w Tochinoshin 2-3-8", 
+ "M12e Kagayaki 7-6", 
+ "M12w Okinoumi 0-6", 
+ "M13e Kotoshoho 10-3", 
+ "M13w Kotoeko 7-6", 
+ "M14e Ichiyamamoto 8-5", 
+ "M14w Azumaryu 9-4", 
+ "M15e Tsurugisho 6-7", 
+ "M15w Mitoryu 5-8", 
+ "M16e Takarafuji 7-6", 
+ "M16w Chiyomaru 3-10", 
+ "J1e Akua 3-10", 
+ "J1w Bushozan 7-6", 
+ "J2e Hokuseiho 8-5", 
+ "J2w Daiamami 4-9", 
+ "J3e Atamifuji 3-8-2", 
+ "J3w Oshoma 5-8", 
+ "J4e Tohakuryu 8-5", 
+ "J4w Enho 7-6", 
+ "J5e Kinbozan 11-2", 
+ "J5w Kotokuzan 4-9", 
+ "J6e Churanoumi 4-9", 
+ "J6w Daishoho 10-3", 
+ "J7e Chiyonokuni 10-3", 
+ "J7w Tochimusashi 4-9", 
+ "J8e Shimanoumi 5-8", 
+ "J8w Kitanowaka 5-8", 
+ "J9e Roga 8-5", 
+ "J9w Hidenoumi 7-6", 
+ "J10e Gonoyama 8-5", 
+ "J10w Terutsuyoshi 4-9", 
+ "J11e Chiyosakae 4-9", 
+ "J11w Shimazuumi 8-5", 
+ "J12e Takakento 5-8", 
+ "J12w Asanoyama 12-1", 
+ "J13e Shonannoumi 10-3", 
+ "J13w Kaisho 3-10", 
+ "J14e Tsushimanada 7-6", 
+ "J14w Hakuyozan 8-5", 
 ];
 
 /* Add here the shikona of retired sekitori, who will not appear in the 
@@ -502,13 +502,13 @@ window.onload = function() {
 
         switch (rikiData[2].split('-')[0]) {
           case "14": case "15": cardColor = "#8fff8f"; break;
-          case "12": case "13": cardColor = "#a9ff91"; break;
-          case "10": case "11": cardColor = "#c3ff91"; break;
+          case "12": case "13": cardColor = "#A8FF94"; break;
+          case "10": case "11": cardColor = "#C0FF9A"; break;
           case '8': case '9':   cardColor = "#d9ff9f"; break;
           case '6': case '7':   cardColor = "#ffd0bf"; break;
-          case '4': case '5':   cardColor = "#ffcbbf"; break;
-          case '2': case '3':   cardColor = "#ffc3bd"; break;
-          default:              cardColor = "#ffbcbc";
+          case '4': case '5':   cardColor = "#FFC8BF"; break;
+          case '2': case '3':   cardColor = "#FFBFBF"; break;
+          default:              cardColor = "#FFB7BF";
         }
 
         card.style.backgroundColor = cardColor;
@@ -523,7 +523,7 @@ window.onload = function() {
 
         if (retiredRikishi.includes(theSekitori[i].split(' ')[1])) {
           card.innerHTML = rikiData.join(' ');
-          card.style.backgroundColor = "rgb(218, 218, 218)";
+          card.style.backgroundColor = "rgb(194, 194, 194)";
           card.className = "redips-drag intai";
           card.setAttribute("title", "Retired");
           card.removeAttribute("data-ko");
