@@ -701,7 +701,7 @@ redips.init = function () {
 
       if (targetChgCell.innerHTML == ' ') {
         targetChgCell.innerHTML = thisChg;
-        targetCell.style.removeProperty("border");
+        targetCell.style.border = "none";
       }
       else 
         targetChgCell.innerHTML += "<br>" + thisChg;
