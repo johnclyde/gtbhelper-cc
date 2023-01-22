@@ -9,78 +9,78 @@
  * remove any double spaces.
  */ 
 var theSekitori = [
-  "Y1e Terunofuji 0-0-14", 
+  "Y1e Terunofuji 0-0-15", 
   "", 
   "", 
-  "O1w Takakeisho 11-3", 
-  "S1e Wakatakakage 8-6", 
-  "S1w Hoshoryu 7-7", 
-  "S2e Takayasu 1-5-8", 
-  "S2w Shodai 6-8", 
-  "K1e Kiribayama 10-4", 
-  "K1w Kotonowaka 7-7", 
-  "K2e Meisei 4-10", 
-  "K2w Wakamotoharu 8-6", 
-  "M1e Tobizaru 7-7", 
-  "M1w Daieisho 9-5", 
-  "M2e Mitakeumi 6-8", 
-  "M2w Tamawashi 8-6", 
-  "M3e Abi 7-7", 
-  "M3w Midorifuji 6-8", 
-  "M4e Nishikifuji 4-10", 
-  "M4w Sadanoumi 5-9", 
-  "M5e Ryuden 9-5", 
-  "M5w Nishikigi 9-5", 
-  "M6e Hokutofuji 7-7", 
-  "M6w Myogiryu 5-9", 
-  "M7e Ichinojo 0-0-14", 
-  "M7w Ura 6-8", 
-  "M8e Onosho 10-4", 
-  "M8w Oho 3-11", 
-  "M9e Takanosho 6-8", 
-  "M9w Endo 9-5", 
-  "M10e Aoiyama 8-6", 
-  "M10w Hiradoumi 8-6", 
-  "M11e Chiyoshoma 5-9", 
-  "M11w Tochinoshin 2-3-9", 
-  "M12e Kagayaki 7-7", 
+  "O1w Takakeisho 12-3 Y", 
+  "S1e Wakatakakage 9-6", 
+  "S1w Hoshoryu 8-7", 
+  "S2e Takayasu 1-5-9", 
+  "S2w Shodai 6-9", 
+  "K1e Kiribayama 11-4 JG", 
+  "K1w Kotonowaka 8-7", 
+  "K2e Meisei 5-10", 
+  "K2w Wakamotoharu 9-6", 
+  "M1e Tobizaru 8-7", 
+  "M1w Daieisho 10-5", 
+  "M2e Mitakeumi 7-8", 
+  "M2w Tamawashi 9-6", 
+  "M3e Abi 8-7", 
+  "M3w Midorifuji 6-9", 
+  "M4e Nishikifuji 4-11", 
+  "M4w Sadanoumi 6-9", 
+  "M5e Ryuden 9-6", 
+  "M5w Nishikigi 9-6", 
+  "M6e Hokutofuji 7-8", 
+  "M6w Myogiryu 6-9", 
+  "M7e Ichinojo 0-0-15", 
+  "M7w Ura 7-8", 
+  "M8e Onosho 10-5", 
+  "M8w Oho 4-11", 
+  "M9e Takanosho 6-9", 
+  "M9w Endo 9-6", 
+  "M10e Aoiyama 8-7", 
+  "M10w Hiradoumi 8-7", 
+  "M11e Chiyoshoma 5-10", 
+  "M11w Tochinoshin 2-3-10", 
+  "M12e Kagayaki 7-8", 
   "M12w Okinoumi 0-6", 
-  "M13e Kotoshoho 11-3", 
-  "M13w Kotoeko 7-7", 
-  "M14e Ichiyamamoto 9-5", 
-  "M14w Azumaryu 9-5", 
-  "M15e Tsurugisho 7-7", 
-  "M15w Mitoryu 6-8", 
-  "M16e Takarafuji 8-6", 
-  "M16w Chiyomaru 3-11", 
-  "J1e Akua 3-11", 
-  "J1w Bushozan 8-6", 
-  "J2e Hokuseiho 9-5", 
-  "J2w Daiamami 5-9", 
-  "J3e Atamifuji 3-8-3", 
-  "J3w Oshoma 6-8", 
-  "J4e Tohakuryu 8-6", 
-  "J4w Enho 7-7", 
-  "J5e Kinbozan 11-3", 
-  "J5w Kotokuzan 4-10", 
-  "J6e Churanoumi 4-10", 
-  "J6w Daishoho 11-3", 
-  "J7e Chiyonokuni 10-4", 
-  "J7w Tochimusashi 4-10", 
-  "J8e Shimanoumi 5-9", 
-  "J8w Kitanowaka 5-9", 
-  "J9e Roga 9-5", 
-  "J9w Hidenoumi 7-7", 
-  "J10e Gonoyama 8-6", 
-  "J10w Terutsuyoshi 5-9", 
-  "J11e Chiyosakae 4-10", 
-  "J11w Shimazuumi 8-6", 
-  "J12e Takakento 6-8", 
-  "J12w Asanoyama 13-1", 
-  "J13e Shonannoumi 11-3", 
-  "J13w Kaisho 4-10", 
-  "J14e Tsushimanada 8-6", 
-  "J14w Hakuyozan 9-5"
+  "M13e Kotoshoho 11-4 JK", 
+  "M13w Kotoeko 7-8", 
+  "M14e Ichiyamamoto 10-5", 
+  "M14w Azumaryu 9-6", 
+  "M15e Tsurugisho 7-8", 
+  "M15w Mitoryu 7-8", 
+  "M16e Takarafuji 8-7", 
+  "M16w Chiyomaru 4-11", 
+  "J1e Akua 3-12", 
+  "J1w Bushozan 9-6", 
+  "J2e Hokuseiho 9-6", 
+  "J2w Daiamami 5-10", 
+  "J3e Atamifuji 3-8-4", 
+  "J3w Oshoma 7-8", 
+  "J4e Tohakuryu 9-6", 
+  "J4w Enho 7-8", 
+  "J5e Kinbozan 11-4", 
+  "J5w Kotokuzan 4-11", 
+  "J6e Churanoumi 4-11", 
+  "J6w Daishoho 12-3", 
+  "J7e Chiyonokuni 10-5", 
+  "J7w Tochimusashi 4-11", 
+  "J8e Shimanoumi 5-10", 
+  "J8w Kitanowaka 5-10", 
+  "J9e Roga 9-6", 
+  "J9w Hidenoumi 8-7", 
+  "J10e Gonoyama 9-6", 
+  "J10w Terutsuyoshi 5-10", 
+  "J11e Chiyosakae 5-10", 
+  "J11w Shimazuumi 9-6", 
+  "J12e Takakento 7-8", 
+  "J12w Asanoyama 14-1 Y", 
+  "J13e Shonannoumi 12-3", 
+  "J13w Kaisho 5-10", 
+  "J14e Tsushimanada 9-6", 
+  "J14w Hakuyozan 9-6"
 ];
 
 /* Add here the shikona of retired sekitori, who will not appear in the 
@@ -692,60 +692,16 @@ redips.init = function () {
           targetCellRank = targetCell.previousSibling.innerHTML + 'w';
       }
 
-      if (thisRank == targetCellRank) 
-        thisChg = '─';
-      else {
-        const change = [
-          ["calc", "!!!", "!!!", "!!!", "!!!", "!!!"], 
-          [" ↑ ", "calc", " ↓ ", "!!!", "!!!", "!!!"], 
-          ["!!!", " ↑ ", "calc", " ↓ ", " ↓ ", "!!!"], 
-          ["!!!", "!!!", " ↑ ", "calc", " ↓ ", "!!!"], 
-          ["!!!", "!!!", " ↑ ", " ↑ ", "calc", " ↓ "], 
-          ["!!!", "!!!", "!!!", "!!!", " ↑ ", '⇄']
-        ]
-        var r1, r2;
-
-        switch (thisRank.charAt(0)) {
-          case 'Y': r1 = 0; break;
-          case 'O': r1 = 1; break;
-          case 'S': r1 = 2; break;
-          case 'K': r1 = 3; break;
-          case 'M': r1 = 4; break;
-          default:  r1 = 5;
-        }
-        switch (targetCellRank.charAt(0)) {
-          case 'Y': r2 = 0; break;
-          case 'O': r2 = 1; break;
-          case 'S': r2 = 2; break;
-          case 'K': r2 = 3; break;
-          case 'M': r2 = 4; break;
-          default:  r2 = 5;
-        }
-
-        if (change[r1][r2] != "calc") 
-          thisChg = change[r1][r2];
-        else {
-          var thisRankNum   = parseInt(thisRank.slice(1, -1)), 
-              targetRankNum = parseInt(targetCellRank.slice(1, -1));
-          
-          if (thisRank.slice(-1) == 'w')       thisRankNum += 0.5;
-          if (targetCellRank.slice(-1) == 'w') targetRankNum += 0.5;
-
-          thisChg = thisRankNum - targetRankNum;
-
-          if (thisChg > 0) 
-            thisChg = '+' + thisChg;
-        }
-      }
+      thisChg = getChange(thisRank, targetCellRank);
 
       thisChg = '<a href="https://sumodb.sumogames.de/Query.aspx?show_form=0&form1_rank=' + 
                 thisRank + "&form1_wins=" + rikishiWins + 
                 "&form1_year=193905-194401,194905-now&form2_highlight=on&form2_rank=" + 
                 targetCellRank + '" target="_blank" title="Click to run a SumoDB query">' + thisChg + "</a>";
 
-      if (targetChgCell.innerHTML == " ") {
+      if (targetChgCell.innerHTML == ' ') {
         targetChgCell.innerHTML = thisChg;
-        targetCell.style.border = "none";
+        targetCell.style.removeProperty("border");
       }
       else 
         targetChgCell.innerHTML += "<br>" + thisChg;
@@ -789,6 +745,58 @@ redips.resetBanzuke = function() {
     }
   }
 };
+
+function getChange(thisRank, targetCellRank) {
+  var chg;
+
+  if (thisRank == targetCellRank) 
+    chg = '─';
+  else {
+    const change = [
+      ["calc", "!!!", "!!!", "!!!", "!!!", "!!!"], 
+      [" ↑ ", "calc", " ↓ ", "!!!", "!!!", "!!!"], 
+      ["!!!", " ↑ ", "calc", " ↓ ", " ↓ ", "!!!"], 
+      ["!!!", "!!!", " ↑ ", "calc", " ↓ ", "!!!"], 
+      ["!!!", "!!!", " ↑ ", " ↑ ", "calc", " ↓ "], 
+      ["!!!", "!!!", "!!!", "!!!", " ↑ ", '⇄']
+    ]
+    var r1, r2;
+
+    switch (thisRank.charAt(0)) {
+      case 'Y': r1 = 0; break;
+      case 'O': r1 = 1; break;
+      case 'S': r1 = 2; break;
+      case 'K': r1 = 3; break;
+      case 'M': r1 = 4; break;
+      default:  r1 = 5;
+    }
+    switch (targetCellRank.charAt(0)) {
+      case 'Y': r2 = 0; break;
+      case 'O': r2 = 1; break;
+      case 'S': r2 = 2; break;
+      case 'K': r2 = 3; break;
+      case 'M': r2 = 4; break;
+      default:  r2 = 5;
+    }
+
+    if (change[r1][r2] != "calc") 
+      chg = change[r1][r2];
+    else {
+      var thisRankNum   = parseInt(thisRank.slice(1, -1)), 
+          targetRankNum = parseInt(targetCellRank.slice(1, -1));
+      
+      if (thisRank.slice(-1) == 'w')       thisRankNum += 0.5;
+      if (targetCellRank.slice(-1) == 'w') targetRankNum += 0.5;
+
+      chg = thisRankNum - targetRankNum;
+
+      if (chg > 0) 
+        chg = '+' + chg;
+    }
+  }
+
+  return chg;
+}
 
 if (window.addEventListener)
   window.addEventListener("load", redips.init, false);
