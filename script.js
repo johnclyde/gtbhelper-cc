@@ -454,12 +454,20 @@ window.onload = function() {
   }
 
   var radioButton = document.getElementsByClassName("checkbox"), 
-      radioLocal  = window.localStorage.getItem("radioButton");
+      radioLocal  = window.localStorage.getItem("radioButton"), 
+      radioLocalDrop  = window.localStorage.getItem("radioDrop");
 
   if (radioLocal === null || radioLocal == "openRikishiPage")
     radioButton[0].checked = true;
-  else 
+  else if (radioLocal == "returnToOld") 
     radioButton[1].checked = true;
+  else 
+    radioButton[2].checked = true;
+
+  if (radioLocalDrop === null || radioLocalDrop == "multiple")
+    radioButton[3].checked = true;
+  else 
+    radioButton[4].checked = true;
 
   function writeTableTitles(endedBashoDate) {
     var bashoYear  = parseInt(endedBashoDate.substring(0, 4)), 
@@ -544,6 +552,10 @@ function saveRadio(radioButton) {
   window.localStorage.setItem("radioButton", radioButton.value);
 }
 
+function saveDropRadio(button) {
+  window.localStorage.setItem("radioDrop", button.value);
+}
+
 // *****************************************************************************
 
 rd.animation = "off";
@@ -575,7 +587,7 @@ redips.init = function () {
     
     if (radioButton[0].checked) 
       window.open(rikishiURL, "_blank").focus();
-    else if (currentCell.classList.contains("b2")) {
+    else if (radioButton[1].checked && currentCell.classList.contains("b2")) {
       for (var i = 0; i <= theSekitori.length; i++) {
         if (b1Cell[i].classList.contains(thisRank)) {
           if (currentCell.previousSibling.className == "ch") 
@@ -629,7 +641,8 @@ redips.init = function () {
     var rikiCount   = document.getElementById("makRik"), 
         thisCard    = rd.obj, 
         currentCell = rd.findParent('TD', thisCard), 
-        currentChgCell;
+        currentChgCell, 
+        dropRadio = document.getElementsByName("dropMode");
 
     currentCell.style.removeProperty("background-color");
 
@@ -645,66 +658,71 @@ redips.init = function () {
       targetCell.style.removeProperty("border");
       rikiCount.innerHTML--;
     }
-    
-    if (currentCell.classList.contains("b2")) {
-      if (currentCell.previousSibling.className == "ch") 
-        currentChgCell = currentCell.previousSibling;
-      else if (currentCell.nextSibling.className == "ch")
-        currentChgCell = currentCell.nextSibling;
 
-      if (currentCell.children.length > 1) {
-        var chgs = currentChgCell.innerHTML.split("<br>");
+    if (dropRadio[1].checked && targetCell !== currentCell && 
+        targetCell.classList.contains("b2") && targetCell.children.length > 0) {
 
-        for (var i = 0; i < currentCell.children.length; i++) {
-          if (currentCell.children[i] == thisCard) {
-            chgs.splice(i, 1);
-            currentChgCell.innerHTML = chgs.join("<br>");
-          }
+      var b2Cell = document.querySelectorAll(".b2"), 
+          targetIndex = Array.prototype.slice.call(b2Cell).indexOf(targetCell);
+
+      for (var i = targetIndex+1; i < b2Cell.length; i++) {
+        if (b2Cell[i].children.length == 0 || 
+            (b2Cell[i].children.length == 1 && b2Cell[i] === thisCard.parentNode) || 
+            (i == b2Cell.length-1 && b2Cell[i].children.length > 0)) {
+          b2Cell[i].style.border = "none";
+          for (var j = i-1; j >= targetIndex; i--, j--) 
+            rd.relocate(b2Cell[j], b2Cell[i], "instant");
+          break;
         }
-      }
-      else {
-        currentChgCell.innerHTML = " ";
-        currentCell.style.border = "1px dashed dimgray";
       }
     }
 
   };
-
   rd.event.dropped = function(targetCell) {
 
-    if (targetCell.classList.contains("b2")) {
-      var thisRank = rd.obj.id, 
-          rikishiWins = rd.obj.innerText.split(' ')[2].split('-')[0], 
-          thisChg, targetChgCell, targetCellRank;
+    var b2Cell = document.querySelectorAll(".b2");
 
-      if (targetCell.previousSibling.className == "ch") {
-        targetChgCell = targetCell.previousSibling;
-        if (targetCell.nextSibling.innerHTML == 'J') 
-          targetCellRank = 'J';
-        else 
-          targetCellRank = targetCell.nextSibling.innerHTML + 'e';
+    for (var i = 0; i < b2Cell.length; i++) {
+      if (b2Cell[i].children.length > 0) {
+        for (var j = 0; j < b2Cell[i].children.length; j++) {
+          var thisRank = b2Cell[i].children[j].id, 
+              rikishiWins = b2Cell[i].children[j].innerText.split(' ')[2].split('-')[0], 
+              thisChg, targetChgCell, targetCellRank;
+
+          if (b2Cell[i].previousSibling.className == "ch") {
+            targetChgCell = b2Cell[i].previousSibling;
+            targetCellRank = b2Cell[i].nextSibling.innerHTML + 'e';
+          }
+          else if (b2Cell[i].nextSibling.className == "ch") {
+            targetChgCell = b2Cell[i].nextSibling;
+            targetCellRank = b2Cell[i].previousSibling.innerHTML + 'w';
+          }
+
+          thisChg = getChange(thisRank, targetCellRank);
+
+          thisChg = '<a href="https://sumodb.sumogames.de/Query.aspx?show_form=0&form1_rank=' + 
+                    thisRank + "&form1_wins=" + rikishiWins + 
+                    "&form1_year=193905-194401,194905-now&form2_highlight=on&form2_rank=" + 
+                    targetCellRank + '" target="_blank" title="Click to run a SumoDB query">' + thisChg + "</a>";
+
+          if (j == 0) {
+            targetChgCell.innerHTML = thisChg;
+            b2Cell[i].style.border = "none";
+          }
+          else 
+            targetChgCell.innerHTML += "<br>" + thisChg;
+        }
       }
-      else if (targetCell.nextSibling.className == "ch") {
-        targetChgCell = targetCell.nextSibling;
-        if (targetCell.previousSibling.innerHTML == "J") 
-          targetCellRank = 'J';
-        else 
-          targetCellRank = targetCell.previousSibling.innerHTML + 'w';
+      else {
+        var targetChgCell;
+
+        if (b2Cell[i].previousSibling.className == "ch") 
+          targetChgCell = b2Cell[i].previousSibling;
+        else if (b2Cell[i].nextSibling.className == "ch") 
+          targetChgCell = b2Cell[i].nextSibling;
+        targetChgCell.innerHTML = ' ';
+        b2Cell[i].style.border = "1px dashed dimgray";
       }
-
-      thisChg = getChange(thisRank, targetCellRank);
-
-      thisChg = '<a href="https://sumodb.sumogames.de/Query.aspx?show_form=0&form1_rank=' + 
-                thisRank + "&form1_wins=" + rikishiWins + 
-                "&form1_year=193905-194401,194905-now&form2_highlight=on&form2_rank=" + 
-                targetCellRank + '" target="_blank" title="Click to run a SumoDB query">' + thisChg + "</a>";
-
-      if (targetChgCell.innerHTML == ' ') {
-        targetChgCell.innerHTML = thisChg;
-        targetCell.style.border = "none";
-      }
-      else 
-        targetChgCell.innerHTML += "<br>" + thisChg;
     }
 
   };
@@ -714,6 +732,7 @@ redips.init = function () {
   };
 
 };
+
 
 redips.resetBanzuke = function() {
   if (confirm("Reset the banzuke? This will not reset your save in Google Drive") == true) {
