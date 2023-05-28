@@ -953,6 +953,7 @@ window.onload = function() {
 
   var basho = "202305"; // The date of the basho just ended
 
+  /*
   var CLIENT_ID = "527214845927-p6ofscooll9ettfc8vpb4f5dqbhome4h.apps.googleusercontent.com";
   var API_KEY = "AIzaSyBiIfRASPUPjYmDLggGBQKCw63h-5B073o";
   var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
@@ -1212,6 +1213,7 @@ window.onload = function() {
       progressText.innerHTML = "Access token expired. Please sign out and try again";
     });
   });
+  */
 
   //****************************************************************************
 
@@ -1222,8 +1224,8 @@ window.onload = function() {
   if (window.localStorage.getItem("banzuke") !== null) {
     //document.getElementById("tableLiner").innerHTML = window.localStorage.getItem("banzuke");
     window.localStorage.removeItem("banzuke");
-    writeTableTitles(basho);
-    populateSlots();
+    //writeTableTitles(basho);
+    //populateSlots();
   }
   if (window.localStorage.getItem("picks") !== null) 
     document.getElementById("tableLiner").innerHTML = window.localStorage.getItem("picks");
