@@ -54,6 +54,13 @@
         <div class="hoshitoriLegend" style="border: 2px outset #84848491; outline: 2px solid black; outline-offset: 2px;">Win in play-off</div>
         <div class="hoshitoriLegend" style="border: 2px outset #84848491; outline: 2px solid red; outline-offset: 2px;">Loss in play-off</div>
       </fieldset>
+      <fieldset>
+        <legend>Miscellany</legend>
+        Export table data into CSV 
+        <a href="#" id="exportToCsv1" class="exportToCsvButton">Table 1</a>
+        <a href="#" id="exportToCsv2" class="exportToCsvButton">Table 2</a>
+        <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset Changes</button>
+      </fieldset>
     </div>
     <!--
     <div id="saveLoadProgress">
@@ -64,7 +71,6 @@
       <span id="messageLine"></span>
     </div>
     -->
-    <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset Changes</button>
   </header>
   <div id="redips-drag">
     <div id="tableContainer">
