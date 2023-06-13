@@ -631,10 +631,10 @@ var hoshitori = [
   ]
 }, {
   "record": [
-    0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0
+    1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0
   ],
   "aite": [
-    "Tohakuryu", "Takakento", "Churanoumi", "Atamifuji", "Ochiai", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tokihayate", "Tsushimanada"
+    "Ryuo", "Tohakuryu", "Takakento", "Churanoumi", "Atamifuji", "Ochiai", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tokihayate", "Tsushimanada"
   ]
 }, {
   "record": [
@@ -673,47 +673,49 @@ var hoshitori = [
   ]
 }, {
   "record": [
-    1, 1, 1, 3, 0, 1, 1, 0, 0, 0, 1, 1, 0
+    0, 0, 1, 1, 1, 3, 0, 1, 1, 0, 0, 0, 1, 1, 0
   ],
   "aite": [
-    "Azumaryu", "Churanoumi", "Atamifuji", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tamashoho", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tokihayate", "Tsushimanada"
+    "Chiyonoumi", "Kawazoe", "Azumaryu", "Churanoumi", "Atamifuji", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tamashoho", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tokihayate", "Tsushimanada"
   ]
 }, {
   "record": [
-    0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0
+    1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0
   ],
   "aite": [
-    "Shonannoumi", "Oshoma", "Shimazuumi", "Takakento", "Atamifuji", "Daiamami", "Kitanowaka", "Hidenoumi", "Tamashoho", "Tomokaze", "Fujiseiun", "Shimanoumi", "Tokihayate", "Tsushimanada"
+    "Ryuo", "Shonannoumi", "Oshoma", "Shimazuumi", "Takakento", "Atamifuji", "Daiamami", "Kitanowaka", "Hidenoumi", "Tamashoho", "Tomokaze", "Fujiseiun", "Shimanoumi", "Tokihayate", "Tsushimanada"
   ]
 }, {
   "record": [
-    0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1
+    0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1
   ],
   "aite": [
-    "Roga", "Akua", "Hakuyozan", "Daiamami", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tomokaze", "Chiyosakae", "Shimanoumi", "Tokihayate", "Tsushimanada"
+    "Shishi", "Shiden", "Roga", "Akua", "Hakuyozan", "Daiamami", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tomokaze", "Chiyosakae", "Shimanoumi", "Tokihayate", "Tsushimanada"
   ]
 }, {
   "record": [
-    1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1
+    0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1
   ],
   "aite": [
-    "Oshoma", "Roga", "Takakento", "Atamifuji", "Daiamami", "Chiyomaru", "Kitanowaka", "Tamashoho", "Tomokaze", "Chiyosakae", "Fujiseiun", "Tokihayate", "Tsushimanada"
+    "Yuma", "Kotokuzan", "Oshoma", "Roga", "Takakento", "Atamifuji", "Daiamami", "Chiyomaru", "Kitanowaka", "Tamashoho", "Tomokaze", "Chiyosakae", "Fujiseiun", "Tokihayate", "Tsushimanada"
   ]
 }, {
   "record": [
-    0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1
+    1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1
   ],
   "aite": [
-    "Akua", "Churanoumi", "Daiamami", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tamashoho", "Tomokaze", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tsushimanada"
+    "Hayatefuji", "Shishi", "Kawazoe", "Akua", "Churanoumi", "Daiamami", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tamashoho", "Tomokaze", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tsushimanada"
   ]
 }, {
   "record": [
-    1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0
+    1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0
   ],
   "aite": [
-    "Churanoumi", "Daiamami", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tamashoho", "Tomokaze", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tokihayate"
+    "Yuma", "Tochimusashi", "Shiden", "Churanoumi", "Daiamami", "Chiyonokuni", "Chiyomaru", "Kitanowaka", "Hidenoumi", "Tamashoho", "Tomokaze", "Chiyosakae", "Fujiseiun", "Shimanoumi", "Tokihayate"
   ]
-}, {
+}, 
+// Juryo rikishi's torikumi
+{
   "record": [
     1, 1, 0, 1, 1, 0, 0
   ],
@@ -1788,7 +1790,7 @@ function updateInfoCells() {
       originCell, newRankCell, b1Chg, resultLink, resultCell, currRankCell, targetChgCell;
 
   for (var i = 0; i < b1Cell.length; i++) {
-    if (b1Cell[i].children.length == 2) {
+    if (b1Cell[i].children.length > 0 && b1Cell[i].children[0].tagName == "DIV") {
       newRankCell = b1Cell[i].nextSibling;
       if (i % 2 != 0) {
         newRankCell = newRankCell.nextSibling;
@@ -1802,8 +1804,8 @@ function updateInfoCells() {
   }
 
   for (var i = 0; i < b2Cell.length; i++) {
- resultCell = b2Cell[i].nextSibling;
- currRankCell = b2Cell[i].previousSibling;
+    resultCell = b2Cell[i].nextSibling;
+    currRankCell = b2Cell[i].previousSibling;
     targetChgCell = resultCell.nextSibling;
 
     if (b2Cell[i].children.length > 0) {

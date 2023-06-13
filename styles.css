@@ -205,8 +205,9 @@ table {
 	margin-right: 2%;
 }
 
-#banzuke1, #banzuke2, #juryoB2 {
+#banzuke1, #banzuke2 {
 	border: 2px solid dimgray;
+	border-collapse: collapse;
 }
 
 #makushitaJoi {
@@ -260,7 +261,7 @@ td {
 
 .b2 {
 	/*border: 1px dashed dimgray;*/
-	box-shadow: 2px 2px inset #00000017;
+	box-shadow: 3px 3px inset #00000014;
 }
 
 .theader th {
@@ -287,6 +288,10 @@ th {
 	display: none;
 }
 
+.cur {
+	text-align: right;
+}
+
 .rs1, .rs2 {
 	min-width: 47px;
 	white-space: nowrap;
@@ -303,7 +308,6 @@ th {
 .rs1, .rs2, .cur, .new, .ch1, .ch2 {
 	line-height: 18px;
 	padding: 0 2px;
-	text-align: left;
 }
 
 .nte {
@@ -315,6 +319,8 @@ div[contenteditable="true"] {
 	white-space: nowrap;
 	padding: 0 2px;
 	line-height: 18px;
+	box-shadow: 0 0 0 1px #0000002b;
+	border-radius: 3px;
 }
 
 textarea {
