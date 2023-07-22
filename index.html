@@ -45,7 +45,7 @@
         <label title="Don't drop to occupied slot"><input type="radio" class="checkbox" name="dropMode" onclick="saveDropRadio(this)" value="disable">Disable</label>
       </fieldset>
       <fieldset id="hoshitori" class="option">
-        <legend><label><input id="hoshiCheckbox" type="checkbox" name="checkbox"> Hover over rikishi to highlight his opponents</label></legend>
+        <legend><label><input id="hoshiCheckbox" type="checkbox" name="checkbox">Hover over rikishi to highlight his opponents</label></legend>
         Explanation
         <div class="hoshitoriLegend" style="border: 2px solid black;">Win</div>
         <div class="hoshitoriLegend" style="border: 2px solid red;">Loss</div>
@@ -54,13 +54,14 @@
         <div class="hoshitoriLegend" style="border: 2px outset #84848491; outline: 2px solid black; outline-offset: 2px;">Win in play-off</div>
         <div class="hoshitoriLegend" style="border: 2px outset #84848491; outline: 2px solid red; outline-offset: 2px;">Loss in play-off</div>
       </fieldset>
-      <fieldset>
+      <fieldset id="miscellany" class="option">
         <legend>Miscellany</legend>
         Export table data into CSV 
         <a href="#" id="exportToCsv1" class="exportToCsvButton">Table 1</a>
         <a href="#" id="exportToCsv2" class="exportToCsvButton">Table 2</a>
-        <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset Changes</button>
-        <button onclick="redips.arrange()">Current ranks</button>
+        <label><input id="tooltipCheckbox" type="checkbox" name="checkbox">Disable tooltips</label>
+        <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset changes</button>
+        <button onclick="redips.arrange()">Auto-arrange to current ranks</button>
       </fieldset>
     </div>
     <!--
@@ -84,7 +85,7 @@
           <label><input id="colCheck2" autocomplete="off" class="columnCheckbox forB1" type="checkbox" onclick="toggleColumns(this)" value="new">New Rank</label>
           <label><input id="colCheck3" autocomplete="off" class="columnCheckbox forB1" type="checkbox" onclick="toggleColumns(this)" value="ch1">Rank Change</label>
         </div>
-  			<table id="banzuke1">
+  			<table id="banzuke1" class="banzukeTable">
             <thead>
               <tr>
                 <th colspan="5" class="tableTitle"></th>
@@ -159,7 +160,7 @@
             <label><input id="colCheck6" autocomplete="off" class="columnCheckbox forB2 checkedByDefault" type="checkbox" onclick="toggleColumns(this)" value="ch2">Rank Change</label>
             <label><input id="colCheck7" autocomplete="off" class="columnCheckbox forB2" type="checkbox" onclick="toggleColumns(this)" value="nte">Notes</label>
           </div>
-          <table id="banzuke2" class="mainTable">
+          <table id="banzuke2" class="mainTable banzukeTable">
             <thead>
               <tr>
                 <th colspan="9" class="tableTitle"><span id="makRik">0</span>/42</th>
