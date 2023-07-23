@@ -44,8 +44,9 @@
         <label title="Make room and lower rikishi below by one slot"><input type="radio" class="checkbox" name="dropMode" onclick="saveDropRadio(this)" value="shift">Shift</label>
         <label title="Don't drop to occupied slot"><input type="radio" class="checkbox" name="dropMode" onclick="saveDropRadio(this)" value="disable">Disable</label>
       </fieldset>
+      <!--
       <fieldset id="hoshitori" class="option">
-        <legend><label><input id="hoshiCheckbox" type="checkbox" name="checkbox">Hover over rikishi to highlight his opponents</label></legend>
+        <legend><label><input id="hoshiCheckbox" type="checkbox" name="checkbox" autocomplete="on">Hover over rikishi to highlight his opponents</label></legend>
         Explanation
         <div class="hoshitoriLegend" style="border: 2px solid black;">Win</div>
         <div class="hoshitoriLegend" style="border: 2px solid red;">Loss</div>
@@ -54,12 +55,13 @@
         <div class="hoshitoriLegend" style="border: 2px outset #84848491; outline: 2px solid black; outline-offset: 2px;">Win in play-off</div>
         <div class="hoshitoriLegend" style="border: 2px outset #84848491; outline: 2px solid red; outline-offset: 2px;">Loss in play-off</div>
       </fieldset>
+    -->
       <fieldset id="miscellany" class="option">
         <legend>Miscellany</legend>
         Export table data into CSV 
         <a href="#" id="exportToCsv1" class="exportToCsvButton">Table 1</a>
         <a href="#" id="exportToCsv2" class="exportToCsvButton">Table 2</a>
-        <label><input id="tooltipCheckbox" type="checkbox" name="checkbox">Disable tooltips</label>
+        <label><input id="tooltipCheckbox" type="checkbox" name="checkbox" autocomplete="on">Disable tooltips</label>
         <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset changes</button>
         <button onclick="redips.arrange()">Auto-arrange to current ranks</button>
       </fieldset>
@@ -100,7 +102,6 @@
               <tr class="sgroup"><td class="rs1"></td><td class="redips-only S1e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>S1</th><td class="redips-only S1w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
               <tr class="sgroup"><td class="rs1"></td><td class="redips-only S2e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>S2</th><td class="redips-only S2w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
               <tr class="kgroup"><td class="rs1"></td><td class="redips-only K1e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>K1</th><td class="redips-only K1w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
-              <tr class="kgroup"><td class="rs1"></td><td class="redips-only K2e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>K2</th><td class="redips-only K2w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
 
               <tr><td class="rs1"></td><td class="redips-only M1e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>M1</th><td class="redips-only M1w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
               <tr><td class="rs1"></td><td class="redips-only M2e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>M2</th><td class="redips-only M2w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
@@ -145,7 +146,6 @@
       			  <tr><td class="rs1"></td><td class="redips-only Ms8e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>Ms8</th><td class="redips-only Ms8w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
       			  <tr><td class="rs1"></td><td class="redips-only Ms9e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>Ms9</th><td class="redips-only Ms9w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
       			  <tr><td class="rs1"></td><td class="redips-only Ms10e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>Ms10</th><td class="redips-only Ms10w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
-              <tr><td class="rs1"></td><td class="redips-only Ms10TD"></td><td class="new hid"></td><td class="ch1 hid"></td><th>TD</th><td class="redips-only none"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
       			  <tr><td class="rs1"></td><td class="redips-only Ms11e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>Ms11</th><td class="redips-only Ms11w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
       			  <tr><td class="rs1"></td><td class="redips-only Ms12e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>Ms12</th><td class="redips-only Ms12w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
       			  <tr><td class="rs1"></td><td class="redips-only Ms13e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>Ms13</th><td class="redips-only Ms13w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
