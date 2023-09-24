@@ -62,14 +62,12 @@
         <a href="#" id="exportToCsv1" class="exportToCsvButton">Table 1</a>
         <a href="#" id="exportToCsv2" class="exportToCsvButton">Table 2</a>
         <label><input id="tooltipCheckbox" type="checkbox" name="checkbox" autocomplete="on">Disable tooltips</label>
-        <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset changes</button>
         <button onclick="redips.arrange()">Auto-arrange to current ranks</button>
+        <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset changes</button>
       </fieldset>
-      <div class="container">
-      <label for="ChangeTheme"> 
+      <label id="darkMode"> 
         Dark Mode <input type="checkbox" id="ChangeTheme"/>
       </label>
-      </div>
     </div>
     <!--
     <div id="saveLoadProgress">
@@ -104,6 +102,7 @@
             <tbody>
               <tr class="ygroup"><td class="rs1"></td><td class="redips-only Y1e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>Y1</th><td class="redips-only Y1w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
               <tr class="ogroup"><td class="rs1"></td><td class="redips-only O1e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>O1</th><td class="redips-only O1w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
+              <tr class="ogroup"><td class="rs1"></td><td class="redips-only O2e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>O2</th><td class="redips-only O2w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
               <tr class="sgroup"><td class="rs1"></td><td class="redips-only S1e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>S1</th><td class="redips-only S1w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
               <tr class="sgroup"><td class="rs1"></td><td class="redips-only S2e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>S2</th><td class="redips-only S2w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
               <tr class="kgroup"><td class="rs1"></td><td class="redips-only K1e"></td><td class="new hid"></td><td class="ch1 hid"></td><th>K1</th><td class="redips-only K1w"></td><td class="rs1"></td><td class="new hid"></td><td class="ch1 hid"></td></tr>
