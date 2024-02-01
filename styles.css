@@ -260,6 +260,7 @@ td {
 th {
 	background-color: #eee;
 	color: #000000ba;
+	padding: 0 4px;
 }
 
 .divider {
@@ -295,7 +296,7 @@ th {
 
 .rs1, .rs2, .cur, .new, .ch1, .ch2 {
 	line-height: 18px;
-	padding: 0 2px;
+	padding: 0 3px;
 }
 
 .nte {
@@ -429,7 +430,7 @@ td .redips-drag a {
 [data-w="0"], [data-w="1"] {
 	background-color: #FFB7BF;
 }
-
+/*
 [id^="Ms"] {
 	text-shadow: none !important;
 	border-style: solid !important;
@@ -444,7 +445,7 @@ td .redips-drag a {
 .msLink {
 	font-family: Trebuchet MS, Tahoma, Calibri, Arial;
 }
-
+*/
 td .redips-drag, .redips-nodrag {
 	/*background: linear-gradient(rgba(255, 255, 255, 0.75), transparent 15%, transparent 85%, rgba(0, 0, 0, 0.25));*/
 	text-shadow: 1px 1px #ffffff7d;
@@ -545,11 +546,11 @@ footer {
   color: #e6e6e6;
   text-shadow: 1px 1px #0000005e;
 }
-
+/*
 .darkm [id^="Ms"] > a {
   color: white !important;
 }
-
+*/
 .darkm .intai {
   background-color: #515151 !important;
 }
