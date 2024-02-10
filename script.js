@@ -404,32 +404,36 @@ window.onload = function() {
     exportTableToCSV.apply(this, [$("#banzuke2"), "banzuke2.csv"]);
   });
 
-
+  // removing unused local storage names of before *****************************
   if (window.localStorage.getItem("banzuke1") !== null) {
     window.localStorage.removeItem("banzuke1");
     window.localStorage.removeItem("banzuke2");
   }
   if (window.localStorage.getItem("banzuke") !== null) {
-    //document.getElementById("tableLiner").innerHTML = window.localStorage.getItem("banzuke");
     window.localStorage.removeItem("banzuke");
-    //writeTableTitles(basho);
-    //populateSlots();
   }
   if (window.localStorage.getItem("picks") !== null) {
     window.localStorage.removeItem("picks");
   }
+  // ***************************************************************************
   if (window.localStorage.getItem("savedBanzuke") !== null) {
     var saveDate = Date.parse(window.localStorage.getItem("savedBanzukeTime")), 
         expireDate = new Date(Date.UTC(2024, 0, 28, 9, 5));
 
     if (saveDate < expireDate) 
       window.localStorage.removeItem("savedBanzuke");
-    else 
+    else {
       document.getElementById("tableLiner").innerHTML = window.localStorage.getItem("savedBanzuke");
+      if (document.querySelectorAll(".makushitaTable").length == 0) {
+        addMakushitaTable();
+        updateInfoCells();
+      }
+    }
   }
   if (window.localStorage.getItem("savedBanzuke") === null) {
     writeTableTitles(basho);
-    populateSlots();
+    addRikishi();
+    addMakushitaTable();
   }
 
   var radioButton = document.getElementsByClassName("checkbox"), 
@@ -600,7 +604,7 @@ window.onload = function() {
                               " Makuuchi Guess - " + tableTitle[1].innerHTML;
   }
 
-  function populateSlots() {
+  function addRikishi() {
     var table1 = document.getElementById("banzuke1"), 
         cell = table1.querySelectorAll(".redips-only");
 
@@ -657,6 +661,59 @@ window.onload = function() {
       }
     }
   }
+}
+
+function addMakushitaTable() {
+  var container = document.querySelectorAll(".banzukeContainer")[1];
+  var table1 = document.createElement("table");
+  var table2 = document.createElement("table");
+  var groups = [[], [], [], [], [], [], [], []];
+
+  table1.className = "makushitaTable";
+  table2.className = "makushitaTable";
+  for (var i = 0; i < theSekitori.length; i++) {
+    if (theSekitori[i].startsWith("Ms")) {
+      var rikishiData = theSekitori[i].split(' ');
+
+      groups[rikishiData[2].charAt(0)].push({rikishi: rikishiData[0] + ' ' + rikishiData[1], 
+                                             id: sekitoriID[i]});
+    }
+  }
+  table1.appendChild(document.createElement("tbody"));
+  table2.appendChild(document.createElement("tbody"));
+  for (var i = 7; i >= 0; i--) {
+    if (groups[i].length > 0) {
+      var headerRow = document.createElement("tr");
+      var header = document.createElement("th");
+
+      header.colSpan = 2;
+      header.innerText = i + " wins";
+      headerRow.appendChild(header);
+      if (i > 4) 
+        table1.children[0].appendChild(headerRow);
+      else 
+        table2.children[0].appendChild(headerRow);
+      for (var j = 0; j < groups[i].length; j++) {
+        var rikishiRow = document.createElement("tr");
+        var rikishiCell = document.createElement("td");
+        var link = document.createElement("a");
+
+        link.href = "https://sumodb.sumogames.de/Rikishi.aspx?r=" + groups[i][j].id;
+        link.target = "_blank";
+        link.innerText = groups[i][j].rikishi;
+        rikishiCell.appendChild(link);
+        rikishiCell.id = groups[i][j].rikishi.split(' ')[1].toLowerCase();
+        rikishiRow.appendChild(rikishiCell);
+        rikishiRow.appendChild(document.createElement("td"));
+        if (i > 4) 
+          table1.children[0].appendChild(rikishiRow);
+        else 
+          table2.children[0].appendChild(rikishiRow);
+      }
+    }
+  }
+  container.appendChild(table1);
+  container.appendChild(table2);
 }
 
 function loadDraft() {
@@ -838,9 +895,9 @@ redips.init = function () {
         if (tooltip.dataset.direction == "down") {
           tooltip.innerHTML = '⮟';
           for (var i = targetIndex; i < b2Cell.length; i++) {
-            if (b2Cell[i].children.length == 0 || targetIndex == 57 || targetIndex == 85 || 
+            if (b2Cell[i].children.length == 0 || targetIndex == 53 || targetIndex == 81 || targetIndex == 111 || 
                (b2Cell[i].children.length == 1 && b2Cell[i] === rd.obj.parentNode) || 
-               ((i == 57 || i == 85) && b2Cell[i].children.length > 0)) {
+               ((i == 53 || i == 81 || i == 111) && b2Cell[i].children.length > 0)) {
               //b2Cell[i].style.border = "none";
               b2Cell[i].classList.add("shiftTo");
               for (var j = i-1; j >= targetIndex; i--, j--) {
@@ -854,9 +911,9 @@ redips.init = function () {
         else {
           tooltip.innerHTML = '⮝';
           for (var i = targetIndex; i >= 0; i--) {
-            if (b2Cell[i].children.length == 0 || targetIndex == 0 || targetIndex == 58 || 
+            if (b2Cell[i].children.length == 0 || targetIndex == 0 || targetIndex == 54 || targetIndex == 82 || 
                (b2Cell[i].children.length == 1 && b2Cell[i] === rd.obj.parentNode) || 
-               ((i == 0 || i == 58) && b2Cell[i].children.length > 0)) {
+               ((i == 0 || i == 54 || i == 82) && b2Cell[i].children.length > 0)) {
               //b2Cell[i].style.border = "none";
               b2Cell[i].classList.add("shiftTo");
               for (var j = i+1; j <= targetIndex; i++, j++) {
@@ -894,6 +951,7 @@ redips.init = function () {
           else 
             document.getElementById("makRik").innerHTML--;
           originCell.children[0].remove();
+          $('#' + rd.obj.innerText.toLowerCase()).next().html("");
           //b1Cell[i].style.removeProperty("border");
           updateInfoCells();
           saveBanzuke();
@@ -955,8 +1013,13 @@ redips.init = function () {
       else 
         makuCounter.innerHTML++;
     }
-    else 
+    else {
       targetCell.children[0].remove();
+      if (rd.obj.children.length > 1) 
+        $('#' + rd.obj.children[1].innerText.toLowerCase()).next().html("");
+      else 
+        $('#' + rd.obj.innerText.toLowerCase()).next().html("");
+    }
 
     if (dropRadio[1].checked && targetCell !== currentCell && 
         tarCellIsOfBanzuke2 && targetCell.children.length > 0) {
@@ -968,9 +1031,9 @@ redips.init = function () {
         
         if (tooltip.dataset.direction == "down") {
           for (var i = targetIndex; i < b2Cell.length; i++) {
-            if (b2Cell[i].children.length == 0 || targetIndex == 57 || targetIndex == 85 || 
+            if (b2Cell[i].children.length == 0 || targetIndex == 53 || targetIndex == 81 || targetIndex == 111 || 
                (b2Cell[i].children.length == 1 && b2Cell[i] === thisCard.parentNode) || 
-               ((i == 57 || i == 85) && b2Cell[i].children.length > 0)) {
+               ((i == 53 || i == 81 || i == 111) && b2Cell[i].children.length > 0)) {
               //b2Cell[i].style.border = "none";
               for (var j = i-1; j >= targetIndex; i--, j--) 
                 rd.relocate(b2Cell[j], b2Cell[i], "instant");
@@ -981,9 +1044,9 @@ redips.init = function () {
         }
         else {
           for (var i = targetIndex; i >= 0; i--) {
-            if (b2Cell[i].children.length == 0 || targetIndex == 0 || targetIndex == 58 || 
+            if (b2Cell[i].children.length == 0 || targetIndex == 0 || targetIndex == 54 || targetIndex == 82 || 
                (b2Cell[i].children.length == 1 && b2Cell[i] === thisCard.parentNode) || 
-               ((i == 0 || i == 58) && b2Cell[i].children.length > 0)) {
+               ((i == 0 || i == 54 || i == 82) && b2Cell[i].children.length > 0)) {
               //b2Cell[i].style.border = "none";
               for (var j = i+1; j <= targetIndex; i++, j++) 
                 rd.relocate(b2Cell[j], b2Cell[i], "instant");
@@ -1130,6 +1193,8 @@ function updateInfoCells() {
           resultCell.innerHTML += "<br>" + resultLink;
           currRankCell.innerHTML += "<br><span>" + b2Cell[i].children[j].id + "</span>";
         }
+        if (thisRank.startsWith("Ms")) 
+          $('#' + b2Cell[i].children[j].innerText.toLowerCase()).next().html(thisChg);
 
         var rikishiBgColor = window.getComputedStyle(b2Cell[i].children[j]).getPropertyValue("background-color")
 
@@ -1210,8 +1275,20 @@ redips.arrange = function() {
     for (var i = 0; i < rikishi.length; i++) {
       var rikishiRank = rikishi[i].id;
       
-      if (parseInt(rikishiRank.slice(2, 4)) > 15) 
-        break;
+      if ((rikishiRank.startsWith("Ms") && rikishiRank.slice(2, -1) > 15) || rikishiRank.startsWith("Sd")) {
+        /*
+        if (rikishi[i].parentNode.classList.contains("b2")) {
+          rd.moveObject({
+            obj: rikishi[i], 
+            target: document.querySelector('.' + rikishiRank), 
+            callback: function () {
+              document.querySelector('.' + rikishiRank).children[0].remove();
+            }
+          });
+        }
+        */
+        continue;
+      }
       if (!rikishi[i].parentNode.classList.contains("b2")) {
         var holder = document.createElement('a');
 
