@@ -406,6 +406,7 @@ function exportTableToCSV($table, filename) {
 }
 
 window.onload = function () {
+  window.location.href = "https://gtbhelper.vercel.app/";
   var basho = "202403"; // The date of the basho just ended
 
   // This must be a hyperlink
