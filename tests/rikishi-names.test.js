@@ -1,9 +1,9 @@
-import { load, save, theSekitori, sekitoriID } from '../rikishi-names.js';
+import { load, save, sekitoriID, theSekitori } from '../rikishi-names.js';
 
 test('theSekitori array is properly formatted', () => {
   assert(Array.isArray(theSekitori), 'theSekitori should be an array');
   assert(theSekitori.length > 0, 'theSekitori should not be empty');
-  
+
   // Check first few entries
   assert(theSekitori[0].includes('Y1e'), 'First entry should be Y1e');
   assert(theSekitori[1].includes('Y1w'), 'Second entry should be Y1w');
@@ -34,24 +34,24 @@ test('load returns empty object when no data', () => {
 
 test('save and load work correctly', () => {
   localStorage.clear();
-  
+
   const testData = {
-    '12451': 'Custom Name 1',
-    '12453': 'Custom Name 2'
+    12451: 'Custom Name 1',
+    12453: 'Custom Name 2'
   };
-  
+
   save(testData);
   const loaded = load();
-  
+
   assertEquals(loaded['12451'], 'Custom Name 1');
   assertEquals(loaded['12453'], 'Custom Name 2');
   assertEquals(Object.keys(loaded).length, 2);
 });
 
 test('save overwrites existing data', () => {
-  save({ '12451': 'Name 1' });
-  save({ '12453': 'Name 2' });
-  
+  save({ 12451: 'Name 1' });
+  save({ 12453: 'Name 2' });
+
   const loaded = load();
   assertEquals(loaded['12451'], undefined, 'First save should be overwritten');
   assertEquals(loaded['12453'], 'Name 2', 'Second save should be present');

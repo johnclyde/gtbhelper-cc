@@ -23,33 +23,39 @@ const RANKS = {
 // Generate old banzuke table rows
 export function generateOldBanzukeRows() {
   const tbody = [];
-  
+
   // Sanyaku ranks
   RANKS.sanyaku.forEach(({ rank }) => {
-    tbody.push(`<tr class="san"><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`);
+    tbody.push(
+      `<tr class="san"><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`
+    );
   });
-  
+
   // Maegashira ranks
   tbody.push(''); // Empty line for spacing
   RANKS.maegashira.forEach(({ rank }) => {
-    tbody.push(`<tr><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`);
+    tbody.push(
+      `<tr><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`
+    );
   });
-  
+
   // Divider
   tbody.push('<tr><th class="divider" colspan="3"></th></tr>');
-  
+
   // Juryo ranks
   RANKS.juryo.forEach(({ rank }) => {
-    tbody.push(`<tr><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`);
+    tbody.push(
+      `<tr><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`
+    );
   });
-  
+
   return tbody.join('\n              ');
 }
 
 // Generate new banzuke table rows
 export function generateNewBanzukeRows() {
   const tbody = [];
-  
+
   // New banzuke has different rank structure
   const newRanks = [
     { rank: 'Y1', san: true },
@@ -62,27 +68,33 @@ export function generateNewBanzukeRows() {
     { rank: 'K1', san: true },
     { rank: 'K2', san: true }
   ];
-  
+
   // Add sanyaku ranks
   newRanks.forEach(({ rank, san }) => {
-    tbody.push(`<tr class="san"><td class="ch"> </td><td class="redips-only b2"></td><th>${rank}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`);
+    tbody.push(
+      `<tr class="san"><td class="ch"> </td><td class="redips-only b2"></td><th>${rank}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`
+    );
   });
-  
+
   tbody.push(''); // Empty line for spacing
-  
+
   // Add maegashira ranks (can go up to M18)
   for (let i = 1; i <= 18; i++) {
-    tbody.push(`<tr><td class="ch"> </td><td class="redips-only b2"></td><th>M${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`);
+    tbody.push(
+      `<tr><td class="ch"> </td><td class="redips-only b2"></td><th>M${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`
+    );
   }
-  
+
   // Divider
   tbody.push('<tr><th class="divider" colspan="5"></th></tr>');
-  
+
   // Add juryo ranks J1-J14
   for (let i = 1; i <= 14; i++) {
-    tbody.push(`<tr><td class="ch"> </td><td class="redips-only b2"></td><th>J${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`);
+    tbody.push(
+      `<tr><td class="ch"> </td><td class="redips-only b2"></td><th>J${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`
+    );
   }
-  
+
   return tbody.join('\n              ');
 }
 
@@ -91,13 +103,12 @@ export function initializeTables() {
   // Find table bodies
   const oldBanzukeTbody = document.querySelector('#banzuke1 tbody');
   const newBanzukeTbody = document.querySelector('#banzuke2 tbody');
-  
+
   if (oldBanzukeTbody) {
     oldBanzukeTbody.innerHTML = generateOldBanzukeRows();
   }
-  
+
   if (newBanzukeTbody) {
     newBanzukeTbody.innerHTML = generateNewBanzukeRows();
   }
 }
-

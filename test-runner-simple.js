@@ -3,7 +3,7 @@
 // Simple test runner that can run in CI without heavy dependencies
 // Run with: node test-runner-simple.js
 
-import { readFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 console.log('Running GTB Helper Tests...\n');
 
@@ -52,20 +52,23 @@ test('HTML files are valid', () => {
   const indexHtml = readFileSync('index.html', 'utf8');
   assert(indexHtml.includes('<!DOCTYPE html>'), 'index.html should have DOCTYPE');
   assert(indexHtml.includes('modules-init.js'), 'index.html should load modules-init.js');
-  assert(indexHtml.includes('Generated dynamically'), 'Tables should be marked as dynamically generated');
+  assert(
+    indexHtml.includes('Generated dynamically'),
+    'Tables should be marked as dynamically generated'
+  );
 });
 
 test('JavaScript files use ES6 modules', () => {
   const bashoUtils = readFileSync('basho-utils.js', 'utf8');
   assert(bashoUtils.includes('export function'), 'basho-utils.js should use ES6 exports');
-  
+
   const rikishiNames = readFileSync('rikishi-names.js', 'utf8');
   assert(rikishiNames.includes('export const'), 'rikishi-names.js should export constants');
   assert(rikishiNames.includes('export function'), 'rikishi-names.js should export functions');
-  
+
   const divisionManager = readFileSync('division-manager.js', 'utf8');
   assert(divisionManager.includes('export function'), 'division-manager.js should use ES6 exports');
-  
+
   const appState = readFileSync('app-state.js', 'utf8');
   assert(appState.includes('export'), 'app-state.js should use ES6 exports');
 });
@@ -74,7 +77,10 @@ test('Test files exist', () => {
   assert(existsSync('tests/basho-utils.test.js'), 'basho-utils test should exist');
   assert(existsSync('tests/rikishi-names.test.js'), 'rikishi-names test should exist');
   assert(existsSync('tests/table-generator.test.js'), 'table-generator test should exist');
-  assert(existsSync('tests/rikishi-card-manager.test.js'), 'rikishi-card-manager test should exist');
+  assert(
+    existsSync('tests/rikishi-card-manager.test.js'),
+    'rikishi-card-manager test should exist'
+  );
   assert(existsSync('tests/division-manager.test.js'), 'division-manager test should exist');
 });
 

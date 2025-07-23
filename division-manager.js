@@ -22,22 +22,22 @@ const DIVISIONS = {
   makushita: {
     name: 'Makushita',
     rank: 'Ms',
-    defaultCount: 0  // Not shown by default
+    defaultCount: 0 // Not shown by default
   },
   sandanme: {
     name: 'Sandanme',
     rank: 'Sd',
-    defaultCount: 0  // Not shown by default
+    defaultCount: 0 // Not shown by default
   },
   jonidan: {
     name: 'Jonidan',
     rank: 'Jd',
-    defaultCount: 0  // Not shown by default
+    defaultCount: 0 // Not shown by default
   },
   jonokuchi: {
     name: 'Jonokuchi',
     rank: 'Jk',
-    defaultCount: 0  // Not shown by default
+    defaultCount: 0 // Not shown by default
   }
 };
 
@@ -80,19 +80,23 @@ export function saveConfig(config) {
 // Generate rows for a division
 function generateDivisionRows(rank, count, isOldBanzuke = true, isSanyaku = false) {
   const rows = [];
-  
+
   if (count === 0) return rows;
-  
+
   for (let i = 1; i <= count; i++) {
     if (isOldBanzuke) {
       const className = isSanyaku ? 'class="san"' : '';
-      rows.push(`<tr ${className}><td class="redips-only ${rank}${i}e"></td><th>${rank}${i}</th><td class="redips-only ${rank}${i}w"></td></tr>`);
+      rows.push(
+        `<tr ${className}><td class="redips-only ${rank}${i}e"></td><th>${rank}${i}</th><td class="redips-only ${rank}${i}w"></td></tr>`
+      );
     } else {
       const className = isSanyaku ? 'class="san"' : '';
-      rows.push(`<tr ${className}><td class="ch"> </td><td class="redips-only b2"></td><th>${rank}${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`);
+      rows.push(
+        `<tr ${className}><td class="ch"> </td><td class="redips-only b2"></td><th>${rank}${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`
+      );
     }
   }
-  
+
   return rows;
 }
 
@@ -100,25 +104,31 @@ function generateDivisionRows(rank, count, isOldBanzuke = true, isSanyaku = fals
 export function generateConfigurableOldBanzukeRows() {
   const config = getConfig();
   const tbody = [];
-  
+
   // Sanyaku ranks
   Object.entries(config.oldBanzuke.sanyaku).forEach(([rank, count]) => {
     tbody.push(...generateDivisionRows(rank, count, true, true));
   });
-  
+
   // Maegashira
   if (config.oldBanzuke.maegashira > 0) {
     tbody.push(''); // Empty line for spacing
     tbody.push(...generateDivisionRows('M', config.oldBanzuke.maegashira, true, false));
   }
-  
+
   // Divider before Juryo
   tbody.push('<tr><th class="divider" colspan="3"></th></tr>');
-  
+
   // Lower divisions
   const lowerDivisions = ['juryo', 'makushita', 'sandanme', 'jonidan', 'jonokuchi'];
-  const divisionRanks = { juryo: 'J', makushita: 'Ms', sandanme: 'Sd', jonidan: 'Jd', jonokuchi: 'Jk' };
-  
+  const divisionRanks = {
+    juryo: 'J',
+    makushita: 'Ms',
+    sandanme: 'Sd',
+    jonidan: 'Jd',
+    jonokuchi: 'Jk'
+  };
+
   lowerDivisions.forEach((division, index) => {
     const count = config.oldBanzuke[division];
     if (count > 0) {
@@ -128,7 +138,7 @@ export function generateConfigurableOldBanzukeRows() {
       tbody.push(...generateDivisionRows(divisionRanks[division], count, true, false));
     }
   });
-  
+
   return tbody.join('\n              ');
 }
 
@@ -136,25 +146,31 @@ export function generateConfigurableOldBanzukeRows() {
 export function generateConfigurableNewBanzukeRows() {
   const config = getConfig();
   const tbody = [];
-  
+
   // Sanyaku ranks
   Object.entries(config.newBanzuke.sanyaku).forEach(([rank, count]) => {
     tbody.push(...generateDivisionRows(rank, count, false, true));
   });
-  
+
   // Maegashira
   if (config.newBanzuke.maegashira > 0) {
     tbody.push(''); // Empty line for spacing
     tbody.push(...generateDivisionRows('M', config.newBanzuke.maegashira, false, false));
   }
-  
+
   // Divider before Juryo
   tbody.push('<tr><th class="divider" colspan="5"></th></tr>');
-  
+
   // Lower divisions
   const lowerDivisions = ['juryo', 'makushita', 'sandanme', 'jonidan', 'jonokuchi'];
-  const divisionRanks = { juryo: 'J', makushita: 'Ms', sandanme: 'Sd', jonidan: 'Jd', jonokuchi: 'Jk' };
-  
+  const divisionRanks = {
+    juryo: 'J',
+    makushita: 'Ms',
+    sandanme: 'Sd',
+    jonidan: 'Jd',
+    jonokuchi: 'Jk'
+  };
+
   lowerDivisions.forEach((division, index) => {
     const count = config.newBanzuke[division];
     if (count > 0) {
@@ -164,7 +180,7 @@ export function generateConfigurableNewBanzukeRows() {
       tbody.push(...generateDivisionRows(divisionRanks[division], count, false, false));
     }
   });
-  
+
   return tbody.join('\n              ');
 }
 
@@ -172,26 +188,28 @@ export function generateConfigurableNewBanzukeRows() {
 export function updateDivisionCount(banzukeType, division, newCount) {
   const config = getConfig();
   const oldCount = config[banzukeType][division];
-  
+
   if (division === 'sanyaku') {
     // Special handling for sanyaku sub-ranks
     return; // Handled by updateSanyakuCount
   }
-  
-  newCount = Math.max(0, newCount);
-  config[banzukeType][division] = newCount;
+
+  const validatedCount = Math.max(0, newCount);
+  config[banzukeType][division] = validatedCount;
   saveConfig(config);
-  
+
   // Update the specific division rows
-  const tbody = document.querySelector(banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody');
+  const tbody = document.querySelector(
+    banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody'
+  );
   if (tbody) {
-    const rankMap = { 
-      maegashira: 'M', 
-      juryo: 'J', 
-      makushita: 'Ms', 
-      sandanme: 'Sd', 
-      jonidan: 'Jd', 
-      jonokuchi: 'Jk' 
+    const rankMap = {
+      maegashira: 'M',
+      juryo: 'J',
+      makushita: 'Ms',
+      sandanme: 'Sd',
+      jonidan: 'Jd',
+      jonokuchi: 'Jk'
     };
     const rank = rankMap[division];
     if (rank) {
@@ -204,13 +222,15 @@ export function updateDivisionCount(banzukeType, division, newCount) {
 export function updateSanyakuCount(banzukeType, rank, newCount) {
   const config = getConfig();
   const oldCount = config[banzukeType].sanyaku[rank];
-  
-  newCount = Math.max(0, newCount);
-  config[banzukeType].sanyaku[rank] = newCount;
+
+  const validatedCount = Math.max(0, newCount);
+  config[banzukeType].sanyaku[rank] = validatedCount;
   saveConfig(config);
-  
+
   // Update the specific sanyaku rows
-  const tbody = document.querySelector(banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody');
+  const tbody = document.querySelector(
+    banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody'
+  );
   if (tbody) {
     updateDivisionRows(tbody, rank, oldCount, newCount, banzukeType === 'oldBanzuke', true);
   }
@@ -219,14 +239,20 @@ export function updateSanyakuCount(banzukeType, rank, newCount) {
 // Add a division (set its count to default if it was 0)
 export function addDivision(banzukeType, division) {
   const config = getConfig();
-  
+
   if (config[banzukeType][division] === 0) {
     // Use default count from DIVISIONS
-    const defaultCount = division === 'makushita' ? 15 :
-                        division === 'sandanme' ? 20 :
-                        division === 'jonidan' ? 20 :
-                        division === 'jonokuchi' ? 10 : 10;
-    
+    const defaultCount =
+      division === 'makushita'
+        ? 15
+        : division === 'sandanme'
+          ? 20
+          : division === 'jonidan'
+            ? 20
+            : division === 'jonokuchi'
+              ? 10
+              : 10;
+
     updateDivisionCount(banzukeType, division, defaultCount);
   }
 }
@@ -247,18 +273,18 @@ export function resetToDefault() {
 function addRowToTable(tbody, rank, number, isOldBanzuke = true, isSanyaku = false) {
   const tr = document.createElement('tr');
   if (isSanyaku) tr.className = 'san';
-  
+
   if (isOldBanzuke) {
     // Old banzuke: east cell, rank header, west cell
     const eastTd = document.createElement('td');
     eastTd.className = `redips-only ${rank}${number}e`;
-    
+
     const rankTh = document.createElement('th');
     rankTh.textContent = `${rank}${number}`;
-    
+
     const westTd = document.createElement('td');
     westTd.className = `redips-only ${rank}${number}w`;
-    
+
     tr.appendChild(eastTd);
     tr.appendChild(rankTh);
     tr.appendChild(westTd);
@@ -267,32 +293,39 @@ function addRowToTable(tbody, rank, number, isOldBanzuke = true, isSanyaku = fal
     const ch1 = document.createElement('td');
     ch1.className = 'ch';
     ch1.innerHTML = ' ';
-    
+
     const eastTd = document.createElement('td');
     eastTd.className = 'redips-only b2';
-    
+
     const rankTh = document.createElement('th');
     rankTh.textContent = `${rank}${number}`;
-    
+
     const westTd = document.createElement('td');
     westTd.className = 'redips-only b2';
-    
+
     const ch2 = document.createElement('td');
     ch2.className = 'ch';
     ch2.innerHTML = ' ';
-    
+
     tr.appendChild(ch1);
     tr.appendChild(eastTd);
     tr.appendChild(rankTh);
     tr.appendChild(westTd);
     tr.appendChild(ch2);
   }
-  
+
   return tr;
 }
 
 // Update a specific division's rows
-function updateDivisionRows(tbody, rank, oldCount, newCount, isOldBanzuke = true, isSanyaku = false) {
+function updateDivisionRows(
+  tbody,
+  rank,
+  oldCount,
+  newCount,
+  isOldBanzuke = true,
+  isSanyaku = false
+) {
   if (newCount > oldCount) {
     // Add rows
     for (let i = oldCount + 1; i <= newCount; i++) {
@@ -300,13 +333,11 @@ function updateDivisionRows(tbody, rank, oldCount, newCount, isOldBanzuke = true
       // Find where to insert this row
       const rows = tbody.querySelectorAll('tr');
       let inserted = false;
-      
+
       // Find the right position to insert
       for (let j = 0; j < rows.length; j++) {
         const th = rows[j].querySelector('th');
-        if (th && th.textContent.startsWith(rank)) {
-          // Keep going until we find the last row of this rank
-          continue;
+        if (th?.textContent.startsWith(rank)) {
         } else if (th) {
           // Found a different rank, insert before it
           tbody.insertBefore(row, rows[j]);
@@ -314,7 +345,7 @@ function updateDivisionRows(tbody, rank, oldCount, newCount, isOldBanzuke = true
           break;
         }
       }
-      
+
       if (!inserted) {
         tbody.appendChild(row);
       }
@@ -322,8 +353,10 @@ function updateDivisionRows(tbody, rank, oldCount, newCount, isOldBanzuke = true
   } else if (newCount < oldCount) {
     // Remove rows
     for (let i = oldCount; i > newCount; i--) {
-      const rowToRemove = tbody.querySelector(`th:contains("${rank}${i}")`)?.parentElement ||
-                          Array.from(tbody.querySelectorAll('th')).find(th => th.textContent === `${rank}${i}`)?.parentElement;
+      const rowToRemove =
+        tbody.querySelector(`th:contains("${rank}${i}")`)?.parentElement ||
+        Array.from(tbody.querySelectorAll('th')).find((th) => th.textContent === `${rank}${i}`)
+          ?.parentElement;
       if (rowToRemove) {
         tbody.removeChild(rowToRemove);
       }
@@ -336,11 +369,11 @@ function regenerateTables() {
   // This is now called on initial load only
   const oldBanzukeTbody = document.querySelector('#banzuke1 tbody');
   const newBanzukeTbody = document.querySelector('#banzuke2 tbody');
-  
+
   if (oldBanzukeTbody) {
     oldBanzukeTbody.innerHTML = generateConfigurableOldBanzukeRows();
   }
-  
+
   if (newBanzukeTbody) {
     newBanzukeTbody.innerHTML = generateConfigurableNewBanzukeRows();
   }
@@ -375,4 +408,3 @@ export function getDivisionCounts() {
     }
   };
 }
-

@@ -1,10 +1,10 @@
 // Test runner for CI environments
 // Can be run with Node.js using a headless browser or a testing framework
 
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,10 +20,18 @@ global.window = dom.window;
 global.document = window.document;
 global.localStorage = {
   store: {},
-  getItem(key) { return this.store[key] || null; },
-  setItem(key, value) { this.store[key] = value.toString(); },
-  removeItem(key) { delete this.store[key]; },
-  clear() { this.store = {}; }
+  getItem(key) {
+    return this.store[key] || null;
+  },
+  setItem(key, value) {
+    this.store[key] = value.toString();
+  },
+  removeItem(key) {
+    delete this.store[key];
+  },
+  clear() {
+    this.store = {};
+  }
 };
 
 // Test framework
@@ -70,21 +78,21 @@ async function runTests() {
     await import('./tests/rikishi-card-manager.test.js');
     await import('./tests/rikishi-names.test.js');
     await import('./tests/table-generator.test.js');
-    
+
     // Display results
-    const passed = results.filter(r => r.passed).length;
-    const failed = results.filter(r => !r.passed).length;
-    
+    const passed = results.filter((r) => r.passed).length;
+    const failed = results.filter((r) => !r.passed).length;
+
     console.log(`\nTest Summary: ${passed} passed, ${failed} failed, ${results.length} total\n`);
-    
-    results.forEach(result => {
+
+    results.forEach((result) => {
       const icon = result.passed ? '✓' : '✗';
       console.log(`${icon} ${result.name}`);
       if (result.error) {
         console.log(`  Error: ${result.error}`);
       }
     });
-    
+
     // Exit with appropriate code
     process.exit(failed > 0 ? 1 : 0);
   } catch (error) {

@@ -1,9 +1,9 @@
 // GTB Helper - Main Application
 
-import { 
-  CURRENT_BASHO, 
-  getSavedBanzuke, 
-  hasSavedBanzuke, 
+import {
+  CURRENT_BASHO,
+  getSavedBanzuke,
+  hasSavedBanzuke,
   initializeRadioButtons,
   saveRadioPreference
 } from './app-state.js';
@@ -19,7 +19,7 @@ import { makeEditable } from './rikishi-names.js';
 function initializeApp() {
   // Initialize modules
   initRikishiCards();
-  
+
   // Handle saved state
   if (hasSavedState()) {
     // Load from new state format
@@ -32,7 +32,7 @@ function initializeApp() {
     initializeConfigurableTables();
     populateAllSlots(CURRENT_BASHO);
     // Then restore the old saved state
-    const tableLiner = document.getElementById("tableLiner");
+    const tableLiner = document.getElementById('tableLiner');
     tableLiner.innerHTML = getSavedBanzuke();
     migrateFromInnerHTML();
   } else {
@@ -41,14 +41,14 @@ function initializeApp() {
     initializeConfigurableTables();
     populateAllSlots(CURRENT_BASHO);
   }
-  
+
   // Set up UI preferences
   initializeRadioButtons();
-  
+
   // Initialize interactions
   initDragDrop();
   makeEditable();
-  
+
   // Initialize division controls
   initializeDivisionControls();
 }
@@ -56,7 +56,7 @@ function initializeApp() {
 // Exposed functions for HTML onclick handlers
 window.saveRadio = (radioButton) => saveRadioPreference(radioButton.value);
 window.resetBanzuke = () => {
-  if (confirm("Reset the banzuke?")) {
+  if (confirm('Reset the banzuke?')) {
     resetDragDrop();
   }
 };

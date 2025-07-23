@@ -1,7 +1,7 @@
 // App State Module - Manages application state and preferences
 
 // Constants
-export const CURRENT_BASHO = "202507";
+export const CURRENT_BASHO = '202507';
 
 // Direct storage key usage - no need for abstraction
 
@@ -44,9 +44,9 @@ export function getRadioPreference() {
 
 // Initialize radio buttons
 export function initializeRadioButtons() {
-  const radioButtons = document.getElementsByClassName("checkbox");
+  const radioButtons = document.getElementsByClassName('checkbox');
   const preference = getRadioPreference();
-  
+
   if (radioButtons.length >= 2) {
     if (preference === RADIO_OPTIONS.OPEN_RIKISHI_PAGE) {
       radioButtons[0].checked = true;
