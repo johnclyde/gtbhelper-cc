@@ -109,7 +109,10 @@ function createRankControl(banzukeType, rank, count, isSanyaku = false) {
   const decreaseBtn = document.createElement('button');
   decreaseBtn.textContent = '-';
   decreaseBtn.onclick = () => {
-    const newCount = Math.max(0, count - 1);
+    const currentCount = Number.parseInt(countSpan.textContent);
+    const newCount = Math.max(0, currentCount - 1);
+    if (newCount === currentCount) return; // No change
+    
     if (isSanyaku) {
       updateSanyakuCount(banzukeType, rank, newCount);
     } else if (rank === 'M') {
@@ -124,17 +127,21 @@ function createRankControl(banzukeType, rank, count, isSanyaku = false) {
       };
       updateDivisionCount(banzukeType, divisionMap[rank], newCount);
     }
-    updateControls();
+    // Just update the count display
+    countSpan.textContent = newCount;
   };
 
   const countSpan = document.createElement('span');
   countSpan.style.cssText = 'width: 30px; text-align: center;';
   countSpan.textContent = count;
+  countSpan.id = `count-${banzukeType}-${rank}`;
 
   const increaseBtn = document.createElement('button');
   increaseBtn.textContent = '+';
   increaseBtn.onclick = () => {
-    const newCount = count + 1;
+    const currentCount = Number.parseInt(countSpan.textContent);
+    const newCount = currentCount + 1;
+    
     if (isSanyaku) {
       updateSanyakuCount(banzukeType, rank, newCount);
     } else if (rank === 'M') {
@@ -149,7 +156,8 @@ function createRankControl(banzukeType, rank, count, isSanyaku = false) {
       };
       updateDivisionCount(banzukeType, divisionMap[rank], newCount);
     }
-    updateControls();
+    // Just update the count display
+    countSpan.textContent = newCount;
   };
 
   div.appendChild(label);
