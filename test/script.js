@@ -266,6 +266,9 @@ window.onload = function() {
       }
     }
   }
+  
+  // Initialize REDIPS drag and drop after everything is loaded
+  redips.init();
 }
 
 function saveRadio(radioButton) {
@@ -511,7 +514,8 @@ redips.resetBanzuke = function() {
   }
 };
 
-if (window.addEventListener)
-  window.addEventListener("load", redips.init, false);
-else if (window.attachEvent)
-  window.attachEvent("onload", redips.init);
+// Remove these as we'll call redips.init from within window.onload
+// if (window.addEventListener)
+//   window.addEventListener("load", redips.init, false);
+// else if (window.attachEvent)
+//   window.attachEvent("onload", redips.init);
