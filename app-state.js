@@ -19,18 +19,6 @@ export function cleanupLegacyStorage() {
   }
 }
 
-// Check if banzuke exists
-export function hasSavedBanzuke() {
-  // Check both old and new formats
-  return localStorage.getItem('banzukeState') !== null || localStorage.getItem('banzuke') !== null;
-}
-
-// Get saved banzuke HTML
-export function getSavedBanzuke() {
-  // This is now deprecated but kept for compatibility
-  return localStorage.getItem('banzuke');
-}
-
 // Save radio preference
 export function saveRadioPreference(value) {
   localStorage.setItem('radioButton', value);

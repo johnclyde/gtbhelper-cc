@@ -40,6 +40,25 @@ export function getDivisionCounts(banzukeType) {
   const config = getConfig();
   const banzuke = config[banzukeType];
 
+  // Safety check
+  if (!banzuke || !banzuke.sanyaku) {
+    console.error(`Invalid banzuke configuration for ${banzukeType}`);
+    // Return default counts
+    const defaultBanzuke = DEFAULT_CONFIG[banzukeType];
+    return {
+      Y: defaultBanzuke.sanyaku.Y,
+      O: defaultBanzuke.sanyaku.O,
+      S: defaultBanzuke.sanyaku.S,
+      K: defaultBanzuke.sanyaku.K,
+      M: defaultBanzuke.maegashira,
+      J: defaultBanzuke.juryo,
+      Ms: defaultBanzuke.makushita,
+      Sd: defaultBanzuke.sandanme,
+      Jd: defaultBanzuke.jonidan,
+      Jk: defaultBanzuke.jonokuchi
+    };
+  }
+
   // Flatten sanyaku and other divisions
   return {
     Y: banzuke.sanyaku.Y,
@@ -64,7 +83,27 @@ export function resetToDefault() {
 // Get current configuration
 export function getConfig() {
   const stored = localStorage.getItem(DIVISION_CONFIG_KEY);
-  return stored ? JSON.parse(stored) : { ...DEFAULT_CONFIG };
+  if (!stored) {
+    return { ...DEFAULT_CONFIG };
+  }
+
+  try {
+    const config = JSON.parse(stored);
+    // Validate config structure
+    if (
+      !config.oldBanzuke ||
+      !config.newBanzuke ||
+      !config.oldBanzuke.sanyaku ||
+      !config.newBanzuke.sanyaku
+    ) {
+      console.warn('Invalid config structure, resetting to default');
+      return { ...DEFAULT_CONFIG };
+    }
+    return config;
+  } catch (e) {
+    console.error('Failed to parse config:', e);
+    return { ...DEFAULT_CONFIG };
+  }
 }
 
 // Save configuration to localStorage

@@ -4,8 +4,6 @@ import {
   CURRENT_BASHO,
   RADIO_OPTIONS,
   getRadioPreference,
-  getSavedBanzuke,
-  hasSavedBanzuke,
   initializeRadioButtons,
   saveRadioPreference
 } from '../app-state.js';
@@ -17,29 +15,6 @@ test('CURRENT_BASHO is set correctly', () => {
 test('RADIO_OPTIONS has correct values', () => {
   assertEquals(RADIO_OPTIONS.OPEN_RIKISHI_PAGE, 'openRikishiPage');
   assertEquals(RADIO_OPTIONS.RETURN_TO_OLD, 'returnToOld');
-});
-
-test('hasSavedBanzuke returns false when no saved banzuke', () => {
-  localStorage.clear();
-  assert(!hasSavedBanzuke(), 'Should return false when no saved banzuke');
-});
-
-test('hasSavedBanzuke returns true when banzuke exists', () => {
-  localStorage.setItem('banzuke', '<div>test</div>');
-  assert(hasSavedBanzuke(), 'Should return true when banzuke exists');
-  localStorage.removeItem('banzuke');
-});
-
-test('getSavedBanzuke returns null when no saved banzuke', () => {
-  localStorage.clear();
-  assertEquals(getSavedBanzuke(), null, 'Should return null when no saved banzuke');
-});
-
-test('getSavedBanzuke returns saved HTML', () => {
-  const testHTML = '<div class="test">Test Banzuke</div>';
-  localStorage.setItem('banzuke', testHTML);
-  assertEquals(getSavedBanzuke(), testHTML, 'Should return saved HTML');
-  localStorage.removeItem('banzuke');
 });
 
 test('saveRadioPreference saves to localStorage', () => {

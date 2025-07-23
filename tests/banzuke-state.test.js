@@ -4,7 +4,6 @@ import {
   extractBanzukeState,
   hasSavedState,
   loadBanzukeState,
-  migrateFromInnerHTML,
   restoreBanzukeState,
   saveBanzukeState
 } from '../banzuke-state.js';
@@ -196,27 +195,6 @@ test('handles divider rows correctly', () => {
   const restoredDivider = tbody.querySelector('.divider');
   assert(restoredDivider);
   assertEquals(restoredDivider.colSpan, 3);
-});
-
-test('migrateFromInnerHTML converts old format', () => {
-  // Save in old format
-  const tableLinerHTML = document.getElementById('tableLiner').innerHTML;
-  localStorageMock.setItem('banzuke', tableLinerHTML);
-
-  // Migrate
-  const migrated = migrateFromInnerHTML();
-  assertEquals(migrated, true);
-
-  // Check old format removed
-  assertEquals(localStorageMock.getItem('banzuke'), null);
-
-  // Check new format exists
-  assert(hasSavedState());
-
-  // Check data preserved
-  const state = loadBanzukeState();
-  assertEquals(state.rikishiCount, '1');
-  assertEquals(state.tableTitles[0], 'Hatsu 2025');
 });
 
 test('handles multiple rikishi in same cell', () => {

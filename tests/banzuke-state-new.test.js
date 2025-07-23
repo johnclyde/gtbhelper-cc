@@ -3,7 +3,6 @@ import {
   clearSavedState,
   extractBanzukeState,
   hasSavedState,
-  migrateFromInnerHTML,
   restoreBanzukeState,
   saveBanzukeState
 } from '../banzuke-state.js';
@@ -162,23 +161,6 @@ test('clearSavedState removes all saved data', () => {
 
   assert(!localStorage.getItem('banzukeState'));
   assert(!localStorage.getItem('banzuke'));
-});
-
-test('migrateFromInnerHTML converts old format to new', () => {
-  // Set up old format data
-  const oldHTML = document.getElementById('tableLiner').innerHTML;
-  localStorage.setItem('banzuke', oldHTML);
-
-  // Run migration
-  migrateFromInnerHTML();
-
-  // Check new format exists
-  assert(hasSavedState());
-
-  // Check structure is preserved
-  const saved = JSON.parse(localStorage.getItem('banzukeState'));
-  assert(saved.oldBanzuke);
-  assert(saved.newBanzuke);
 });
 
 test('restoreBanzukeState handles retired rikishi styling', () => {

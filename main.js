@@ -1,13 +1,7 @@
 // GTB Helper - Main Application
 
-import {
-  CURRENT_BASHO,
-  getSavedBanzuke,
-  hasSavedBanzuke,
-  initializeRadioButtons,
-  saveRadioPreference
-} from './app-state.js';
-import { hasSavedState, migrateFromInnerHTML, restoreBanzukeState } from './banzuke-state.js';
+import { CURRENT_BASHO, initializeRadioButtons, saveRadioPreference } from './app-state.js';
+import { hasSavedState, restoreBanzukeState } from './banzuke-state.js';
 import { writeTableTitles } from './basho-utils.js';
 import { initializeDivisionControls } from './division-controls.js';
 import { initializeDivisionManager } from './division-manager.js';
@@ -22,19 +16,10 @@ function initializeApp() {
 
   // Handle saved state
   if (hasSavedState()) {
-    // Load from new state format
+    // Load from saved state
     writeTableTitles(CURRENT_BASHO);
     initializeDivisionManager();
     restoreBanzukeState();
-  } else if (hasSavedBanzuke()) {
-    // Migrate from old innerHTML format
-    writeTableTitles(CURRENT_BASHO);
-    initializeDivisionManager();
-    populateAllSlots(CURRENT_BASHO);
-    // Then restore the old saved state
-    const tableLiner = document.getElementById('tableLiner');
-    tableLiner.innerHTML = getSavedBanzuke();
-    migrateFromInnerHTML();
   } else {
     // Fresh start
     writeTableTitles(CURRENT_BASHO);

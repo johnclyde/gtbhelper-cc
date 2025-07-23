@@ -19,7 +19,21 @@ export function createControlPanel() {
   const header = document.createElement('div');
   header.style.cssText =
     'display: flex; justify-content: space-between; align-items: center; cursor: pointer;';
-  header.addEventListener('click', () => window.toggleDivisionPanel());
+  header.addEventListener('click', () => {
+    const content = document.getElementById('division-panel-content');
+    const toggle = document.getElementById('division-toggle');
+    if (content) {
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        toggle.textContent = '▼';
+        localStorage.setItem('divisionPanelExpanded', 'true');
+      } else {
+        content.style.display = 'none';
+        toggle.textContent = '▶';
+        localStorage.setItem('divisionPanelExpanded', 'false');
+      }
+    }
+  });
 
   const title = document.createElement('h3');
   title.style.margin = '0';
@@ -243,6 +257,11 @@ export function initializeDivisionControls() {
 
   // Restore panel state
   if (localStorage.getItem('divisionPanelExpanded') === 'true') {
-    window.toggleDivisionPanel();
+    const content = document.getElementById('division-panel-content');
+    const toggle = document.getElementById('division-toggle');
+    if (content && toggle) {
+      content.style.display = 'block';
+      toggle.textContent = '▼';
+    }
   }
 }

@@ -374,7 +374,6 @@ export function reset() {
 
   // Clear localStorage and counter
   clearSavedState();
-  window.localStorage.removeItem('banzuke'); // Clean up old format
   const counter = document.getElementById(config.rikishiCounterId);
   if (counter) counter.textContent = '0';
 
