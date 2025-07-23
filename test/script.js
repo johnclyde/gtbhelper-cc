@@ -6,16 +6,16 @@
  * is not considered a regular whitespace, it will not expand.
  */ 
 var theSekitori = [
-  "Y1e Terunofuji 0-0", 
+  "Y1e Hoshoryu 0-0", 
+  "Y1w Onosato 0-0", 
+  "O1e Kotozakura 0-0", 
   "", 
-  "", 
-  "O1w Takakeisho 0-0", 
   "S1e Wakatakakage 0-0", 
-  "S1w Hoshoryu 0-0", 
+  "", 
   "S2e Takayasu 0-0", 
   "S2w Shodai 0-0", 
-  "K1e Kiribayama 0-0", 
-  "K1w Kotonowaka 0-0", 
+  "K1e Kirishima 0-0", 
+  "", 
   "K2e Meisei 0-0", 
   "K2w Wakamotoharu 0-0", 
   "M1e Tobizaru 0-0", 
@@ -50,6 +50,8 @@ var theSekitori = [
   "M15w Mitoryu 0-0", 
   "M16e Takarafuji 0-0", 
   "M16w Chiyomaru 0-0", 
+  "M17e Kusano 0-0",
+  "M17w Fujinokawa 0-0",
   "J1e Akua 0-0", 
   "J1w Bushozan 0-0", 
   "J2e Hokuseiho 0-0", 
@@ -87,16 +89,16 @@ var theSekitori = [
  * theSekitori array.
  */
 var sekitoriID = [
-  11927, 
-  0, 
-  0, 
-  12191, 
-  12370, 
   12451, 
+  12453, 
+  12270, 
+  0, 
+  12370, 
+  0, 
   6480, 
   12130, 
   12231, 
-  12270, 
+  0, 
   11946, 
   11980, 
   12203, 
@@ -131,6 +133,8 @@ var sekitoriID = [
   12406, 
   11728, 
   7240, 
+  12000,
+  12001,
   11918, 
   12117, 
   12646, 
@@ -406,94 +410,6 @@ window.onload = function() {
     });
   });
 
-  // Load custom rikishi names from localStorage
-  function loadCustomRikishiNames() {
-    var customNames = localStorage.getItem('customRikishiNames');
-    if (customNames) {
-      return JSON.parse(customNames);
-    }
-    return {};
-  }
-
-  // Save custom rikishi names to localStorage
-  function saveCustomRikishiNames(customNames) {
-    localStorage.setItem('customRikishiNames', JSON.stringify(customNames));
-  }
-
-  // Make rikishi names editable
-  function makeRikishiNamesEditable() {
-    var customNames = loadCustomRikishiNames();
-    
-    // Add click event to all rikishi name links
-    document.addEventListener('click', function(e) {
-      // Check if clicked element is a rikishi name link
-      if (e.target.tagName === 'A' && e.target.href.includes('Rikishi.aspx?r=')) {
-        e.preventDefault();
-        
-        // Get the rikishi card
-        var card = e.target.closest('.redips-drag');
-        if (!card) return;
-        
-        var rikishiId = card.getAttribute('data-rid');
-        var currentName = e.target.textContent;
-        
-        // Create input field
-        var input = document.createElement('input');
-        input.type = 'text';
-        input.value = customNames[rikishiId] || currentName;
-        input.style.width = '80px';
-        input.style.fontSize = '12px';
-        
-        // Replace link with input
-        e.target.style.display = 'none';
-        e.target.parentNode.insertBefore(input, e.target);
-        input.focus();
-        input.select();
-        
-        // Handle input events
-        function saveEdit() {
-          var newName = input.value.trim();
-          if (newName && newName !== currentName) {
-            customNames[rikishiId] = newName;
-            saveCustomRikishiNames(customNames);
-            e.target.textContent = newName;
-          } else if (newName === '') {
-            // If empty, revert to original name
-            delete customNames[rikishiId];
-            saveCustomRikishiNames(customNames);
-            e.target.textContent = currentName;
-          }
-          input.remove();
-          e.target.style.display = '';
-          
-          // Save the entire banzuke state
-          window.localStorage.setItem("banzuke", document.getElementById("tableLiner").innerHTML);
-        }
-        
-        input.addEventListener('blur', saveEdit);
-        input.addEventListener('keydown', function(event) {
-          if (event.key === 'Enter') {
-            saveEdit();
-          } else if (event.key === 'Escape') {
-            input.remove();
-            e.target.style.display = '';
-          }
-        });
-      }
-    });
-    
-    // Apply custom names on load
-    var allLinks = document.querySelectorAll('a[href*="Rikishi.aspx?r="]');
-    allLinks.forEach(function(link) {
-      var card = link.closest('.redips-drag');
-      if (card) {
-        var rikishiId = card.getAttribute('data-rid');
-        if (customNames[rikishiId]) {
-          link.textContent = customNames[rikishiId];
-        }
-      }
-    });
-  }
 
   var basho = "202301"; // The date of the basho just ended
 
@@ -544,7 +460,7 @@ window.onload = function() {
 
   function populateSlots() {
     var cell = document.querySelectorAll(".redips-only");
-    var customNames = loadCustomRikishiNames();
+    var customNames = window.rikishiNames.load();
     
     for (var i = 0; i < theSekitori.length; i++) {
       if (theSekitori[i] !== "") {
@@ -612,7 +528,7 @@ redips.init = function () {
   rd.only.divClass.se = "b2";
   
   // Initialize editable rikishi names
-  makeRikishiNamesEditable();
+  window.rikishiNames.makeEditable();
 
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
