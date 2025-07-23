@@ -13,8 +13,8 @@
     "check": "biome check ."
   },
   "devDependencies": {
-    "jsdom": "^23.0.0",
-    "@biomejs/biome": "^1.5.0"
+    "@biomejs/biome": "^1.9.4",
+    "jsdom": "^23.0.0"
   },
   "repository": {
     "type": "git",

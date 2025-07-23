@@ -1,7 +1,7 @@
 // Drag and Drop Manager - Clean abstraction over REDIPS library
 
-import { theSekitori } from './rikishi-names.js';
-import { makeEditable } from './rikishi-names.js';
+import { clearSavedState, saveBanzukeState } from './banzuke-state.js';
+import { makeEditable, theSekitori } from './rikishi-names.js';
 
 // Private variables
 let rd = null;
@@ -168,9 +168,9 @@ function calculateRankChange(draggedElement, targetCell) {
 // Get target rank from cell position
 function getTargetRank(targetCell) {
     if (targetCell.previousSibling.className === config.changeColumnClass) {
-      return targetCell.nextSibling.innerHTML + 'e';
+      return targetCell.nextSibling.textContent + 'e';
     } else if (targetCell.nextSibling.className === config.changeColumnClass) {
-      return targetCell.previousSibling.innerHTML + 'w';
+      return targetCell.previousSibling.textContent + 'w';
     }
     return '';
   }
@@ -235,11 +235,14 @@ function updateChangeDisplay(targetCell, changeInfo) {
     
     var changeLink = createChangeLink(changeInfo);
     
-    if (changeCell.innerHTML === " ") {
-      changeCell.innerHTML = changeLink;
+    if (changeCell.textContent.trim() === "") {
+      const linkElement = createLinkElement(changeLink);
+      changeCell.appendChild(linkElement);
       targetCell.style.border = "none";
     } else {
-      changeCell.innerHTML += "<br>" + changeLink;
+      changeCell.appendChild(document.createElement('br'));
+      const linkElement = createLinkElement(changeLink);
+      changeCell.appendChild(linkElement);
     }
   }
   
@@ -266,6 +269,13 @@ function createChangeLink(changeInfo) {
            changeInfo.symbol + '</a>';
   }
   
+// Create link element from HTML string
+function createLinkElement(linkHTML) {
+    const temp = document.createElement('div');
+    temp.innerHTML = linkHTML;
+    return temp.firstChild;
+  }
+  
 // Update change column when removing rikishi
 function updateChangeColumn(cell, draggedElement) {
     var changeCell = getChangeCell(cell);
@@ -273,17 +283,22 @@ function updateChangeColumn(cell, draggedElement) {
     
     if (cell.children.length > 1) {
       // Multiple rikishi in cell - remove this one's change
-      var changes = changeCell.innerHTML.split("<br>");
+      // Find and remove the specific change link
+      const allLinks = changeCell.querySelectorAll('a');
+      const brElements = changeCell.querySelectorAll('br');
       for (var i = 0; i < cell.children.length; i++) {
-        if (cell.children[i] === draggedElement) {
-          changes.splice(i, 1);
-          changeCell.innerHTML = changes.join("<br>");
+        if (cell.children[i] === draggedElement && i < allLinks.length) {
+          allLinks[i].remove();
+          // Remove associated br if exists
+          if (i < brElements.length) {
+            brElements[i].remove();
+          }
           break;
         }
       }
     } else {
       // Last rikishi in cell - clear change column
-      changeCell.innerHTML = " ";
+      changeCell.textContent = ' ';
       cell.style.border = "1px dashed dimgray";
     }
   }
@@ -292,27 +307,19 @@ function updateChangeColumn(cell, draggedElement) {
 function updateRikishiCount(delta) {
     var counter = document.getElementById(config.rikishiCounterId);
     if (counter) {
-      counter.innerHTML = parseInt(counter.innerHTML) + delta;
+      counter.textContent = parseInt(counter.textContent) + delta;
     }
   }
   
 // Save banzuke state to localStorage
 export function saveState() {
-  var tableLiner = document.getElementById(config.tableLinerId);
-  if (tableLiner) {
-    window.localStorage.setItem("banzuke", tableLiner.innerHTML);
-  }
-}
-
-// Internal save function for event handlers
-function saveBanzukeState() {
-  saveState();
+  saveBanzukeState();
 }
   
 // Handle finish event
 function handleFinish() {
-    saveBanzukeState();
-  }
+  saveBanzukeState();
+}
   
 // Reset banzuke to initial state
 export function reset() {
@@ -325,14 +332,15 @@ export function reset() {
     var changeCells = document.getElementsByClassName(config.changeColumnClass);
     
     // Clear localStorage and counter
-    window.localStorage.removeItem("banzuke");
-    updateRikishiCount(-parseInt(document.getElementById(config.rikishiCounterId).innerHTML));
+    clearSavedState();
+    window.localStorage.removeItem("banzuke"); // Clean up old format
+    updateRikishiCount(-parseInt(document.getElementById(config.rikishiCounterId).textContent));
     
     // Move all rikishi back to old banzuke
     for (var i = 0; i < newCells.length; i++) {
       if (newCells[i].children.length > 0) {
         newCells[i].style.border = "1px dashed dimgray";
-        changeCells[i].innerHTML = ' ';
+        changeCells[i].textContent = ' ';
         
         // Move each rikishi in this cell
         for (var j = newCells[i].children.length - 1; j >= 0; j--) {

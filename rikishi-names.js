@@ -227,7 +227,9 @@ export function makeEditable() {
           e.target.style.display = '';
           
           // Save the entire banzuke state
-          window.localStorage.setItem("banzuke", document.getElementById("tableLiner").innerHTML);
+          import('./banzuke-state.js').then(module => {
+            module.saveBanzukeState();
+          });
         }
         
         input.addEventListener('blur', saveEdit);

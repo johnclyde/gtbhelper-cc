@@ -21,11 +21,13 @@ export function cleanupLegacyStorage() {
 
 // Check if banzuke exists
 export function hasSavedBanzuke() {
-  return localStorage.getItem('banzuke') !== null;
+  // Check both old and new formats
+  return localStorage.getItem('banzukeState') !== null || localStorage.getItem('banzuke') !== null;
 }
 
 // Get saved banzuke HTML
 export function getSavedBanzuke() {
+  // This is now deprecated but kept for compatibility
   return localStorage.getItem('banzuke');
 }
 

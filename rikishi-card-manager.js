@@ -135,10 +135,9 @@ export function populateAllSlots(basho) {
   
 // Save banzuke state
 function saveBanzukeState() {
-    const tableLiner = document.getElementById('tableLiner');
-    if (tableLiner) {
-      localStorage.setItem('banzuke', tableLiner.innerHTML);
-    }
+    import('./banzuke-state.js').then(module => {
+      module.saveBanzukeState();
+    });
   }
   
 // Migrate old hardcoded retired rikishi

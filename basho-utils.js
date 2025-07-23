@@ -36,14 +36,21 @@ export function getNextBasho(year, month) {
 
 // Write table titles for current and next basho
 export function writeTableTitles(endedBashoDate) {
-  var bashoInfo = parseBashoDate(endedBashoDate);
-  var tableTitle = document.getElementsByClassName("tableTitle");
+  const bashoInfo = parseBashoDate(endedBashoDate);
+  const tableTitles = document.getElementsByClassName("tableTitle");
+  
+  if (tableTitles.length < 2) {
+    console.error('Expected at least 2 elements with class "tableTitle"');
+    return;
+  }
 
-  tableTitle[0].innerHTML = getBashoName(bashoInfo.month) + ' ' + bashoInfo.year;
+  // Current basho title
+  tableTitles[0].textContent = `${getBashoName(bashoInfo.month)} ${bashoInfo.year}`;
 
   // Next basho title
-  var nextBasho = getNextBasho(bashoInfo.year, bashoInfo.month);
-  tableTitle[1].innerHTML = getBashoName(nextBasho.month) + ' ' + nextBasho.year + 
-                            " Guess - " + tableTitle[1].innerHTML;
+  const nextBasho = getNextBasho(bashoInfo.year, bashoInfo.month);
+  const existingText = tableTitles[1].textContent;
+  const baseText = existingText.includes('rikishi placed') ? existingText : '';
+  tableTitles[1].textContent = `${getBashoName(nextBasho.month)} ${nextBasho.year} Guess${baseText ? ' - ' + baseText : ''}`;
 }
 
