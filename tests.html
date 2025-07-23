@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>GTB Helper - Module Tests</title>
+  <style>
+    body { font-family: monospace; margin: 20px; }
+    .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+    .pass { background: #d4edda; border-color: #c3e6cb; }
+    .fail { background: #f8d7da; border-color: #f5c6cb; }
+    .test-name { font-weight: bold; }
+    .error { color: #721c24; margin-top: 5px; }
+    #summary { margin: 20px 0; padding: 10px; background: #e9ecef; }
+  </style>
+</head>
+<body>
+  <h1>GTB Helper Module Tests</h1>
+  <div id="summary"></div>
+  <div id="test-results"></div>
+  
+  <script type="module">
+    // Test framework
+    const results = [];
+    let currentTest = null;
+    
+    function test(name, fn) {
+      currentTest = { name, passed: true, error: null };
+      try {
+        fn();
+      } catch (error) {
+        currentTest.passed = false;
+        currentTest.error = error.message;
+      }
+      results.push(currentTest);
+    }
+    
+    function assert(condition, message) {
+      if (!condition) {
+        throw new Error(message || 'Assertion failed');
+      }
+    }
+    
+    function assertEquals(actual, expected, message) {
+      if (actual !== expected) {
+        throw new Error(message || `Expected ${expected} but got ${actual}`);
+      }
+    }
+    
+    function assertArrayEquals(actual, expected, message) {
+      if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+        throw new Error(message || `Arrays not equal. Expected ${JSON.stringify(expected)} but got ${JSON.stringify(actual)}`);
+      }
+    }
+    
+    // Import modules
+    import { getBashoName, parseBashoDate, getNextBasho } from './basho-utils.js';
+    import { load, save, theSekitori, sekitoriID } from './rikishi-names.js';
+    import { createCard, populateAllSlots, init as initRikishiCards } from './rikishi-card-manager.js';
+    import { generateOldBanzukeRows, generateNewBanzukeRows } from './table-generator.js';
+    
+    // Test basho-utils.js
+    test('getBashoName returns correct names', () => {
+      assertEquals(getBashoName(1), 'Hatsu');
+      assertEquals(getBashoName(3), 'Haru');
+      assertEquals(getBashoName(5), 'Natsu');
+      assertEquals(getBashoName(7), 'Nagoya');
+      assertEquals(getBashoName(9), 'Aki');
+      assertEquals(getBashoName(11), 'Kyushu');
+    });
+    
+    test('parseBashoDate parses correctly', () => {
+      const result = parseBashoDate('202301');
+      assertEquals(result.year, 2023);
+      assertEquals(result.month, 1);
+    });
+    
+    test('getNextBasho calculates correctly', () => {
+      let result = getNextBasho(2023, 1);
+      assertEquals(result.year, 2023);
+      assertEquals(result.month, 3);
+      
+      result = getNextBasho(2023, 11);
+      assertEquals(result.year, 2024);
+      assertEquals(result.month, 1);
+    });
+    
+    // Test rikishi-names.js
+    test('theSekitori array is exported', () => {
+      assert(Array.isArray(theSekitori), 'theSekitori should be an array');
+      assert(theSekitori.length > 0, 'theSekitori should not be empty');
+      assertEquals(typeof theSekitori[0], 'string', 'theSekitori should contain strings');
+    });
+    
+    test('sekitoriID array is exported', () => {
+      assert(Array.isArray(sekitoriID), 'sekitoriID should be an array');
+      assertEquals(sekitoriID.length, theSekitori.length, 'sekitoriID and theSekitori should have same length');
+    });
+    
+    test('load and save functions work with localStorage', () => {
+      // Clear localStorage first
+      localStorage.removeItem('customRikishiNames');
+      
+      // Test empty load
+      const empty = load();
+      assert(typeof empty === 'object', 'load should return an object');
+      assertEquals(Object.keys(empty).length, 0, 'Initial load should return empty object');
+      
+      // Test save and load
+      const testData = { '12451': 'Test Name' };
+      save(testData);
+      const loaded = load();
+      assertEquals(loaded['12451'], 'Test Name', 'Saved data should be loaded correctly');
+      
+      // Clean up
+      localStorage.removeItem('customRikishiNames');
+    });
+    
+    // Test table-generator.js
+    test('generateOldBanzukeRows generates valid HTML', () => {
+      const html = generateOldBanzukeRows();
+      assert(html.includes('Y1e'), 'Should include Y1e');
+      assert(html.includes('M16w'), 'Should include M16w');
+      assert(html.includes('J14w'), 'Should include J14w');
+      assert(html.includes('divider'), 'Should include divider');
+    });
+    
+    test('generateNewBanzukeRows generates valid HTML', () => {
+      const html = generateNewBanzukeRows();
+      assert(html.includes('Y2'), 'Should include Y2');
+      assert(html.includes('O3'), 'Should include O3');
+      assert(html.includes('M18'), 'Should include M18');
+      assert(html.includes('class="ch"'), 'Should include change cells');
+    });
+    
+    // Test rikishi-card-manager.js
+    test('createCard creates valid card element', () => {
+      const card = createCard('Y1e Hoshoryu 0-0', 12451, '202301');
+      assert(card instanceof HTMLElement, 'createCard should return an HTML element');
+      assertEquals(card.getAttribute('id'), 'Y1e', 'Card should have correct id');
+      assertEquals(card.getAttribute('data-rid'), '12451', 'Card should have correct rikishi id');
+      assert(card.innerHTML.includes('Hoshoryu'), 'Card should contain rikishi name');
+    });
+    
+    test('retired rikishi functionality', () => {
+      // Clean up localStorage first
+      localStorage.removeItem('retiredRikishi');
+      localStorage.removeItem('retiredMigrationDone');
+      
+      // Initialize module
+      initRikishiCards();
+      
+      // Check migration happened
+      assertEquals(localStorage.getItem('retiredMigrationDone'), 'true', 'Migration should be marked as done');
+    });
+    
+    // Test window object compatibility
+    test('modules set window properties for backward compatibility', () => {
+      assert(window.bashoUtils !== undefined, 'window.bashoUtils should exist');
+      assert(window.rikishiNames !== undefined, 'window.rikishiNames should exist');
+      assert(window.rikishiCardManager !== undefined, 'window.rikishiCardManager should exist');
+      assert(window.dragDropManager !== undefined, 'window.dragDropManager should exist');
+      assert(window.tableGenerator !== undefined, 'window.tableGenerator should exist');
+      assert(window.theSekitori !== undefined, 'window.theSekitori should exist');
+      assert(window.sekitoriID !== undefined, 'window.sekitoriID should exist');
+    });
+    
+    // Display results
+    function displayResults() {
+      const resultsDiv = document.getElementById('test-results');
+      const summaryDiv = document.getElementById('summary');
+      
+      const passed = results.filter(r => r.passed).length;
+      const failed = results.filter(r => !r.passed).length;
+      
+      summaryDiv.innerHTML = `
+        <strong>Test Summary:</strong> ${passed} passed, ${failed} failed, ${results.length} total
+      `;
+      
+      results.forEach(result => {
+        const testDiv = document.createElement('div');
+        testDiv.className = `test ${result.passed ? 'pass' : 'fail'}`;
+        testDiv.innerHTML = `
+          <div class="test-name">${result.passed ? '✓' : '✗'} ${result.name}</div>
+          ${result.error ? `<div class="error">${result.error}</div>` : ''}
+        `;
+        resultsDiv.appendChild(testDiv);
+      });
+    }
+    
+    // Run tests after a small delay to ensure all modules are loaded
+    setTimeout(displayResults, 100);
+  </script>
+</body>
+</html>

@@ -5,6 +5,10 @@ import './rikishi-names.js';
 import './basho-utils.js';
 import './rikishi-card-manager.js';
 import './drag-drop-manager.js';
+import { initializeTables } from './table-generator.js';
+
+// Initialize tables before other modules
+initializeTables();
 
 // Signal that modules are ready
 window.modulesReady = true;
