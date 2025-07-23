@@ -9,26 +9,70 @@ import {
   resetToDefault
 } from './division-manager.js';
 
-// Create control panel HTML
+// Create control panel DOM
 export function createControlPanel() {
   const panel = document.createElement('div');
   panel.id = 'division-controls';
   panel.style.cssText = 'margin: 20px; padding: 10px; border: 1px solid #ccc; background: #f5f5f5;';
   
-  panel.innerHTML = `
-    <h3>Division Management</h3>
-    <div style="display: flex; gap: 20px;">
-      <div>
-        <h4>Old Banzuke (Left)</h4>
-        <div id="old-banzuke-controls"></div>
-      </div>
-      <div>
-        <h4>New Banzuke (Right)</h4>
-        <div id="new-banzuke-controls"></div>
-      </div>
-    </div>
-    <button onclick="window.resetDivisions()" style="margin-top: 10px;">Reset to Default</button>
-  `;
+  // Header with toggle
+  const header = document.createElement('div');
+  header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; cursor: pointer;';
+  header.addEventListener('click', () => window.toggleDivisionPanel());
+  
+  const title = document.createElement('h3');
+  title.style.margin = '0';
+  title.textContent = 'Division Management';
+  
+  const toggle = document.createElement('span');
+  toggle.id = 'division-toggle';
+  toggle.style.fontSize = '18px';
+  toggle.textContent = '▶';
+  
+  header.appendChild(title);
+  header.appendChild(toggle);
+  
+  // Content panel
+  const content = document.createElement('div');
+  content.id = 'division-panel-content';
+  content.style.cssText = 'display: none; margin-top: 10px;';
+  
+  // Controls container
+  const controlsContainer = document.createElement('div');
+  controlsContainer.style.cssText = 'display: flex; gap: 20px;';
+  
+  // Old banzuke section
+  const oldSection = document.createElement('div');
+  const oldTitle = document.createElement('h4');
+  oldTitle.textContent = 'Old Banzuke (Left)';
+  const oldControls = document.createElement('div');
+  oldControls.id = 'old-banzuke-controls';
+  oldSection.appendChild(oldTitle);
+  oldSection.appendChild(oldControls);
+  
+  // New banzuke section
+  const newSection = document.createElement('div');
+  const newTitle = document.createElement('h4');
+  newTitle.textContent = 'New Banzuke (Right)';
+  const newControls = document.createElement('div');
+  newControls.id = 'new-banzuke-controls';
+  newSection.appendChild(newTitle);
+  newSection.appendChild(newControls);
+  
+  controlsContainer.appendChild(oldSection);
+  controlsContainer.appendChild(newSection);
+  
+  // Reset button
+  const resetBtn = document.createElement('button');
+  resetBtn.textContent = 'Reset to Default';
+  resetBtn.style.marginTop = '10px';
+  resetBtn.addEventListener('click', () => window.resetDivisions());
+  
+  content.appendChild(controlsContainer);
+  content.appendChild(resetBtn);
+  
+  panel.appendChild(header);
+  panel.appendChild(content);
   
   return panel;
 }
@@ -105,54 +149,48 @@ function createRankControl(banzukeType, rank, count, isSanyaku = false) {
 function updateControls() {
   const counts = getDivisionCounts();
   
-  // Update old banzuke controls
-  const oldContainer = document.getElementById('old-banzuke-controls');
-  if (oldContainer) {
-    oldContainer.innerHTML = '';
+  // Helper to create section
+  function createSection(container, banzukeType, counts) {
+    // Clear existing content
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
     
-    // Sanyaku
+    // Sanyaku section
     const sanyakuDiv = document.createElement('div');
-    sanyakuDiv.innerHTML = '<strong>Sanyaku:</strong>';
+    const sanyakuLabel = document.createElement('strong');
+    sanyakuLabel.textContent = 'Sanyaku:';
+    sanyakuDiv.appendChild(sanyakuLabel);
+    
     ['Y', 'O', 'S', 'K'].forEach(rank => {
-      sanyakuDiv.appendChild(createRankControl('oldBanzuke', rank, counts.oldBanzuke[rank], true));
+      sanyakuDiv.appendChild(createRankControl(banzukeType, rank, counts[rank], true));
     });
-    oldContainer.appendChild(sanyakuDiv);
+    container.appendChild(sanyakuDiv);
     
     // Maegashira
-    oldContainer.appendChild(createRankControl('oldBanzuke', 'M', counts.oldBanzuke.M));
+    container.appendChild(createRankControl(banzukeType, 'M', counts.M));
     
-    // Lower divisions
+    // Lower divisions section
     const lowerDiv = document.createElement('div');
-    lowerDiv.innerHTML = '<strong>Lower Divisions:</strong>';
+    const lowerLabel = document.createElement('strong');
+    lowerLabel.textContent = 'Lower Divisions:';
+    lowerDiv.appendChild(lowerLabel);
+    
     ['J', 'Ms', 'Sd', 'Jd', 'Jk'].forEach(rank => {
-      lowerDiv.appendChild(createRankControl('oldBanzuke', rank, counts.oldBanzuke[rank]));
+      lowerDiv.appendChild(createRankControl(banzukeType, rank, counts[rank]));
     });
-    oldContainer.appendChild(lowerDiv);
+    container.appendChild(lowerDiv);
   }
   
-  // Update new banzuke controls
+  // Update both containers
+  const oldContainer = document.getElementById('old-banzuke-controls');
+  if (oldContainer) {
+    createSection(oldContainer, 'oldBanzuke', counts.oldBanzuke);
+  }
+  
   const newContainer = document.getElementById('new-banzuke-controls');
   if (newContainer) {
-    newContainer.innerHTML = '';
-    
-    // Sanyaku
-    const sanyakuDiv = document.createElement('div');
-    sanyakuDiv.innerHTML = '<strong>Sanyaku:</strong>';
-    ['Y', 'O', 'S', 'K'].forEach(rank => {
-      sanyakuDiv.appendChild(createRankControl('newBanzuke', rank, counts.newBanzuke[rank], true));
-    });
-    newContainer.appendChild(sanyakuDiv);
-    
-    // Maegashira
-    newContainer.appendChild(createRankControl('newBanzuke', 'M', counts.newBanzuke.M));
-    
-    // Lower divisions
-    const lowerDiv = document.createElement('div');
-    lowerDiv.innerHTML = '<strong>Lower Divisions:</strong>';
-    ['J', 'Ms', 'Sd', 'Jd', 'Jk'].forEach(rank => {
-      lowerDiv.appendChild(createRankControl('newBanzuke', rank, counts.newBanzuke[rank]));
-    });
-    newContainer.appendChild(lowerDiv);
+    createSection(newContainer, 'newBanzuke', counts.newBanzuke);
   }
 }
 
@@ -166,11 +204,32 @@ export function initializeDivisionControls() {
     updateControls();
   }
   
-  // Make reset function available globally
+  // Make functions available globally
   window.resetDivisions = () => {
     if (confirm('Reset all divisions to default?')) {
       resetToDefault();
       updateControls();
     }
   };
+  
+  window.toggleDivisionPanel = () => {
+    const content = document.getElementById('division-panel-content');
+    const toggle = document.getElementById('division-toggle');
+    if (content) {
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        toggle.textContent = '▼';
+        localStorage.setItem('divisionPanelExpanded', 'true');
+      } else {
+        content.style.display = 'none';
+        toggle.textContent = '▶';
+        localStorage.setItem('divisionPanelExpanded', 'false');
+      }
+    }
+  };
+  
+  // Restore panel state
+  if (localStorage.getItem('divisionPanelExpanded') === 'true') {
+    window.toggleDivisionPanel();
+  }
 }
