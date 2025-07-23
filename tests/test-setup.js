@@ -3,7 +3,7 @@
 // Simple test runner functions
 let beforeEachFn = null;
 
-global.test = (name, fn) => {
+global.test = async (name, fn) => {
   try {
     // Clear localStorage before each test
     if (global.localStorage && global.localStorage.clear) {
@@ -13,7 +13,7 @@ global.test = (name, fn) => {
     if (beforeEachFn) {
       beforeEachFn();
     }
-    fn();
+    await fn();
     console.log(`✓ ${name}`);
   } catch (error) {
     console.error(`✗ ${name}`);
@@ -85,3 +85,7 @@ const localStorageMock = {
   }
 };
 global.localStorage = localStorageMock;
+
+// Mock confirm and alert
+global.confirm = () => true;
+global.alert = () => {};

@@ -54,8 +54,8 @@ function extractTableRows(table) {
         rikishi: []
       };
 
-      // Extract rikishi data
-      for (const rikishi of cell.querySelectorAll('.rikishi-drag')) {
+      // Extract rikishi data - including both rikishi-drag and rikishi-nodrag
+      for (const rikishi of cell.querySelectorAll('.rikishi-drag, .rikishi-nodrag')) {
         cellData.rikishi.push({
           id: rikishi.id,
           dataset: { ...rikishi.dataset },
@@ -182,6 +182,13 @@ function createRikishiElement(rikishiData) {
     div.style.display = rikishiData.style.display;
   }
 
+  // Add contextmenu event handler for rikishi elements
+  if (div.classList.contains('rikishi-drag') || div.classList.contains('rikishi-nodrag')) {
+    div.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+  }
+
   return div;
 }
 
@@ -212,4 +219,5 @@ export function hasSavedState() {
 // Clear saved state
 export function clearSavedState() {
   localStorage.removeItem('banzukeState');
+  localStorage.removeItem('banzuke'); // Clear old format too
 }
