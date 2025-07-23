@@ -1,20 +1,17 @@
 // Drag and Drop Manager - Clean abstraction over REDIPS library
 
-(function() {
-  'use strict';
+// Private variables
+let rd = null;
+let config = {
+  oldBanzukeSelector: 'td',
+  newBanzukeClass: 'b2',
+  changeColumnClass: 'ch',
+  rikishiCounterId: 'makRik',
+  tableLinerId: 'tableLiner'
+};
   
-  // Private variables
-  let rd = null;
-  let config = {
-    oldBanzukeSelector: 'td',
-    newBanzukeClass: 'b2',
-    changeColumnClass: 'ch',
-    rikishiCounterId: 'makRik',
-    tableLinerId: 'tableLiner'
-  };
-  
-  // Initialize drag and drop functionality
-  function initialize() {
+// Initialize drag and drop functionality
+export function init() {
     rd = REDIPS.drag;
     rd.init();
     
@@ -34,8 +31,8 @@
     window.rikishiNames.makeEditable();
   }
   
-  // Set up rank-based movement restrictions
-  function setupRankRestrictions() {
+// Set up rank-based movement restrictions
+function setupRankRestrictions() {
     for (var i = 0; i < theSekitori.length; i++) {
       if (theSekitori[i] !== "") {
         var rank = theSekitori[i].split(' ')[0];
@@ -44,8 +41,8 @@
     }
   }
   
-  // Set up all event handlers
-  function setupEventHandlers() {
+// Set up all event handlers
+function setupEventHandlers() {
     rd.event.dblClicked = handleDoubleClick;
     rd.event.clicked = handleClick;
     rd.event.notMoved = handleNotMoved;
@@ -54,8 +51,8 @@
     rd.event.finish = handleFinish;
   }
   
-  // Handle double-click on rikishi
-  function handleDoubleClick() {
+// Handle double-click on rikishi
+function handleDoubleClick() {
     var draggedElement = rd.obj;
     var currentCell = rd.findParent('TD', draggedElement);
     var radioButtons = document.getElementsByTagName("input");
@@ -70,8 +67,8 @@
     }
   }
   
-  // Return rikishi to old banzuke position
-  function returnToOldBanzuke(draggedElement, currentCell) {
+// Return rikishi to old banzuke position
+function returnToOldBanzuke(draggedElement, currentCell) {
     var rank = draggedElement.id;
     var oldBanzukeCells = document.getElementsByTagName(config.oldBanzukeSelector);
     
@@ -94,19 +91,19 @@
     }
   }
   
-  // Handle click on element
-  function handleClick(currentCell) {
+// Handle click on element
+function handleClick(currentCell) {
     currentCell.style.backgroundColor = "lightblue";
   }
   
-  // Handle when element is clicked but not moved
-  function handleNotMoved() {
+// Handle when element is clicked but not moved
+function handleNotMoved() {
     var currentCell = rd.findParent('TD', rd.obj);
     currentCell.style.removeProperty("background-color");
   }
   
-  // Handle before drop event
-  function handleDroppedBefore(targetCell) {
+// Handle before drop event
+function handleDroppedBefore(targetCell) {
     var draggedElement = rd.obj;
     var currentCell = rd.findParent('TD', draggedElement);
     
@@ -121,8 +118,8 @@
     }
   }
   
-  // Update cell visual state based on movement
-  function updateCellVisualState(currentCell, targetCell) {
+// Update cell visual state based on movement
+function updateCellVisualState(currentCell, targetCell) {
     var isFromNew = currentCell.classList.contains(config.newBanzukeClass);
     var isToNew = targetCell.classList.contains(config.newBanzukeClass);
     
@@ -139,8 +136,8 @@
     }
   }
   
-  // Handle dropped event
-  function handleDropped(targetCell) {
+// Handle dropped event
+function handleDropped(targetCell) {
     if (!targetCell.classList.contains(config.newBanzukeClass)) {
       return;
     }
@@ -150,8 +147,8 @@
     updateChangeDisplay(targetCell, changeInfo);
   }
   
-  // Calculate rank change information
-  function calculateRankChange(draggedElement, targetCell) {
+// Calculate rank change information
+function calculateRankChange(draggedElement, targetCell) {
     var currentRank = draggedElement.id;
     var wins = draggedElement.innerText.split(' ')[2].split('-')[0];
     var targetRank = getTargetRank(targetCell);
@@ -165,8 +162,8 @@
     };
   }
   
-  // Get target rank from cell position
-  function getTargetRank(targetCell) {
+// Get target rank from cell position
+function getTargetRank(targetCell) {
     if (targetCell.previousSibling.className === config.changeColumnClass) {
       return targetCell.nextSibling.innerHTML + 'e';
     } else if (targetCell.nextSibling.className === config.changeColumnClass) {
@@ -175,8 +172,8 @@
     return '';
   }
   
-  // Get rank change symbol
-  function getChangeSymbol(currentRank, targetRank) {
+// Get rank change symbol
+function getChangeSymbol(currentRank, targetRank) {
     var currentType = currentRank.charAt(0);
     var targetType = targetRank.charAt(0);
     
@@ -212,8 +209,8 @@
     }
   }
   
-  // Calculate change between Maegashira ranks
-  function calculateMaegashiraChange(currentRank, targetRank) {
+// Calculate change between Maegashira ranks
+function calculateMaegashiraChange(currentRank, targetRank) {
     var currentNum = parseInt(currentRank.slice(1, -1));
     var targetNum = parseInt(targetRank.slice(1, -1));
     
@@ -228,8 +225,8 @@
     else return change.toString();
   }
   
-  // Update change display in the change column
-  function updateChangeDisplay(targetCell, changeInfo) {
+// Update change display in the change column
+function updateChangeDisplay(targetCell, changeInfo) {
     var changeCell = getChangeCell(targetCell);
     if (!changeCell) return;
     
@@ -243,8 +240,8 @@
     }
   }
   
-  // Get the change cell for a target cell
-  function getChangeCell(targetCell) {
+// Get the change cell for a target cell
+function getChangeCell(targetCell) {
     if (targetCell.previousSibling.className === config.changeColumnClass) {
       return targetCell.previousSibling;
     } else if (targetCell.nextSibling.className === config.changeColumnClass) {
@@ -253,8 +250,8 @@
     return null;
   }
   
-  // Create SumoDB query link for rank change
-  function createChangeLink(changeInfo) {
+// Create SumoDB query link for rank change
+function createChangeLink(changeInfo) {
     var url = 'https://sumodb.sumogames.de/Query.aspx?show_form=0' +
               '&form1_rank=' + changeInfo.currentRank +
               '&form1_wins=' + changeInfo.wins +
@@ -266,8 +263,8 @@
            changeInfo.symbol + '</a>';
   }
   
-  // Update change column when removing rikishi
-  function updateChangeColumn(cell, draggedElement) {
+// Update change column when removing rikishi
+function updateChangeColumn(cell, draggedElement) {
     var changeCell = getChangeCell(cell);
     if (!changeCell) return;
     
@@ -288,29 +285,34 @@
     }
   }
   
-  // Update rikishi count display
-  function updateRikishiCount(delta) {
+// Update rikishi count display
+function updateRikishiCount(delta) {
     var counter = document.getElementById(config.rikishiCounterId);
     if (counter) {
       counter.innerHTML = parseInt(counter.innerHTML) + delta;
     }
   }
   
-  // Save banzuke state to localStorage
-  function saveBanzukeState() {
-    var tableLiner = document.getElementById(config.tableLinerId);
-    if (tableLiner) {
-      window.localStorage.setItem("banzuke", tableLiner.innerHTML);
-    }
+// Save banzuke state to localStorage
+export function saveState() {
+  var tableLiner = document.getElementById(config.tableLinerId);
+  if (tableLiner) {
+    window.localStorage.setItem("banzuke", tableLiner.innerHTML);
   }
+}
+
+// Internal save function for event handlers
+function saveBanzukeState() {
+  saveState();
+}
   
-  // Handle finish event
-  function handleFinish() {
+// Handle finish event
+function handleFinish() {
     saveBanzukeState();
   }
   
-  // Reset banzuke to initial state
-  function resetBanzuke() {
+// Reset banzuke to initial state
+export function reset() {
     if (!confirm("Reset the banzuke?")) {
       return;
     }
@@ -351,11 +353,17 @@
     }
   }
   
-  // Export public API
-  window.dragDropManager = {
-    init: initialize,
-    reset: resetBanzuke,
-    saveState: saveBanzukeState
-  };
+// Reinitialize a specific card for drag functionality
+export function reinitializeCard(card) {
+    if (rd && card.className.includes('redips-drag')) {
+      rd.enableDrag(true, card);
+    }
+  }
   
-})();
+// Also maintain backward compatibility with window.dragDropManager
+window.dragDropManager = {
+  init,
+  reset,
+  saveState,
+  reinitializeCard
+};

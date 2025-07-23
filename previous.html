@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
     <title>Previous Basho</title>
+    
+    <script type="module">
+      import { writeTableTitles, getBashoName } from './basho-utils.js';
+      import { load as loadRikishiNames, save as saveRikishiNames } from './rikishi-names.js';
+      import { createCard, populateAllSlots } from './rikishi-card-manager.js';
+      import { init as initDragDrop, reset as resetBanzuke } from './drag-drop-manager.js';
+      
+      console.log('Modules imported:', { writeTableTitles, loadRikishiNames, createCard, initDragDrop });
+    </script>
   </head>
   <body class="darkm">
     <script>
@@ -5675,5 +5684,14 @@
       <br />
       Open source GTB helper tool
     </footer>
+    
+    <!-- ES6 Module Support Test -->
+    <script type="module">
+      console.log('✅ ES6 modules are supported!');
+      // We could refactor to use ES6 modules instead of IIFE pattern
+    </script>
+    <script nomodule>
+      console.log('❌ ES6 modules NOT supported - keeping IIFE pattern');
+    </script>
   </body>
 </html>
