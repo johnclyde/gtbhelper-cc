@@ -123,7 +123,7 @@ export function makeEditable() {
       e.preventDefault();
 
       // Get the rikishi card
-      const card = e.target.closest('.redips-drag');
+      const card = e.target.closest('.rikishi-drag');
       if (!card) return;
 
       const rikishiId = card.getAttribute('data-rid');
@@ -179,7 +179,7 @@ export function makeEditable() {
   // Apply custom names on load
   const allLinks = document.querySelectorAll('a[href*="Rikishi.aspx?r="]');
   for (const link of allLinks) {
-    const card = link.closest('.redips-drag');
+    const card = link.closest('.rikishi-drag');
     if (card) {
       const rikishiId = card.getAttribute('data-rid');
       if (customNames[rikishiId]) {

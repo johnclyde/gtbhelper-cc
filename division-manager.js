@@ -82,7 +82,7 @@ function createDivisionRow(rank, number, isOldBanzuke = true, isSanyaku = false)
   if (isOldBanzuke) {
     // Old banzuke format: east | rank | west
     const tdEast = document.createElement('td');
-    tdEast.className = `redips-only ${rank}${number}e`;
+    tdEast.className = `sortable-cell ${rank}${number}e`;
     tr.appendChild(tdEast);
 
     const th = document.createElement('th');
@@ -90,7 +90,7 @@ function createDivisionRow(rank, number, isOldBanzuke = true, isSanyaku = false)
     tr.appendChild(th);
 
     const tdWest = document.createElement('td');
-    tdWest.className = `redips-only ${rank}${number}w`;
+    tdWest.className = `sortable-cell ${rank}${number}w`;
     tr.appendChild(tdWest);
   } else {
     // New banzuke format: change | east | rank | west | change
@@ -100,7 +100,7 @@ function createDivisionRow(rank, number, isOldBanzuke = true, isSanyaku = false)
     tr.appendChild(tdChange1);
 
     const tdEast = document.createElement('td');
-    tdEast.className = 'redips-only b2';
+    tdEast.className = 'sortable-cell b2';
     tr.appendChild(tdEast);
 
     const th = document.createElement('th');
@@ -108,7 +108,7 @@ function createDivisionRow(rank, number, isOldBanzuke = true, isSanyaku = false)
     tr.appendChild(th);
 
     const tdWest = document.createElement('td');
-    tdWest.className = 'redips-only b2';
+    tdWest.className = 'sortable-cell b2';
     tr.appendChild(tdWest);
 
     const tdChange2 = document.createElement('td');

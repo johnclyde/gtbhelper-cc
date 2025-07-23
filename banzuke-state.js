@@ -38,7 +38,7 @@ function extractTableState(selector) {
       };
 
       // Extract rikishi data
-      for (const rikishi of cell.querySelectorAll('.redips-drag')) {
+      for (const rikishi of cell.querySelectorAll('.rikishi-drag')) {
         cellData.rikishi.push({
           id: rikishi.id,
           dataset: { ...rikishi.dataset },
@@ -249,7 +249,7 @@ function extractTableStateFromElement(table) {
       };
 
       // Extract rikishi data
-      for (const rikishi of cell.querySelectorAll('.redips-drag')) {
+      for (const rikishi of cell.querySelectorAll('.rikishi-drag')) {
         cellData.rikishi.push({
           id: rikishi.id,
           dataset: { ...rikishi.dataset },

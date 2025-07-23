@@ -30,7 +30,7 @@ function createRankRow(rank, isOldBanzuke = true, isSanyaku = false) {
   if (isOldBanzuke) {
     // Old banzuke format: east | rank | west
     const tdEast = document.createElement('td');
-    tdEast.className = `redips-only ${rank}e`;
+    tdEast.className = `sortable-cell ${rank}e`;
     tr.appendChild(tdEast);
 
     const th = document.createElement('th');
@@ -38,7 +38,7 @@ function createRankRow(rank, isOldBanzuke = true, isSanyaku = false) {
     tr.appendChild(th);
 
     const tdWest = document.createElement('td');
-    tdWest.className = `redips-only ${rank}w`;
+    tdWest.className = `sortable-cell ${rank}w`;
     tr.appendChild(tdWest);
   } else {
     // New banzuke format: change | east | rank | west | change
@@ -48,7 +48,7 @@ function createRankRow(rank, isOldBanzuke = true, isSanyaku = false) {
     tr.appendChild(tdChange1);
 
     const tdEast = document.createElement('td');
-    tdEast.className = 'redips-only b2';
+    tdEast.className = 'sortable-cell b2';
     tr.appendChild(tdEast);
 
     const th = document.createElement('th');
@@ -56,7 +56,7 @@ function createRankRow(rank, isOldBanzuke = true, isSanyaku = false) {
     tr.appendChild(th);
 
     const tdWest = document.createElement('td');
-    tdWest.className = 'redips-only b2';
+    tdWest.className = 'sortable-cell b2';
     tr.appendChild(tdWest);
 
     const tdChange2 = document.createElement('td');

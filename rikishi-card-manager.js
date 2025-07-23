@@ -58,13 +58,13 @@ export function createCard(rikishiData, rikishiId, basho) {
 
   // Apply retired styling if needed
   if (isRetired(rikishiId)) {
-    card.className = 'redips-nodrag';
+    card.className = 'rikishi-nodrag';
     card.style.backgroundColor = '#dadada';
     card.style.cursor = 'not-allowed';
     card.style.color = '#3c3c3c';
     card.setAttribute('title', 'Retired - Right-click to toggle retirement status');
   } else {
-    card.className = 'redips-drag se';
+    card.className = 'rikishi-drag se';
     card.style.cursor = 'grab';
     card.setAttribute('title', 'Right-click to mark as retired');
   }
@@ -86,7 +86,7 @@ function toggleRetirement(rikishiId, card) {
     if (confirm('Mark this rikishi as active?')) {
       markAsActive(rikishiId);
       // Update card appearance
-      card.className = 'redips-drag se';
+      card.className = 'rikishi-drag se';
       card.style.backgroundColor = '';
       card.style.cursor = 'grab';
       card.style.color = '';
@@ -100,7 +100,7 @@ function toggleRetirement(rikishiId, card) {
     if (confirm('Mark this rikishi as retired?')) {
       markAsRetired(rikishiId);
       // Update card appearance
-      card.className = 'redips-nodrag';
+      card.className = 'rikishi-nodrag';
       card.style.backgroundColor = '#dadada';
       card.style.cursor = 'not-allowed';
       card.style.color = '#3c3c3c';
@@ -114,7 +114,7 @@ function toggleRetirement(rikishiId, card) {
 
 // Populate all rikishi slots
 export function populateAllSlots(basho) {
-  const cells = document.querySelectorAll('.redips-only');
+  const cells = document.querySelectorAll('.sortable-cell');
 
   for (let i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== '') {

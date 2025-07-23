@@ -47,12 +47,12 @@ div a {
 }
 
 /* Indicate editable rikishi names */
-.redips-drag a[href*="Rikishi.aspx?r="] {
+.rikishi-drag a[href*="Rikishi.aspx?r="] {
   cursor: pointer;
   border-bottom: 1px dotted #666;
 }
 
-.redips-drag a[href*="Rikishi.aspx?r="]:hover {
+.rikishi-drag a[href*="Rikishi.aspx?r="]:hover {
   background-color: #ffffcc;
   text-decoration: none;
 }
@@ -189,8 +189,8 @@ th {
 }
 
 #banzuke1 td span::after,
-td .redips-drag::after,
-.redips-nodrag::after {
+td .rikishi-drag::after,
+.rikishi-nodrag::after {
   content: "";
   display: inline-block;
   width: 100%;
@@ -216,8 +216,8 @@ td span {
   margin: 0 auto;
 }
 
-td .redips-drag,
-.redips-nodrag {
+td .rikishi-drag,
+.rikishi-nodrag {
   background: linear-gradient(rgba(255, 255, 255, 0.4) 25%, transparent 75%, rgba(0, 0, 0, 0.18));
   text-align: justify;
   width: 190px;
