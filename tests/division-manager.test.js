@@ -102,7 +102,7 @@ test('generateConfigurableNewBanzukeRows generates correct HTML', () => {
 
   // Check change columns
   assert(html.includes('class="ch"'), 'Should include change columns');
-  assert(html.includes('class="redips-only b2"'), 'Should include b2 class');
+  assert(html.includes('class="sortable-cell b2"'), 'Should include b2 class');
 
   // Check extended maegashira
   assert(html.includes('>M18<'), 'Should include M18');

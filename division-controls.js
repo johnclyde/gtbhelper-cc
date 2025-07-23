@@ -81,7 +81,12 @@ export function createControlPanel() {
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'Reset to Default';
   resetBtn.style.marginTop = '10px';
-  resetBtn.addEventListener('click', () => window.resetDivisions());
+  resetBtn.addEventListener('click', () => {
+    if (confirm('Reset all divisions to default?')) {
+      resetToDefault();
+      updateControls();
+    }
+  });
 
   content.appendChild(controlsContainer);
   content.appendChild(resetBtn);
@@ -174,7 +179,9 @@ function createRankControl(banzukeType, rank, count, isSanyaku = false) {
 
 // Update control panel with current counts
 function updateControls() {
-  const counts = getDivisionCounts();
+  // Get counts for both banzuke types
+  const oldCounts = getDivisionCounts('oldBanzuke');
+  const newCounts = getDivisionCounts('newBanzuke');
 
   // Helper to create section
   function createSection(container, banzukeType, counts) {
@@ -212,12 +219,12 @@ function updateControls() {
   // Update both containers
   const oldContainer = document.getElementById('old-banzuke-controls');
   if (oldContainer) {
-    createSection(oldContainer, 'oldBanzuke', counts.oldBanzuke);
+    createSection(oldContainer, 'oldBanzuke', oldCounts);
   }
 
   const newContainer = document.getElementById('new-banzuke-controls');
   if (newContainer) {
-    createSection(newContainer, 'newBanzuke', counts.newBanzuke);
+    createSection(newContainer, 'newBanzuke', newCounts);
   }
 }
 

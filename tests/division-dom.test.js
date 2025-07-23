@@ -12,17 +12,17 @@ function setupDOM() {
   document.body.innerHTML = `
     <table id="banzuke1">
       <tbody>
-        <tr class="san"><td class="redips-only Y1e"></td><th>Y1</th><td class="redips-only Y1w"></td></tr>
-        <tr class="san"><td class="redips-only O1e"></td><th>O1</th><td class="redips-only O1w"></td></tr>
-        <tr class="san"><td class="redips-only S1e"></td><th>S1</th><td class="redips-only S1w"></td></tr>
-        <tr class="san"><td class="redips-only S2e"></td><th>S2</th><td class="redips-only S2w"></td></tr>
-        <tr><td class="redips-only M1e"></td><th>M1</th><td class="redips-only M1w"></td></tr>
-        <tr><td class="redips-only M2e"></td><th>M2</th><td class="redips-only M2w"></td></tr>
+        <tr class="san"><td class="sortable-cell Y1e"></td><th>Y1</th><td class="sortable-cell Y1w"></td></tr>
+        <tr class="san"><td class="sortable-cell O1e"></td><th>O1</th><td class="sortable-cell O1w"></td></tr>
+        <tr class="san"><td class="sortable-cell S1e"></td><th>S1</th><td class="sortable-cell S1w"></td></tr>
+        <tr class="san"><td class="sortable-cell S2e"></td><th>S2</th><td class="sortable-cell S2w"></td></tr>
+        <tr><td class="sortable-cell M1e"></td><th>M1</th><td class="sortable-cell M1w"></td></tr>
+        <tr><td class="sortable-cell M2e"></td><th>M2</th><td class="sortable-cell M2w"></td></tr>
       </tbody>
     </table>
     <table id="banzuke2">
       <tbody>
-        <tr class="san"><td class="ch"> </td><td class="redips-only b2"></td><th>Y1</th><td class="redips-only b2"></td><td class="ch"> </td></tr>
+        <tr class="san"><td class="ch"> </td><td class="sortable-cell b2"></td><th>Y1</th><td class="sortable-cell b2"></td><td class="ch"> </td></tr>
       </tbody>
     </table>
   `;
@@ -42,7 +42,7 @@ test('updateDivisionCount adds rows to old banzuke', () => {
   // Check that M3 and M4 were added
   const m3Row = Array.from(tbody.querySelectorAll('th')).find((th) => th.textContent === 'M3');
   assert(m3Row, 'M3 should be added');
-  assertEquals(m3Row.parentElement.querySelector('.redips-only').className, 'redips-only M3e');
+  assertEquals(m3Row.parentElement.querySelector('.sortable-cell').className, 'sortable-cell M3e');
 
   const m4Row = Array.from(tbody.querySelectorAll('th')).find((th) => th.textContent === 'M4');
   assert(m4Row, 'M4 should be added');
@@ -87,9 +87,9 @@ test('updateSanyakuCount on new banzuke has correct structure', () => {
   const row = y2Row.parentElement;
   assertEquals(row.children.length, 5, 'New banzuke row should have 5 cells');
   assertEquals(row.children[0].className, 'ch', 'First cell should be change column');
-  assertEquals(row.children[1].className, 'redips-only b2', 'Second cell should be east');
+  assertEquals(row.children[1].className, 'sortable-cell b2', 'Second cell should be east');
   assertEquals(row.children[2].tagName, 'TH', 'Third cell should be rank header');
-  assertEquals(row.children[3].className, 'redips-only b2', 'Fourth cell should be west');
+  assertEquals(row.children[3].className, 'sortable-cell b2', 'Fourth cell should be west');
   assertEquals(row.children[4].className, 'ch', 'Fifth cell should be change column');
 });
 

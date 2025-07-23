@@ -29,7 +29,7 @@ test('createCard sets correct drag class for active rikishi', () => {
   localStorage.removeItem('retiredRikishi');
 
   const card = createCard('Y1e Hoshoryu 8-7', 12451, '202301');
-  assertEquals(card.className, 'redips-drag se', 'Active rikishi should be draggable');
+  assertEquals(card.className, 'rikishi-drag se', 'Active rikishi should be draggable');
   assertEquals(card.style.cursor, 'grab', 'Should have grab cursor');
 });
 

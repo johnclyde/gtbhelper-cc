@@ -36,16 +36,16 @@ function setupDOM() {
         </thead>
         <tbody>
           <tr class="san">
-            <td class="redips-only Y1e">
-              <div id="Y1e" class="redips-drag se" data-rid="12345" style="display: none;">Terunofuji 15-0</div>
+            <td class="sortable-cell Y1e">
+              <div id="Y1e" class="rikishi-drag se" data-rid="12345" style="display: none;">Terunofuji 15-0</div>
             </td>
             <th>Y1</th>
-            <td class="redips-only Y1w"></td>
+            <td class="sortable-cell Y1w"></td>
           </tr>
           <tr>
-            <td class="redips-only M1e"></td>
+            <td class="sortable-cell M1e"></td>
             <th>M1</th>
-            <td class="redips-only M1w"></td>
+            <td class="sortable-cell M1w"></td>
           </tr>
         </tbody>
       </table>
@@ -57,11 +57,11 @@ function setupDOM() {
         <tbody>
           <tr class="san">
             <td class="ch"> </td>
-            <td class="redips-only b2">
-              <div id="Y1e" class="redips-drag se" data-rid="12345">Terunofuji 15-0</div>
+            <td class="sortable-cell b2">
+              <div id="Y1e" class="rikishi-drag se" data-rid="12345">Terunofuji 15-0</div>
             </td>
             <th>Y1</th>
-            <td class="redips-only b2"></td>
+            <td class="sortable-cell b2"></td>
             <td class="ch"> </td>
           </tr>
         </tbody>
@@ -121,12 +121,12 @@ test('restoreBanzukeState recreates DOM correctly', () => {
   assertEquals(restoredState.tableTitles[0], 'Hatsu 2025');
 
   // Check rikishi restoration
-  const oldRikishi = document.querySelector('#banzuke1 .redips-drag');
+  const oldRikishi = document.querySelector('#banzuke1 .rikishi-drag');
   assertEquals(oldRikishi.id, 'Y1e');
   assertEquals(oldRikishi.textContent, 'Terunofuji 15-0');
   assertEquals(oldRikishi.style.display, 'none');
 
-  const newRikishi = document.querySelector('#banzuke2 .redips-drag');
+  const newRikishi = document.querySelector('#banzuke2 .rikishi-drag');
   assertEquals(newRikishi.id, 'Y1e');
   assertEquals(newRikishi.textContent, 'Terunofuji 15-0');
 });
@@ -202,7 +202,7 @@ test('handles multiple rikishi in same cell', () => {
   const cell = document.querySelector('#banzuke2 .b2');
   const newRikishi = document.createElement('div');
   newRikishi.id = 'O1e';
-  newRikishi.className = 'redips-drag se';
+  newRikishi.className = 'rikishi-drag se';
   newRikishi.dataset.rid = '54321';
   newRikishi.textContent = 'Takakeisho 10-5';
   cell.appendChild(newRikishi);

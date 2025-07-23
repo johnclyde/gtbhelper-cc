@@ -31,19 +31,19 @@ function setupDOM() {
       <table id="banzuke1">
         <tbody>
           <tr class="san">
-            <td class="redips-only Y1e">
+            <td class="sortable-cell Y1e">
               <span style="display:none">Y1e Hoshoryu 0-0</span>
-              <div id="Y1e" class="redips-drag se" data-rid="12451" title="Right-click to mark as retired">
+              <div id="Y1e" class="rikishi-drag se" data-rid="12451" title="Right-click to mark as retired">
                 Y1e <a href="https://sumodb.sumogames.de/Rikishi.aspx?r=12451" target="_blank">Hoshoryu</a> <a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12451&b=202501" target="_blank">0-0</a>
               </div>
             </td>
             <th>Y1</th>
-            <td class="redips-only Y1w"></td>
+            <td class="sortable-cell Y1w"></td>
           </tr>
           <tr>
-            <td class="redips-only M1e"></td>
+            <td class="sortable-cell M1e"></td>
             <th>M1</th>
-            <td class="redips-only M1w"></td>
+            <td class="sortable-cell M1w"></td>
           </tr>
         </tbody>
       </table>
@@ -51,13 +51,13 @@ function setupDOM() {
         <tbody>
           <tr class="san">
             <td class="ch"> </td>
-            <td class="redips-only b2">
-              <div id="Y1e" class="redips-drag se" data-rid="12451">
+            <td class="sortable-cell b2">
+              <div id="Y1e" class="rikishi-drag se" data-rid="12451">
                 Y1e <a href="https://sumodb.sumogames.de/Rikishi.aspx?r=12451" target="_blank">Hoshoryu</a> <a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12451&b=202501" target="_blank">8-7</a>
               </div>
             </td>
             <th>Y1</th>
-            <td class="redips-only b2"></td>
+            <td class="sortable-cell b2"></td>
             <td class="ch">
               <a href="https://sumodb.sumogames.de/Query.aspx?show_form=0&form1_rank=Y1e&form1_wins=8&form1_year=193905-194401,194905-now&form2_highlight=on&form2_rank=Y1e" target="_blank" title="Click to run a SumoDB query">⇄</a>
             </td>
@@ -88,7 +88,7 @@ test('extractBanzukeState captures complete table structure', () => {
 
   // Check rikishi data
   const rikishiCell = state.oldBanzuke[0].cells[0];
-  assert.equal(rikishiCell.className, 'redips-only Y1e');
+  assert.equal(rikishiCell.className, 'sortable-cell Y1e');
   assert.equal(rikishiCell.rikishi.length, 1);
   assert.equal(rikishiCell.rikishi[0].id, 'Y1e');
   assert.equal(rikishiCell.rikishi[0].dataRid, '12451');
@@ -131,7 +131,7 @@ test('restoreBanzukeState recreates DOM from saved state', () => {
   assert(oldRows[0].classList.contains('san'));
 
   // Check restored rikishi
-  const rikishi = document.querySelector('#banzuke1 .redips-drag');
+  const rikishi = document.querySelector('#banzuke1 .rikishi-drag');
   assert(rikishi);
   assert.equal(rikishi.id, 'Y1e');
   assert.equal(rikishi.getAttribute('data-rid'), '12451');
@@ -165,8 +165,8 @@ test('clearSavedState removes all saved data', () => {
 
 test('restoreBanzukeState handles retired rikishi styling', () => {
   // Create a retired rikishi
-  const rikishi = document.querySelector('#banzuke1 .redips-drag');
-  rikishi.className = 'redips-nodrag';
+  const rikishi = document.querySelector('#banzuke1 .rikishi-drag');
+  rikishi.className = 'rikishi-nodrag';
   rikishi.style.backgroundColor = '#dadada';
   rikishi.style.cursor = 'not-allowed';
   rikishi.style.color = '#3c3c3c';
@@ -177,7 +177,7 @@ test('restoreBanzukeState handles retired rikishi styling', () => {
   restoreBanzukeState();
 
   // Check styling is preserved
-  const restored = document.querySelector('#banzuke1 .redips-nodrag');
+  const restored = document.querySelector('#banzuke1 .rikishi-nodrag');
   assert(restored);
   assert.equal(restored.style.backgroundColor, '#dadada');
   assert.equal(restored.style.cursor, 'not-allowed');
@@ -214,7 +214,7 @@ test('restoreBanzukeState adds event handlers', () => {
   document.querySelector('#banzuke1 tbody').innerHTML = '';
   restoreBanzukeState();
 
-  const rikishi = document.querySelector('#banzuke1 .redips-drag');
+  const rikishi = document.querySelector('#banzuke1 .rikishi-drag');
   assert(rikishi);
 
   // Check that contextmenu event is handled

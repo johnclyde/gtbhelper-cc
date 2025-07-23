@@ -4,8 +4,7 @@
   "description": "GTB Helper - Guess the Banzuke Helper Tool",
   "type": "module",
   "scripts": {
-    "test": "node test-runner-simple.js",
-    "test:full": "node test-runner.js",
+    "test": "node test-runner.js",
     "test:browser": "open tests.html",
     "serve": "python3 -m http.server 8000",
     "lint": "biome lint .",

@@ -34,8 +34,8 @@ test('generateOldBanzukeRows has correct structure', () => {
   // Check for sanyaku class
   assert(html.includes('class="san"'), 'Should include sanyaku class');
 
-  // Check for redips-only class
-  assert(html.includes('class="redips-only'), 'Should include redips-only class');
+  // Check for sortable-cell class
+  assert(html.includes('class="sortable-cell'), 'Should include sortable-cell class');
 
   // Count table rows
   const rowCount = (html.match(/<tr/g) || []).length;
@@ -77,5 +77,5 @@ test('generateNewBanzukeRows includes change columns', () => {
   assert(changeCount > 50, 'Should have many change cells (2 per row)');
 
   // Check b2 class for new banzuke
-  assert(html.includes('class="redips-only b2"'), 'Should include b2 class');
+  assert(html.includes('class="sortable-cell b2"'), 'Should include b2 class');
 });
