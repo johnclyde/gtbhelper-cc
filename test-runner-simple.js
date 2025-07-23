@@ -95,6 +95,7 @@ test('Test files exist', () => {
     'rikishi-card-manager test should exist'
   );
   assert(existsSync('tests/division-manager.test.js'), 'division-manager test should exist');
+  assert(existsSync('tests/rikishi-card-create.test.js'), 'rikishi-card-create test should exist');
 });
 
 test('Package.json is valid', () => {

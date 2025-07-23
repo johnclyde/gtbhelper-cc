@@ -143,7 +143,7 @@ export function createCard(rikishiData, rikishiId, basho) {
   card.setAttribute('data-rid', rikishiId);
 
   // Get custom name if exists
-  const customNames = window.rikishiNames.load();
+  const customNames = loadCustomNames();
   const displayName = customNames[rikishiId] || rikiData[1];
 
   // Create record link
