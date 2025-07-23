@@ -1,0 +1,25 @@
+{
+  "name": "gtbhelper-cc",
+  "version": "1.0.0",
+  "description": "GTB Helper - Guess the Banzuke Helper Tool",
+  "type": "module",
+  "scripts": {
+    "test": "node test-runner-simple.js",
+    "test:full": "node test-runner.js",
+    "test:browser": "open tests.html",
+    "serve": "python3 -m http.server 8000",
+    "lint": "eslint *.js",
+    "format": "prettier --write *.js"
+  },
+  "devDependencies": {
+    "jsdom": "^23.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnclyde/gtbhelper-cc.git"
+  },
+  "author": "johnclyde",
+  "license": "MIT"
+}
