@@ -13,7 +13,7 @@ test('generateOldBanzukeRows includes all required ranks', () => {
   assert(html.includes('K2e'), 'Should include K2e');
   
   // Check maegashira ranks
-  for (let i = 1; i <= 16; i++) {
+  for (let i = 1; i <= 17; i++) {
     assert(html.includes(`M${i}e`), `Should include M${i}e`);
     assert(html.includes(`M${i}w`), `Should include M${i}w`);
   }
@@ -39,7 +39,7 @@ test('generateOldBanzukeRows has correct structure', () => {
   
   // Count table rows
   const rowCount = (html.match(/<tr/g) || []).length;
-  assertEquals(rowCount, 37, 'Should have 37 rows (6 sanyaku + 16 maegashira + 1 divider + 14 juryo)');
+  assertEquals(rowCount, 38, 'Should have 38 rows (6 sanyaku + 17 maegashira + 1 divider + 14 juryo)');
 });
 
 test('generateNewBanzukeRows includes extended ranks', () => {
@@ -56,8 +56,10 @@ test('generateNewBanzukeRows includes extended ranks', () => {
   assert(html.includes('>M17<'), 'Should include M17');
   assert(html.includes('>M18<'), 'Should include M18');
   
-  // Check for generic juryo
-  assert(html.includes('>J<'), 'Should include generic J');
+  // Check for juryo ranks
+  for (let i = 1; i <= 14; i++) {
+    assert(html.includes(`>J${i}<`), `Should include J${i}`);
+  }
 });
 
 test('generateNewBanzukeRows includes change columns', () => {

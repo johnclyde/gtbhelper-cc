@@ -10,7 +10,7 @@ const RANKS = {
     { rank: 'K1', name: 'Komusubi 1' },
     { rank: 'K2', name: 'Komusubi 2' }
   ],
-  maegashira: Array.from({ length: 16 }, (_, i) => ({
+  maegashira: Array.from({ length: 17 }, (_, i) => ({
     rank: `M${i + 1}`,
     name: `Maegashira ${i + 1}`
   })),
@@ -78,8 +78,10 @@ export function generateNewBanzukeRows() {
   // Divider
   tbody.push('<tr><th class="divider" colspan="5"></th></tr>');
   
-  // Single juryo row (generic)
-  tbody.push('<tr><td class="ch"> </td><td class="redips-only b2"></td><th>J</th><td class="redips-only b2"></td><td class="ch"> </td></tr>');
+  // Add juryo ranks J1-J14
+  for (let i = 1; i <= 14; i++) {
+    tbody.push(`<tr><td class="ch"> </td><td class="redips-only b2"></td><th>J${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`);
+  }
   
   return tbody.join('\n              ');
 }
