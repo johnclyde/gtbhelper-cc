@@ -47,6 +47,17 @@ div a {
 	color: darkblue;
 }
 
+/* Indicate editable rikishi names */
+.redips-drag a[href*="Rikishi.aspx?r="] {
+	cursor: pointer;
+	border-bottom: 1px dotted #666;
+}
+
+.redips-drag a[href*="Rikishi.aspx?r="]:hover {
+	background-color: #ffffcc;
+	text-decoration: none;
+}
+
 ul {
 	font-size: 11pt;
 	line-height: 25px;

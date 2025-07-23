@@ -406,6 +406,95 @@ window.onload = function() {
     });
   });
 
+  // Load custom rikishi names from localStorage
+  function loadCustomRikishiNames() {
+    var customNames = localStorage.getItem('customRikishiNames');
+    if (customNames) {
+      return JSON.parse(customNames);
+    }
+    return {};
+  }
+
+  // Save custom rikishi names to localStorage
+  function saveCustomRikishiNames(customNames) {
+    localStorage.setItem('customRikishiNames', JSON.stringify(customNames));
+  }
+
+  // Make rikishi names editable
+  function makeRikishiNamesEditable() {
+    var customNames = loadCustomRikishiNames();
+    
+    // Add click event to all rikishi name links
+    document.addEventListener('click', function(e) {
+      // Check if clicked element is a rikishi name link
+      if (e.target.tagName === 'A' && e.target.href.includes('Rikishi.aspx?r=')) {
+        e.preventDefault();
+        
+        // Get the rikishi card
+        var card = e.target.closest('.redips-drag');
+        if (!card) return;
+        
+        var rikishiId = card.getAttribute('data-rid');
+        var currentName = e.target.textContent;
+        
+        // Create input field
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.value = customNames[rikishiId] || currentName;
+        input.style.width = '80px';
+        input.style.fontSize = '12px';
+        
+        // Replace link with input
+        e.target.style.display = 'none';
+        e.target.parentNode.insertBefore(input, e.target);
+        input.focus();
+        input.select();
+        
+        // Handle input events
+        function saveEdit() {
+          var newName = input.value.trim();
+          if (newName && newName !== currentName) {
+            customNames[rikishiId] = newName;
+            saveCustomRikishiNames(customNames);
+            e.target.textContent = newName;
+          } else if (newName === '') {
+            // If empty, revert to original name
+            delete customNames[rikishiId];
+            saveCustomRikishiNames(customNames);
+            e.target.textContent = currentName;
+          }
+          input.remove();
+          e.target.style.display = '';
+          
+          // Save the entire banzuke state
+          window.localStorage.setItem("banzuke", document.getElementById("tableLiner").innerHTML);
+        }
+        
+        input.addEventListener('blur', saveEdit);
+        input.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter') {
+            saveEdit();
+          } else if (event.key === 'Escape') {
+            input.remove();
+            e.target.style.display = '';
+          }
+        });
+      }
+    });
+    
+    // Apply custom names on load
+    var allLinks = document.querySelectorAll('a[href*="Rikishi.aspx?r="]');
+    allLinks.forEach(function(link) {
+      var card = link.closest('.redips-drag');
+      if (card) {
+        var rikishiId = card.getAttribute('data-rid');
+        if (customNames[rikishiId]) {
+          link.textContent = customNames[rikishiId];
+        }
+      }
+    });
+  }
+
   var basho = "202301"; // The date of the basho just ended
 
   if (window.localStorage.getItem("banzuke1") !== null) {
@@ -455,6 +544,7 @@ window.onload = function() {
 
   function populateSlots() {
     var cell = document.querySelectorAll(".redips-only");
+    var customNames = loadCustomRikishiNames();
     
     for (var i = 0; i < theSekitori.length; i++) {
       if (theSekitori[i] !== "") {
@@ -476,9 +566,12 @@ window.onload = function() {
                       sekitoriID[i] + "&b=" + basho + '" target="_blank">' + rikiData[2] + "</a>";
 
         card.innerHTML = rikiData.join(' ');
+        
+        // Apply custom name if exists
+        var displayName = customNames[sekitoriID[i]] || rikiData[1];
 
         rikiData[1] = '<a href="https://sumodb.sumogames.de/Rikishi.aspx?r=' + 
-                      sekitoriID[i] + '" target="_blank">' + rikiData[1] + "</a>";
+                      sekitoriID[i] + '" target="_blank">' + displayName + "</a>";
 
         if (rikiData[1].includes("Chiyotairyu") || rikiData[1].includes("Yutakayama")) {
           card.innerHTML = rikiData.join(' ');
@@ -517,6 +610,9 @@ redips.init = function () {
   //rd.hover.borderTd = "2px solid blue";
   rd.dropMode = "multiple";
   rd.only.divClass.se = "b2";
+  
+  // Initialize editable rikishi names
+  makeRikishiNamesEditable();
 
   for (var i = 0; i < theSekitori.length; i++) {
     if (theSekitori[i] !== "") {
