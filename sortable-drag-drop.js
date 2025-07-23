@@ -8,7 +8,7 @@ const config = {
   oldBanzukeSelector: 'td',
   newBanzukeClass: 'b2',
   changeColumnClass: 'ch',
-  rikishiCounterId: 'makRik',
+  rikishiCounterId: 'rikishiCounter',
   dragClass: 'rikishi-drag',
   nodragClass: 'rikishi-nodrag',
   cellClass: 'sortable-cell'
@@ -30,22 +30,17 @@ export function init() {
 
   // Initialize editable rikishi names
   makeEditable();
+  
+  // Initialize division breakdown display
+  updateDivisionBreakdown();
 }
 
 // Initialize cells for sorting
 function initializeCells() {
-  // Old banzuke cells
-  const oldCells = document.querySelectorAll('#banzuke1 tbody td');
-  for (const cell of oldCells) {
-    if (!cell.classList.contains('ch')) {
-      cell.classList.add(config.cellClass);
-    }
-  }
-
-  // New banzuke cells
-  const newCells = document.querySelectorAll('#banzuke2 tbody td');
-  for (const cell of newCells) {
-    if (!cell.classList.contains('ch')) {
+  // Find all sortable cells in division tables
+  const allCells = document.querySelectorAll('.division-table tbody td');
+  for (const cell of allCells) {
+    if (!cell.classList.contains('ch') && !cell.colSpan) {
       cell.classList.add(config.cellClass);
     }
   }
@@ -360,6 +355,17 @@ function updateRikishiCount(delta) {
   if (counter) {
     counter.textContent = Number.parseInt(counter.textContent) + delta;
   }
+  
+  // Update division breakdown
+  updateDivisionBreakdown();
+}
+
+// Count rikishi by division and update display
+export function updateDivisionBreakdown() {
+  // Import the function from division-tables
+  import('./division-tables.js').then(module => {
+    module.updateAllDivisionCounters();
+  });
 }
 
 // Reset banzuke to initial state
@@ -368,14 +374,17 @@ export function reset() {
     return;
   }
 
-  const oldCells = document.querySelectorAll('#banzuke1 tbody td');
-  const newCells = document.querySelectorAll(`.${config.newBanzukeClass}`);
-  const changeCells = document.getElementsByClassName(config.changeColumnClass);
+  const oldCells = document.querySelectorAll('#oldBanzukeContainer .sortable-cell');
+  const newCells = document.querySelectorAll(`#newBanzukeContainer .${config.newBanzukeClass}`);
+  const changeCells = document.querySelectorAll('#newBanzukeContainer .ch');
 
   // Clear localStorage and counter
   clearSavedState();
   const counter = document.getElementById(config.rikishiCounterId);
   if (counter) counter.textContent = '0';
+  
+  // Reset division breakdown
+  updateDivisionBreakdown();
 
   // Move all rikishi back to old banzuke
   newCells.forEach((newCell, i) => {

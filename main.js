@@ -5,6 +5,7 @@ import { hasSavedState, restoreBanzukeState } from './banzuke-state.js';
 import { writeTableTitles } from './basho-utils.js';
 import { initializeDivisionControls } from './division-controls.js';
 import { initializeDivisionManager } from './division-manager.js';
+import { initializeDivisionTables } from './division-tables.js';
 import { init as initRikishiCards, populateAllSlots } from './rikishi-card-manager.js';
 import { makeEditable } from './rikishi-card-manager.js';
 import { init as initDragDrop, reset as resetDragDrop } from './sortable-drag-drop.js';
@@ -18,12 +19,12 @@ function initializeApp() {
   if (hasSavedState()) {
     // Load from saved state
     writeTableTitles(CURRENT_BASHO);
-    initializeDivisionManager();
+    initializeDivisionTables(); // Use new table structure
     restoreBanzukeState();
   } else {
     // Fresh start
     writeTableTitles(CURRENT_BASHO);
-    initializeDivisionManager();
+    initializeDivisionTables(); // Use new table structure
     populateAllSlots(CURRENT_BASHO);
   }
 

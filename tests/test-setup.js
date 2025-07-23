@@ -1,8 +1,18 @@
 // Test setup utilities for GTB Helper tests
 
 // Simple test runner functions
+let beforeEachFn = null;
+
 global.test = (name, fn) => {
   try {
+    // Clear localStorage before each test
+    if (global.localStorage && global.localStorage.clear) {
+      global.localStorage.clear();
+    }
+    // Run beforeEach if defined
+    if (beforeEachFn) {
+      beforeEachFn();
+    }
     fn();
     console.log(`✓ ${name}`);
   } catch (error) {
@@ -13,8 +23,7 @@ global.test = (name, fn) => {
 };
 
 global.beforeEach = (fn) => {
-  // Run before each test
-  fn();
+  beforeEachFn = fn;
 };
 
 // Simple assertion functions
@@ -58,3 +67,21 @@ global.HTMLElement = dom.window.HTMLElement;
 global.Element = dom.window.Element;
 global.NodeList = dom.window.NodeList;
 global.DOMParser = dom.window.DOMParser;
+
+// Mock localStorage
+const localStorageMock = {
+  storage: {},
+  getItem(key) {
+    return this.storage[key] || null;
+  },
+  setItem(key, value) {
+    this.storage[key] = value;
+  },
+  removeItem(key) {
+    delete this.storage[key];
+  },
+  clear() {
+    this.storage = {};
+  }
+};
+global.localStorage = localStorageMock;

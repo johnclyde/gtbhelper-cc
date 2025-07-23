@@ -8,24 +8,6 @@ import {
   saveBanzukeState
 } from '../banzuke-state.js';
 
-// Mock localStorage
-const localStorageMock = {
-  storage: {},
-  getItem(key) {
-    return this.storage[key] || null;
-  },
-  setItem(key, value) {
-    this.storage[key] = value;
-  },
-  removeItem(key) {
-    delete this.storage[key];
-  },
-  clear() {
-    this.storage = {};
-  }
-};
-global.localStorage = localStorageMock;
-
 // Setup DOM
 function setupDOM() {
   document.body.innerHTML = `
@@ -67,14 +49,13 @@ function setupDOM() {
         </tbody>
       </table>
       
-      <span id="makRik">1</span>
+      <span id="rikishiCounter">1</span>
     </div>
   `;
 }
 
 beforeEach(() => {
   setupDOM();
-  localStorageMock.clear();
 });
 
 test('extractBanzukeState captures all table data', () => {
@@ -134,7 +115,7 @@ test('restoreBanzukeState recreates DOM correctly', () => {
 test('saveBanzukeState and loadBanzukeState work correctly', () => {
   saveBanzukeState();
 
-  assert(localStorageMock.storage.banzukeState);
+  assert(localStorage.getItem('banzukeState'));
 
   const loadedState = loadBanzukeState();
   assert(loadedState);

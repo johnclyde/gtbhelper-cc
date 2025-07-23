@@ -3,24 +3,41 @@
 // Extract state from the banzuke tables
 export function extractBanzukeState() {
   const state = {
-    oldBanzuke: extractTableState('#banzuke1'),
-    newBanzuke: extractTableState('#banzuke2'),
-    rikishiCount: document.getElementById('makRik')?.textContent || '0',
-    tableTitles: Array.from(document.getElementsByClassName('tableTitle')).map(
-      (el) => el.textContent
-    )
+    oldBanzuke: extractAllTablesState('#oldBanzukeContainer'),
+    newBanzuke: extractAllTablesState('#newBanzukeContainer'),
+    mainTitles: {
+      old: document.getElementById('oldBanzukeTitle')?.textContent || '',
+      new: document.getElementById('newBanzukeTitle')?.textContent || ''
+    }
   };
   return state;
 }
 
-// Extract state from a single table
-function extractTableState(selector) {
-  const table = document.querySelector(selector);
-  if (!table) return null;
+// Extract state from all tables in a container
+function extractAllTablesState(containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return null;
+  
+  const tablesState = [];
+  const tables = container.querySelectorAll('.division-table');
+  
+  for (const table of tables) {
+    const tableState = {
+      id: table.id,
+      className: table.className,
+      rows: extractTableRows(table)
+    };
+    tablesState.push(tableState);
+  }
+  
+  return tablesState;
+}
 
+// Extract rows from a single table
+function extractTableRows(table) {
   const tbody = table.querySelector('tbody');
-  if (!tbody) return null;
-
+  if (!tbody) return [];
+  
   const rows = [];
   for (const tr of tbody.querySelectorAll('tr')) {
     const row = {
@@ -63,47 +80,61 @@ function extractTableState(selector) {
 export function restoreBanzukeState(state) {
   if (!state) return;
 
-  // Restore table titles
-  if (state.tableTitles) {
-    const titles = document.getElementsByClassName('tableTitle');
-    state.tableTitles.forEach((title, index) => {
-      if (titles[index]) {
-        titles[index].textContent = title;
-      }
-    });
+  // Restore main titles
+  if (state.mainTitles) {
+    const oldTitle = document.getElementById('oldBanzukeTitle');
+    const newTitle = document.getElementById('newBanzukeTitle');
+    if (oldTitle) oldTitle.textContent = state.mainTitles.old;
+    if (newTitle) newTitle.textContent = state.mainTitles.new;
   }
 
-  // Restore rikishi count
-  const counter = document.getElementById('makRik');
-  if (counter && state.rikishiCount) {
-    counter.textContent = state.rikishiCount;
-  }
+  // Restore tables - need to regenerate tables first
+  import('./division-tables.js').then(module => {
+    module.initializeDivisionTables();
+    
+    // Then restore state to the tables
+    if (state.oldBanzuke) {
+      restoreAllTablesState('#oldBanzukeContainer', state.oldBanzuke);
+    }
+    if (state.newBanzuke) {
+      restoreAllTablesState('#newBanzukeContainer', state.newBanzuke);
+    }
+    
+    // Update counters
+    module.updateAllDivisionCounters();
+    
+    // Re-enable SortableJS functionality on restored elements
+    if (window.initDragDrop) {
+      window.initDragDrop();
+    }
+  });
+}
 
-  // Restore tables
-  restoreTableState('#banzuke1', state.oldBanzuke);
-  restoreTableState('#banzuke2', state.newBanzuke);
-
-  // Re-enable SortableJS functionality on restored elements
-  if (window.initDragDrop) {
-    window.initDragDrop();
+// Restore state to all tables in a container
+function restoreAllTablesState(containerSelector, tablesState) {
+  if (!tablesState) return;
+  
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+  
+  // For each saved table, find the matching table and restore its state
+  for (const savedTable of tablesState) {
+    const table = container.querySelector(`#${savedTable.id}`);
+    if (table) {
+      restoreTableRows(table, savedTable.rows);
+    }
   }
 }
 
-// Restore state to a single table
-function restoreTableState(selector, tableState) {
-  if (!tableState) return;
-
-  const table = document.querySelector(selector);
-  if (!table) return;
-
+// Restore rows to a single table
+function restoreTableRows(table, rows) {
+  if (!rows) return;
+  
   const tbody = table.querySelector('tbody');
   if (!tbody) return;
 
-  // Clear existing tbody
-  tbody.innerHTML = '';
-
-  // Rebuild table from state
-  for (const rowData of tableState) {
+  // Rebuild rows from state
+  for (const rowData of rows) {
     const tr = document.createElement('tr');
     tr.className = rowData.className;
 
@@ -112,35 +143,19 @@ function restoreTableState(selector, tableState) {
       cell.className = cellData.className;
 
       // Handle change column cells specially (they contain links)
-      if (cellData.className === 'ch' && cellData.innerHTML !== ' ') {
+      if (cellData.className.includes('ch') && cellData.innerHTML !== ' ') {
         cell.innerHTML = cellData.innerHTML;
-      } else if (cellData.tagName === 'th' && !cellData.className.includes('divider')) {
+      } else if (cellData.tagName === 'th') {
         // Regular header cells
         cell.textContent = cellData.textContent;
-      } else if (cellData.tagName === 'th' && cellData.className.includes('divider')) {
-        // Divider cells
-        if (cellData.className.includes('colspan')) {
-          const colspan = cellData.className.match(/colspan-(\d+)/);
-          if (colspan) {
-            cell.colSpan = Number.parseInt(colspan[1]);
-          }
-        } else {
-          // Default colspan based on table type
-          cell.colSpan = selector === '#banzuke1' ? 3 : 5;
-        }
+      } else if (cellData.colSpan) {
+        cell.colSpan = cellData.colSpan;
       }
 
       // Restore rikishi in this cell
       for (const rikishiData of cellData.rikishi) {
         const rikishi = createRikishiElement(rikishiData);
         cell.appendChild(rikishi);
-      }
-
-      // Apply any special styles
-      if (cellData.className.includes('sortable-cell') && cellData.rikishi.length > 0) {
-        cell.style.border = 'none';
-      } else if (cellData.className.includes('b2') && cellData.rikishi.length === 0) {
-        cell.style.border = '1px dashed dimgray';
       }
 
       tr.appendChild(cell);

@@ -3,37 +3,23 @@ import {
   clearSavedState,
   extractBanzukeState,
   hasSavedState,
+  loadBanzukeState,
   restoreBanzukeState,
   saveBanzukeState
 } from '../banzuke-state.js';
-
-// Mock localStorage
-global.localStorage = {
-  store: {},
-  getItem(key) {
-    return this.store[key] || null;
-  },
-  setItem(key, value) {
-    this.store[key] = value;
-  },
-  removeItem(key) {
-    delete this.store[key];
-  },
-  clear() {
-    this.store = {};
-  }
-};
 
 // Set up DOM
 function setupDOM() {
   document.body.innerHTML = `
     <div id="tableLiner">
       <table id="banzuke1">
+        <thead>
+          <tr><th class="tableTitle">Hatsu 2025</th></tr>
+        </thead>
         <tbody>
           <tr class="san">
             <td class="sortable-cell Y1e">
-              <span style="display:none">Y1e Hoshoryu 0-0</span>
-              <div id="Y1e" class="rikishi-drag se" data-rid="12451" title="Right-click to mark as retired">
+              <div id="Y1e" class="rikishi-drag se" data-rid="12451">
                 Y1e <a href="https://sumodb.sumogames.de/Rikishi.aspx?r=12451" target="_blank">Hoshoryu</a> <a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12451&b=202501" target="_blank">0-0</a>
               </div>
             </td>
@@ -48,6 +34,9 @@ function setupDOM() {
         </tbody>
       </table>
       <table id="banzuke2">
+        <thead>
+          <tr><th class="tableTitle">Haru 2025</th></tr>
+        </thead>
         <tbody>
           <tr class="san">
             <td class="ch"> </td>
@@ -64,6 +53,7 @@ function setupDOM() {
           </tr>
         </tbody>
       </table>
+      <span id="rikishiCounter">1</span>
     </div>
   `;
 }
@@ -79,26 +69,24 @@ test('extractBanzukeState captures complete table structure', () => {
   console.log('State:', JSON.stringify(state, null, 2));
   assert(state.oldBanzuke);
   assert(state.newBanzuke);
-  assert(state.timestamp);
 
   // Check old banzuke structure
-  assert.equal(state.oldBanzuke.length, 2);
-  assert.equal(state.oldBanzuke[0].className, 'san');
-  assert.equal(state.oldBanzuke[0].cells.length, 3);
+  assertEquals(state.oldBanzuke.length, 2);
+  assertEquals(state.oldBanzuke[0].className, 'san');
+  assertEquals(state.oldBanzuke[0].cells.length, 3);
 
   // Check rikishi data
   const rikishiCell = state.oldBanzuke[0].cells[0];
-  assert.equal(rikishiCell.className, 'sortable-cell Y1e');
-  assert.equal(rikishiCell.rikishi.length, 1);
-  assert.equal(rikishiCell.rikishi[0].id, 'Y1e');
-  assert.equal(rikishiCell.rikishi[0].dataRid, '12451');
-  assert.equal(rikishiCell.rikishi[0].links.length, 2);
+  assertEquals(rikishiCell.className, 'sortable-cell Y1e');
+  assertEquals(rikishiCell.rikishi.length, 1);
+  assertEquals(rikishiCell.rikishi[0].id, 'Y1e');
+  assertEquals(rikishiCell.rikishi[0].dataset.rid, '12451');
+  assertEquals(rikishiCell.rikishi[0].className, 'rikishi-drag se');
 
   // Check new banzuke with change links
   const changeCell = state.newBanzuke[0].cells[4];
-  assert.equal(changeCell.className, 'ch');
-  assert.equal(changeCell.changeLinks.length, 1);
-  assert(changeCell.changeLinks[0].href.includes('sumodb'));
+  assertEquals(changeCell.className, 'ch');
+  assert(changeCell.innerHTML.includes('sumodb'));
 });
 
 test('saveBanzukeState stores state in localStorage', () => {
@@ -110,7 +98,7 @@ test('saveBanzukeState stores state in localStorage', () => {
   const state = JSON.parse(saved);
   assert(state.oldBanzuke);
   assert(state.newBanzuke);
-  assert(state.timestamp);
+  assertEquals(state.rikishiCount, '0');
 });
 
 test('restoreBanzukeState recreates DOM from saved state', () => {
@@ -121,24 +109,26 @@ test('restoreBanzukeState recreates DOM from saved state', () => {
   document.querySelector('#banzuke1 tbody').innerHTML = '';
   document.querySelector('#banzuke2 tbody').innerHTML = '';
 
-  // Restore
-  const result = restoreBanzukeState();
-  assert(result === true);
+  // Restore from localStorage
+  const savedState = loadBanzukeState();
+  console.log('Saved state:', savedState);
+  restoreBanzukeState(savedState);
 
   // Check restored structure
   const oldRows = document.querySelectorAll('#banzuke1 tbody tr');
-  assert.equal(oldRows.length, 2);
+  console.log('Old rows found:', oldRows.length);
+  assertEquals(oldRows.length, 2);
   assert(oldRows[0].classList.contains('san'));
 
   // Check restored rikishi
   const rikishi = document.querySelector('#banzuke1 .rikishi-drag');
   assert(rikishi);
-  assert.equal(rikishi.id, 'Y1e');
-  assert.equal(rikishi.getAttribute('data-rid'), '12451');
+  assertEquals(rikishi.id, 'Y1e');
+  assertEquals(rikishi.getAttribute('data-rid'), '12451');
 
   // Check restored links
   const links = rikishi.querySelectorAll('a');
-  assert.equal(links.length, 2);
+  assertEquals(links.length, 2);
   assert(links[0].href.includes('Rikishi.aspx'));
   assert(links[1].href.includes('Rikishi_basho.aspx'));
 });
@@ -179,9 +169,9 @@ test('restoreBanzukeState handles retired rikishi styling', () => {
   // Check styling is preserved
   const restored = document.querySelector('#banzuke1 .rikishi-nodrag');
   assert(restored);
-  assert.equal(restored.style.backgroundColor, '#dadada');
-  assert.equal(restored.style.cursor, 'not-allowed');
-  assert.equal(restored.style.color, '#3c3c3c');
+  assertEquals(restored.style.backgroundColor, '#dadada');
+  assertEquals(restored.style.cursor, 'not-allowed');
+  assertEquals(restored.style.color, '#3c3c3c');
 });
 
 test('restoreBanzukeState preserves change column links', () => {
@@ -196,7 +186,7 @@ test('restoreBanzukeState preserves change column links', () => {
   assert(changeCell);
   const link = changeCell.querySelector('a');
   assert(link);
-  assert.equal(link.textContent, '⇄');
+  assertEquals(link.textContent, '⇄');
   assert(link.href.includes('Query.aspx'));
 });
 
@@ -205,8 +195,8 @@ test('extractBanzukeState handles empty cells correctly', () => {
 
   // Find empty cell
   const emptyCell = state.oldBanzuke[0].cells[2]; // Y1w
-  assert.equal(emptyCell.rikishi.length, 0);
-  assert.equal(emptyCell.textContent, '');
+  assertEquals(emptyCell.rikishi.length, 0);
+  assertEquals(emptyCell.textContent, '');
 });
 
 test('restoreBanzukeState adds event handlers', () => {

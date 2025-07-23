@@ -39,19 +39,15 @@ export function getNextBasho(year, month) {
 // Write table titles for current and next basho
 export function writeTableTitles(endedBashoDate) {
   const bashoInfo = parseBashoDate(endedBashoDate);
-  const tableTitles = document.getElementsByClassName('tableTitle');
-
-  if (tableTitles.length < 2) {
-    console.error('Expected at least 2 elements with class "tableTitle"');
-    return;
-  }
-
-  // Current basho title
-  tableTitles[0].textContent = `${getBashoName(bashoInfo.month)} ${bashoInfo.year}`;
-
-  // Next basho title
   const nextBasho = getNextBasho(bashoInfo.year, bashoInfo.month);
-  const existingText = tableTitles[1].textContent;
-  const baseText = existingText.includes('rikishi placed') ? existingText : '';
-  tableTitles[1].textContent = `${getBashoName(nextBasho.month)} ${nextBasho.year} Guess${baseText ? ` - ${baseText}` : ''}`;
+  
+  const currentBashoName = `${getBashoName(bashoInfo.month)} ${bashoInfo.year}`;
+  const nextBashoName = `${getBashoName(nextBasho.month)} ${nextBasho.year}`;
+  
+  // Set main titles
+  const oldTitle = document.getElementById('oldBanzukeTitle');
+  const newTitle = document.getElementById('newBanzukeTitle');
+  
+  if (oldTitle) oldTitle.textContent = currentBashoName;
+  if (newTitle) newTitle.textContent = `${nextBashoName} Guess`;
 }

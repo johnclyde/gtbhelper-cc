@@ -188,6 +188,43 @@ th {
   background-color: #efe7a3;
 }
 
+/* Division table styles */
+.division-table {
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.division-table .divisionTitle {
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.division-table .theader {
+  background-color: #34495e;
+  color: white;
+}
+
+.division-counter {
+  font-weight: normal;
+  font-size: 0.9em;
+}
+
+#oldBanzukeContainer,
+#newBanzukeContainer {
+  vertical-align: top;
+}
+
+.mainBanzukeTitle {
+  text-align: center;
+  margin: 10px 0 20px 0;
+  font-size: 1.5em;
+  color: #2c3e50;
+}
+
 #banzuke1 td span::after,
 td .rikishi-drag::after,
 .rikishi-nodrag::after {

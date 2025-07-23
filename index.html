@@ -35,35 +35,16 @@
   </header>
   <div id="tableContainer">
       <table id="tableLiner" class="mainTable">
-        <tr><td class="banzukeContainer">
-          <table id="banzuke1">
-            <thead>
-              <tr>
-                <th class="tableTitle" colspan="5"></th>
-              </tr>
-              <tr class="theader">
-                <th>East</th><th>Rank</th><th>West</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Generated dynamically by table-generator.js -->
-            </tbody>
-          </table>
-        </td><td class="banzukeContainer">
-          <table id="banzuke2" class="mainTable">
-            <thead>
-              <tr>
-                <th class="tableTitle" colspan="5"><span id="makRik">0</span> rikishi placed</th>
-              </tr>
-              <tr class="theader">
-                <th class="chHead">Chg.</th><th>East</th><th>Rank</th><th>West</th><th class="chHead">Chg.</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Generated dynamically by table-generator.js -->
-            </tbody>
-          </table>
-        </td></tr>
+        <tr>
+          <td class="banzukeContainer" id="oldBanzukeContainer">
+            <h2 id="oldBanzukeTitle" class="mainBanzukeTitle"><!-- Will be set by JS --></h2>
+            <!-- Old banzuke division tables will be generated here -->
+          </td>
+          <td class="banzukeContainer" id="newBanzukeContainer">
+            <h2 id="newBanzukeTitle" class="mainBanzukeTitle"><!-- Will be set by JS --></h2>
+            <!-- New banzuke division tables will be generated here -->
+          </td>
+        </tr>
       </table>
     </div>
   <footer>

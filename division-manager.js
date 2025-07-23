@@ -1,5 +1,7 @@
 // Division Manager Module - Manages dynamic division configuration using DOM manipulation
 
+import { updateDivisionBreakdown } from './sortable-drag-drop.js';
+
 // Configuration key
 const DIVISION_CONFIG_KEY = 'banzukeDivisionConfig';
 
@@ -177,6 +179,24 @@ function createEmptyRow() {
   return tr;
 }
 
+// Create division header with counter
+function createDivisionHeader(divisionName, divisionKey, colspan, isNewBanzuke = false) {
+  const tr = document.createElement('tr');
+  const th = document.createElement('th');
+  th.className = 'divisionHeader';
+  th.colSpan = colspan;
+  
+  if (isNewBanzuke) {
+    // Add a span for the counter that will be updated dynamically
+    th.innerHTML = `<span class="division-name">${divisionName}</span>: <span id="${divisionKey}Counter" class="division-counter">0/0</span> placed`;
+  } else {
+    th.textContent = divisionName;
+  }
+  
+  tr.appendChild(th);
+  return tr;
+}
+
 // Generate rows for a division
 function generateDivisionRows(rank, count, isOldBanzuke = true, isSanyaku = false) {
   const rows = [];
@@ -245,6 +265,12 @@ export function generateConfigurableOldBanzukeRows() {
 export function generateConfigurableNewBanzukeRows() {
   const config = getConfig();
   const fragment = document.createDocumentFragment();
+
+  // Add Makuuchi header if there are any makuuchi slots
+  const makuuchiTotal = Object.values(config.newBanzuke.sanyaku).reduce((a, b) => a + b, 0) + config.newBanzuke.maegashira;
+  if (makuuchiTotal > 0) {
+    fragment.appendChild(createDivisionHeader('Makuuchi', 'makuuchi', 5, true));
+  }
 
   // Sanyaku ranks
   for (const [rank, count] of Object.entries(config.newBanzuke.sanyaku)) {
@@ -321,6 +347,10 @@ export function updateDivisionCount(banzukeType, division, newCount) {
     };
     const rank = rankMap[division];
     updateDivisionRows(tbody, rank, oldCount, validatedCount, banzukeType === 'oldBanzuke', false);
+    // Update division breakdown if this is the new banzuke
+    if (banzukeType === 'newBanzuke') {
+      updateDivisionBreakdown();
+    }
   }
 }
 
@@ -339,6 +369,10 @@ export function updateSanyakuCount(banzukeType, rank, newCount) {
   );
   if (tbody) {
     updateDivisionRows(tbody, rank, oldCount, validatedCount, banzukeType === 'oldBanzuke', true);
+    // Update division breakdown if this is the new banzuke
+    if (banzukeType === 'newBanzuke') {
+      updateDivisionBreakdown();
+    }
   }
 }
 
@@ -380,6 +414,8 @@ export function initializeDivisionManager() {
       newBanzukeTbody.removeChild(newBanzukeTbody.firstChild);
     }
     newBanzukeTbody.appendChild(generateConfigurableNewBanzukeRows());
+    // Update division breakdown
+    updateDivisionBreakdown();
   }
 
   return config;
