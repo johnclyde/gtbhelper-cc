@@ -1,18 +1,18 @@
 // GTB Helper - Main Application
 
-import { init as initRikishiCards, populateAllSlots } from './rikishi-card-manager.js';
-import { writeTableTitles } from './basho-utils.js';
-import { init as initDragDrop, reset as resetDragDrop } from './drag-drop-manager.js';
-import { makeEditable } from './rikishi-names.js';
-import { initializeConfigurableTables } from './division-manager.js';
-import { initializeDivisionControls } from './division-controls.js';
 import { 
   CURRENT_BASHO, 
-  hasSavedBanzuke, 
   getSavedBanzuke, 
-  saveRadioPreference,
-  initializeRadioButtons 
+  hasSavedBanzuke, 
+  initializeRadioButtons,
+  saveRadioPreference
 } from './app-state.js';
+import { writeTableTitles } from './basho-utils.js';
+import { initializeDivisionControls } from './division-controls.js';
+import { initializeConfigurableTables } from './division-manager.js';
+import { init as initDragDrop, reset as resetDragDrop } from './drag-drop-manager.js';
+import { init as initRikishiCards, populateAllSlots } from './rikishi-card-manager.js';
+import { makeEditable } from './rikishi-names.js';
 
 // Initialize application
 function initializeApp() {
