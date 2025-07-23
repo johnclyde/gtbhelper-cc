@@ -4,7 +4,7 @@
 var basho = "202301";
 
 // Initialize application when DOM is ready
-window.onload = function() {
+function initializeApp() {
   // Clean up old storage format
   if (window.localStorage.getItem("banzuke1") !== null) {
     window.localStorage.removeItem("banzuke1");
@@ -45,4 +45,13 @@ function saveRadio(radioButton) {
 // Reset banzuke function for onclick handler
 function resetBanzuke() {
   window.dragDropManager.reset();
+}
+
+// Wait for modules to be ready
+window.onload = function() {
+  if (window.modulesReady) {
+    initializeApp();
+  } else {
+    window.pendingInit = initializeApp;
+  }
 }
