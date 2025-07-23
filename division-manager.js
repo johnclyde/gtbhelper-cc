@@ -171,27 +171,49 @@ export function generateConfigurableNewBanzukeRows() {
 // Add or remove rows from a division
 export function updateDivisionCount(banzukeType, division, newCount) {
   const config = getConfig();
+  const oldCount = config[banzukeType][division];
   
   if (division === 'sanyaku') {
     // Special handling for sanyaku sub-ranks
     return; // Handled by updateSanyakuCount
   }
   
-  config[banzukeType][division] = Math.max(0, newCount);
+  newCount = Math.max(0, newCount);
+  config[banzukeType][division] = newCount;
   saveConfig(config);
   
-  // Regenerate tables
-  regenerateTables();
+  // Update the specific division rows
+  const tbody = document.querySelector(banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody');
+  if (tbody) {
+    const rankMap = { 
+      maegashira: 'M', 
+      juryo: 'J', 
+      makushita: 'Ms', 
+      sandanme: 'Sd', 
+      jonidan: 'Jd', 
+      jonokuchi: 'Jk' 
+    };
+    const rank = rankMap[division];
+    if (rank) {
+      updateDivisionRows(tbody, rank, oldCount, newCount, banzukeType === 'oldBanzuke', false);
+    }
+  }
 }
 
 // Update specific sanyaku rank count
 export function updateSanyakuCount(banzukeType, rank, newCount) {
   const config = getConfig();
-  config[banzukeType].sanyaku[rank] = Math.max(0, newCount);
+  const oldCount = config[banzukeType].sanyaku[rank];
+  
+  newCount = Math.max(0, newCount);
+  config[banzukeType].sanyaku[rank] = newCount;
   saveConfig(config);
   
-  // Regenerate tables
-  regenerateTables();
+  // Update the specific sanyaku rows
+  const tbody = document.querySelector(banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody');
+  if (tbody) {
+    updateDivisionRows(tbody, rank, oldCount, newCount, banzukeType === 'oldBanzuke', true);
+  }
 }
 
 // Add a division (set its count to default if it was 0)
@@ -205,28 +227,113 @@ export function addDivision(banzukeType, division) {
                         division === 'jonidan' ? 20 :
                         division === 'jonokuchi' ? 10 : 10;
     
-    config[banzukeType][division] = defaultCount;
-    saveConfig(config);
-    regenerateTables();
+    updateDivisionCount(banzukeType, division, defaultCount);
   }
 }
 
 // Remove a division (set its count to 0)
 export function removeDivision(banzukeType, division) {
-  const config = getConfig();
-  config[banzukeType][division] = 0;
-  saveConfig(config);
-  regenerateTables();
+  updateDivisionCount(banzukeType, division, 0);
 }
 
 // Reset to default configuration
 export function resetToDefault() {
   localStorage.removeItem(DIVISION_CONFIG_KEY);
-  regenerateTables();
+  // For reset, we do need to regenerate everything
+  window.location.reload();
 }
 
-// Regenerate both tables
+// Add a single row to a table
+function addRowToTable(tbody, rank, number, isOldBanzuke = true, isSanyaku = false) {
+  const tr = document.createElement('tr');
+  if (isSanyaku) tr.className = 'san';
+  
+  if (isOldBanzuke) {
+    // Old banzuke: east cell, rank header, west cell
+    const eastTd = document.createElement('td');
+    eastTd.className = `redips-only ${rank}${number}e`;
+    
+    const rankTh = document.createElement('th');
+    rankTh.textContent = `${rank}${number}`;
+    
+    const westTd = document.createElement('td');
+    westTd.className = `redips-only ${rank}${number}w`;
+    
+    tr.appendChild(eastTd);
+    tr.appendChild(rankTh);
+    tr.appendChild(westTd);
+  } else {
+    // New banzuke: change, east, rank, west, change
+    const ch1 = document.createElement('td');
+    ch1.className = 'ch';
+    ch1.innerHTML = ' ';
+    
+    const eastTd = document.createElement('td');
+    eastTd.className = 'redips-only b2';
+    
+    const rankTh = document.createElement('th');
+    rankTh.textContent = `${rank}${number}`;
+    
+    const westTd = document.createElement('td');
+    westTd.className = 'redips-only b2';
+    
+    const ch2 = document.createElement('td');
+    ch2.className = 'ch';
+    ch2.innerHTML = ' ';
+    
+    tr.appendChild(ch1);
+    tr.appendChild(eastTd);
+    tr.appendChild(rankTh);
+    tr.appendChild(westTd);
+    tr.appendChild(ch2);
+  }
+  
+  return tr;
+}
+
+// Update a specific division's rows
+function updateDivisionRows(tbody, rank, oldCount, newCount, isOldBanzuke = true, isSanyaku = false) {
+  if (newCount > oldCount) {
+    // Add rows
+    for (let i = oldCount + 1; i <= newCount; i++) {
+      const row = addRowToTable(tbody, rank, i, isOldBanzuke, isSanyaku);
+      // Find where to insert this row
+      const rows = tbody.querySelectorAll('tr');
+      let inserted = false;
+      
+      // Find the right position to insert
+      for (let j = 0; j < rows.length; j++) {
+        const th = rows[j].querySelector('th');
+        if (th && th.textContent.startsWith(rank)) {
+          // Keep going until we find the last row of this rank
+          continue;
+        } else if (th) {
+          // Found a different rank, insert before it
+          tbody.insertBefore(row, rows[j]);
+          inserted = true;
+          break;
+        }
+      }
+      
+      if (!inserted) {
+        tbody.appendChild(row);
+      }
+    }
+  } else if (newCount < oldCount) {
+    // Remove rows
+    for (let i = oldCount; i > newCount; i--) {
+      const rowToRemove = tbody.querySelector(`th:contains("${rank}${i}")`)?.parentElement ||
+                          Array.from(tbody.querySelectorAll('th')).find(th => th.textContent === `${rank}${i}`)?.parentElement;
+      if (rowToRemove) {
+        tbody.removeChild(rowToRemove);
+      }
+    }
+  }
+}
+
+// Regenerate tables incrementally
 function regenerateTables() {
+  // This is now called on initial load only
   const oldBanzukeTbody = document.querySelector('#banzuke1 tbody');
   const newBanzukeTbody = document.querySelector('#banzuke2 tbody');
   
@@ -237,9 +344,6 @@ function regenerateTables() {
   if (newBanzukeTbody) {
     newBanzukeTbody.innerHTML = generateConfigurableNewBanzukeRows();
   }
-  
-  // Note: Drag-drop needs to be reinitialized after table regeneration
-  // This should be handled by the calling code
 }
 
 // Initialize with configurable tables
