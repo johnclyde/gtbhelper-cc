@@ -38,10 +38,9 @@ export function getNextBasho(year, month) {
 export function writeTableTitles(endedBashoDate) {
   var bashoInfo = parseBashoDate(endedBashoDate);
   var tableTitle = document.getElementsByClassName("tableTitle");
-  
-  // Current basho title
+
   tableTitle[0].innerHTML = getBashoName(bashoInfo.month) + ' ' + bashoInfo.year;
-  
+
   // Next basho title
   var nextBasho = getNextBasho(bashoInfo.year, bashoInfo.month);
   tableTitle[1].innerHTML = getBashoName(nextBasho.month) + ' ' + nextBasho.year + 
