@@ -41,7 +41,6 @@ function assertEquals(actual, expected, message) {
 test('Project structure is valid', () => {
   assert(existsSync('index.html'), 'index.html should exist');
   assert(existsSync('basho-utils.js'), 'basho-utils.js should exist');
-  assert(existsSync('rikishi-names.js'), 'rikishi-names.js should exist');
   assert(existsSync('division-manager.js'), 'division-manager.js should exist');
   assert(existsSync('rikishi-card-manager.js'), 'rikishi-card-manager.js should exist');
   assert(existsSync('main.js'), 'main.js should exist');
@@ -62,9 +61,11 @@ test('JavaScript files use ES6 modules', () => {
   const bashoUtils = readFileSync('basho-utils.js', 'utf8');
   assert(bashoUtils.includes('export function'), 'basho-utils.js should use ES6 exports');
 
-  const rikishiNames = readFileSync('rikishi-names.js', 'utf8');
-  assert(rikishiNames.includes('export const'), 'rikishi-names.js should export constants');
-  assert(rikishiNames.includes('export function'), 'rikishi-names.js should export functions');
+  // rikishi-names functionality now merged into rikishi-card-manager.js
+  const rikishiCardManager = readFileSync('rikishi-card-manager.js', 'utf8');
+  assert(rikishiCardManager.includes('export const theSekitori'), 'rikishi-card-manager.js should export theSekitori');
+  assert(rikishiCardManager.includes('export const sekitoriID'), 'rikishi-card-manager.js should export sekitoriID');
+  assert(rikishiCardManager.includes('export function makeEditable'), 'rikishi-card-manager.js should export makeEditable');
 
   const divisionManager = readFileSync('division-manager.js', 'utf8');
   assert(divisionManager.includes('export function'), 'division-manager.js should use ES6 exports');
@@ -75,7 +76,7 @@ test('JavaScript files use ES6 modules', () => {
 
 test('Test files exist', () => {
   assert(existsSync('tests/basho-utils.test.js'), 'basho-utils test should exist');
-  assert(existsSync('tests/rikishi-names.test.js'), 'rikishi-names test should exist');
+  assert(existsSync('tests/rikishi-card-manager-names.test.js'), 'rikishi-card-manager-names test should exist');
   assert(existsSync('tests/table-generator.test.js'), 'table-generator test should exist');
   assert(
     existsSync('tests/rikishi-card-manager.test.js'),
