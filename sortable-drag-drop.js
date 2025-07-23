@@ -21,13 +21,13 @@ const sortableInstances = new Map();
 export function init() {
   // Mark all cells as sortable containers
   initializeCells();
-  
+
   // Set up Sortable for each cell
   initializeSortable();
-  
+
   // Set up event handlers
   setupEventHandlers();
-  
+
   // Initialize editable rikishi names
   makeEditable();
 }
@@ -36,52 +36,52 @@ export function init() {
 function initializeCells() {
   // Old banzuke cells
   const oldCells = document.querySelectorAll('#banzuke1 tbody td');
-  oldCells.forEach(cell => {
+  for (const cell of oldCells) {
     if (!cell.classList.contains('ch')) {
       cell.classList.add(config.cellClass);
     }
-  });
-  
+  }
+
   // New banzuke cells
   const newCells = document.querySelectorAll('#banzuke2 tbody td');
-  newCells.forEach(cell => {
+  for (const cell of newCells) {
     if (!cell.classList.contains('ch')) {
       cell.classList.add(config.cellClass);
     }
-  });
+  }
 }
 
 // Initialize Sortable for each cell
 function initializeSortable() {
   const cells = document.querySelectorAll(`.${config.cellClass}`);
-  
-  cells.forEach(cell => {
+
+  for (const cell of cells) {
     const sortable = new Sortable(cell, {
       group: getSortableGroup(cell),
       animation: 150,
       draggable: `.${config.dragClass}`,
       filter: `.${config.nodragClass}`,
       preventOnFilter: false,
-      
-      onStart: function(evt) {
+
+      onStart: (evt) => {
         evt.item.style.opacity = '0.5';
       },
-      
-      onEnd: function(evt) {
+
+      onEnd: (evt) => {
         evt.item.style.opacity = '';
-        
+
         // Handle the drop
         handleDrop(evt.item, evt.from, evt.to);
       },
-      
-      onMove: function(evt) {
+
+      onMove: (evt) => {
         // Check if move is allowed based on rank restrictions
         return checkMoveAllowed(evt.dragged, evt.to);
       }
     });
-    
+
     sortableInstances.set(cell, sortable);
-  });
+  }
 }
 
 // Get sortable group based on cell type and rank
@@ -90,9 +90,9 @@ function getSortableGroup(cell) {
   if (cell.classList.contains(config.newBanzukeClass)) {
     return 'banzuke';
   }
-  
+
   // For old banzuke cells, restrict by rank
-  const rankClass = Array.from(cell.classList).find(c => c.match(/^[A-Z]+\d+[ew]$/));
+  const rankClass = Array.from(cell.classList).find((c) => c.match(/^[A-Z]+\d+[ew]$/));
   if (rankClass) {
     const rank = rankClass.match(/^[A-Z]+/)[0];
     return {
@@ -101,7 +101,7 @@ function getSortableGroup(cell) {
       put: [rank] // Only allow same rank back
     };
   }
-  
+
   return 'banzuke';
 }
 
@@ -111,16 +111,16 @@ function checkMoveAllowed(draggedElement, targetCell) {
   if (targetCell.classList.contains(config.newBanzukeClass)) {
     return true;
   }
-  
+
   // Check rank restrictions for old banzuke
   const draggedRank = draggedElement.id.match(/^[A-Z]+/)?.[0];
-  const targetRankClass = Array.from(targetCell.classList).find(c => c.match(/^[A-Z]+\d+[ew]$/));
-  
+  const targetRankClass = Array.from(targetCell.classList).find((c) => c.match(/^[A-Z]+\d+[ew]$/));
+
   if (draggedRank && targetRankClass) {
     const targetRank = targetRankClass.match(/^[A-Z]+/)[0];
     return draggedRank === targetRank;
   }
-  
+
   return true;
 }
 
@@ -128,20 +128,20 @@ function checkMoveAllowed(draggedElement, targetCell) {
 function handleDrop(draggedElement, fromCell, toCell) {
   const isFromNew = fromCell.classList.contains(config.newBanzukeClass);
   const isToNew = toCell.classList.contains(config.newBanzukeClass);
-  
+
   // Update visual states
   updateCellVisualState(fromCell, toCell, isFromNew, isToNew);
-  
+
   // Update change column if needed
   if (isFromNew && fromCell.children.length === 0) {
     updateChangeColumn(fromCell, null);
   }
-  
+
   if (isToNew) {
     const changeInfo = calculateRankChange(draggedElement, toCell);
     updateChangeDisplay(toCell, changeInfo);
   }
-  
+
   // Save state
   saveBanzukeState();
 }
@@ -170,15 +170,15 @@ function setupEventHandlers() {
   document.addEventListener('dblclick', (e) => {
     const card = e.target.closest(`.${config.dragClass}`);
     if (!card) return;
-    
+
     handleDoubleClick(card);
   });
-  
+
   // Click handler for highlighting
   document.addEventListener('click', (e) => {
     const card = e.target.closest(`.${config.dragClass}`);
     if (!card) return;
-    
+
     const cell = card.parentElement;
     if (cell) {
       cell.style.backgroundColor = 'lightblue';
@@ -193,7 +193,7 @@ function setupEventHandlers() {
 function handleDoubleClick(draggedElement) {
   const currentCell = draggedElement.parentElement;
   const radioButtons = document.getElementsByTagName('input');
-  
+
   if (radioButtons[0].checked) {
     // Open rikishi information page
     const rikishiURL = `https://sumodb.sumogames.de/Rikishi.aspx?r=${draggedElement.dataset.rid}`;
@@ -208,25 +208,25 @@ function handleDoubleClick(draggedElement) {
 function returnToOldBanzuke(draggedElement, currentCell) {
   const rank = draggedElement.id;
   const oldBanzukeCells = document.querySelectorAll(`#banzuke1 tbody td.${rank}`);
-  
+
   if (oldBanzukeCells.length > 0) {
     const targetCell = oldBanzukeCells[0];
-    
+
     // Update change column before moving
     updateChangeColumn(currentCell, draggedElement);
-    
+
     // Move the element
     targetCell.appendChild(draggedElement);
-    
+
     // Update visual states
     if (currentCell.children.length === 0) {
       currentCell.style.border = '1px dashed dimgray';
     }
     targetCell.style.removeProperty('border');
-    
+
     // Update counter
     updateRikishiCount(-1);
-    
+
     // Save state
     saveBanzukeState();
   }
@@ -238,7 +238,7 @@ function calculateRankChange(draggedElement, targetCell) {
   const wins = draggedElement.innerText.split(' ')[2].split('-')[0];
   const targetRank = getTargetRank(targetCell);
   const changeSymbol = getChangeSymbol(currentRank, targetRank);
-  
+
   return {
     currentRank: currentRank,
     targetRank: targetRank,
@@ -262,7 +262,7 @@ function getTargetRank(targetCell) {
 function getChangeSymbol(currentRank, targetRank) {
   const currentType = currentRank.charAt(0);
   const targetType = targetRank.charAt(0);
-  
+
   // Handle Maegashira ranks
   if (targetType === 'M') {
     if (currentType === 'M') {
@@ -297,13 +297,13 @@ function getChangeSymbol(currentRank, targetRank) {
 function calculateMaegashiraChange(currentRank, targetRank) {
   let currentNum = Number.parseInt(currentRank.slice(1, -1));
   let targetNum = Number.parseInt(targetRank.slice(1, -1));
-  
+
   // Add 0.5 for west ranks
   if (currentRank.slice(-1) === 'w') currentNum += 0.5;
   if (targetRank.slice(-1) === 'w') targetNum += 0.5;
-  
+
   const change = currentNum - targetNum;
-  
+
   if (change > 0) return `+${change}`;
   if (change === 0) return '─';
   return change.toString();
@@ -313,14 +313,14 @@ function calculateMaegashiraChange(currentRank, targetRank) {
 function updateChangeDisplay(targetCell, changeInfo) {
   const changeCell = getChangeCell(targetCell);
   if (!changeCell) return;
-  
+
   const changeLink = createChangeLink(changeInfo);
-  
+
   if (changeCell.textContent.trim() === '') {
     changeCell.innerHTML = changeLink;
     targetCell.style.border = 'none';
   } else {
-    changeCell.innerHTML += '<br>' + changeLink;
+    changeCell.innerHTML += `<br>${changeLink}`;
   }
 }
 
@@ -338,7 +338,7 @@ function getChangeCell(targetCell) {
 // Create SumoDB query link for rank change
 function createChangeLink(changeInfo) {
   const url = `https://sumodb.sumogames.de/Query.aspx?show_form=0&form1_rank=${changeInfo.currentRank}&form1_wins=${changeInfo.wins}&form1_year=193905-194401,194905-now&form2_highlight=on&form2_rank=${changeInfo.targetRank}`;
-  
+
   return `<a href="${url}" target="_blank" title="Click to run a SumoDB query">${changeInfo.symbol}</a>`;
 }
 
@@ -346,7 +346,7 @@ function createChangeLink(changeInfo) {
 function updateChangeColumn(cell, draggedElement) {
   const changeCell = getChangeCell(cell);
   if (!changeCell) return;
-  
+
   if (!draggedElement || cell.children.length === 0) {
     // Clear change column
     changeCell.textContent = ' ';
@@ -367,17 +367,17 @@ export function reset() {
   if (!confirm('Reset the banzuke?')) {
     return;
   }
-  
+
   const oldCells = document.querySelectorAll('#banzuke1 tbody td');
   const newCells = document.querySelectorAll(`.${config.newBanzukeClass}`);
   const changeCells = document.getElementsByClassName(config.changeColumnClass);
-  
+
   // Clear localStorage and counter
   clearSavedState();
   window.localStorage.removeItem('banzuke'); // Clean up old format
   const counter = document.getElementById(config.rikishiCounterId);
   if (counter) counter.textContent = '0';
-  
+
   // Move all rikishi back to old banzuke
   newCells.forEach((newCell, i) => {
     if (newCell.children.length > 0) {
@@ -385,12 +385,12 @@ export function reset() {
       if (changeCells[i]) {
         changeCells[i].textContent = ' ';
       }
-      
+
       // Move each rikishi in this cell
       while (newCell.children.length > 0) {
         const rikishi = newCell.children[0];
         const rank = rikishi.id;
-        
+
         // Find original position
         const targetCell = document.querySelector(`#banzuke1 tbody td.${rank}`);
         if (targetCell) {

@@ -83,9 +83,9 @@ export function restoreBanzukeState(state) {
   restoreTableState('#banzuke1', state.oldBanzuke);
   restoreTableState('#banzuke2', state.newBanzuke);
 
-  // Re-enable REDIPS functionality on restored elements
-  if (window.REDIPS?.drag) {
-    window.REDIPS.drag.init();
+  // Re-enable SortableJS functionality on restored elements
+  if (window.initDragDrop) {
+    window.initDragDrop();
   }
 }
 
@@ -137,7 +137,7 @@ function restoreTableState(selector, tableState) {
       }
 
       // Apply any special styles
-      if (cellData.className.includes('redips-only') && cellData.rikishi.length > 0) {
+      if (cellData.className.includes('sortable-cell') && cellData.rikishi.length > 0) {
         cell.style.border = 'none';
       } else if (cellData.className.includes('b2') && cellData.rikishi.length === 0) {
         cell.style.border = '1px dashed dimgray';

@@ -10,10 +10,10 @@ import {
 import { hasSavedState, migrateFromInnerHTML, restoreBanzukeState } from './banzuke-state.js';
 import { writeTableTitles } from './basho-utils.js';
 import { initializeDivisionControls } from './division-controls.js';
-import { initializeConfigurableTables } from './division-manager.js';
-import { init as initDragDrop, reset as resetDragDrop } from './sortable-drag-drop.js';
+import { initializeDivisionManager } from './division-manager.js';
 import { init as initRikishiCards, populateAllSlots } from './rikishi-card-manager.js';
 import { makeEditable } from './rikishi-names.js';
+import { init as initDragDrop, reset as resetDragDrop } from './sortable-drag-drop.js';
 
 // Initialize application
 function initializeApp() {
@@ -24,12 +24,12 @@ function initializeApp() {
   if (hasSavedState()) {
     // Load from new state format
     writeTableTitles(CURRENT_BASHO);
-    initializeConfigurableTables();
+    initializeDivisionManager();
     restoreBanzukeState();
   } else if (hasSavedBanzuke()) {
     // Migrate from old innerHTML format
     writeTableTitles(CURRENT_BASHO);
-    initializeConfigurableTables();
+    initializeDivisionManager();
     populateAllSlots(CURRENT_BASHO);
     // Then restore the old saved state
     const tableLiner = document.getElementById('tableLiner');
@@ -38,7 +38,7 @@ function initializeApp() {
   } else {
     // Fresh start
     writeTableTitles(CURRENT_BASHO);
-    initializeConfigurableTables();
+    initializeDivisionManager();
     populateAllSlots(CURRENT_BASHO);
   }
 
@@ -60,6 +60,7 @@ window.resetBanzuke = () => {
     resetDragDrop();
   }
 };
+window.initDragDrop = initDragDrop;
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
