@@ -1,7 +1,7 @@
 // SortableJS Drag and Drop Manager - Modern replacement for REDIPS
 
 import { clearSavedState, saveBanzukeState } from './banzuke-state.js';
-import { makeEditable, theSekitori } from './rikishi-names.js';
+import { makeEditable, theSekitori } from './rikishi-card-manager.js';
 
 // Configuration
 const config = {

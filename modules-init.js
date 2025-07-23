@@ -7,4 +7,3 @@ import './division-manager.js';
 import './sortable-drag-drop.js';
 import './main.js';
 import './rikishi-card-manager.js';
-import './rikishi-names.js';

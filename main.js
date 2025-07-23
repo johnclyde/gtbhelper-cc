@@ -12,7 +12,7 @@ import { writeTableTitles } from './basho-utils.js';
 import { initializeDivisionControls } from './division-controls.js';
 import { initializeDivisionManager } from './division-manager.js';
 import { init as initRikishiCards, populateAllSlots } from './rikishi-card-manager.js';
-import { makeEditable } from './rikishi-names.js';
+import { makeEditable } from './rikishi-card-manager.js';
 import { init as initDragDrop, reset as resetDragDrop } from './sortable-drag-drop.js';
 
 // Initialize application
