@@ -10,6 +10,7 @@
   <script type="text/javascript" src="https://momentjs.com/downloads/moment.js"></script>
   <script type="text/javascript" src="rikishi-names.js"></script>
   <script type="text/javascript" src="basho-utils.js"></script>
+  <script type="text/javascript" src="drag-drop-manager.js"></script>
   <script type="text/javascript" src="test/script.js"></script>
   <link rel="stylesheet" href="test/styles.css" type="text/css"/>
   <title>GTB Helper - Claude Code Edition</title>
@@ -33,7 +34,7 @@
       <b>Double-click on rikishi</b><br>
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="openRikishiPage"> Open Rikishi Information page</label><br>
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="returnToOld"> Return it to the old banzuke</label><br>
-      <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset Changes</button>
+      <button id="resetBanzuke" onclick="resetBanzuke()">Reset Changes</button>
     </div>
   </header>
   <div id="redips-drag">
