@@ -66,6 +66,7 @@ async function runTests() {
     await import('./tests/rikishi-names.test.js');
     await import('./tests/table-generator.test.js');
     await import('./tests/rikishi-card-manager.test.js');
+    await import('./tests/division-manager.test.js');
     
     // Display results
     const passed = results.filter(r => r.passed).length;

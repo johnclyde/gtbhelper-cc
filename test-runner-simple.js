@@ -42,8 +42,10 @@ test('Project structure is valid', () => {
   assert(existsSync('index.html'), 'index.html should exist');
   assert(existsSync('basho-utils.js'), 'basho-utils.js should exist');
   assert(existsSync('rikishi-names.js'), 'rikishi-names.js should exist');
-  assert(existsSync('table-generator.js'), 'table-generator.js should exist');
+  assert(existsSync('division-manager.js'), 'division-manager.js should exist');
   assert(existsSync('rikishi-card-manager.js'), 'rikishi-card-manager.js should exist');
+  assert(existsSync('main.js'), 'main.js should exist');
+  assert(existsSync('app-state.js'), 'app-state.js should exist');
 });
 
 test('HTML files are valid', () => {
@@ -61,8 +63,11 @@ test('JavaScript files use ES6 modules', () => {
   assert(rikishiNames.includes('export const'), 'rikishi-names.js should export constants');
   assert(rikishiNames.includes('export function'), 'rikishi-names.js should export functions');
   
-  const tableGenerator = readFileSync('table-generator.js', 'utf8');
-  assert(tableGenerator.includes('export function'), 'table-generator.js should use ES6 exports');
+  const divisionManager = readFileSync('division-manager.js', 'utf8');
+  assert(divisionManager.includes('export function'), 'division-manager.js should use ES6 exports');
+  
+  const appState = readFileSync('app-state.js', 'utf8');
+  assert(appState.includes('export'), 'app-state.js should use ES6 exports');
 });
 
 test('Test files exist', () => {
@@ -70,6 +75,7 @@ test('Test files exist', () => {
   assert(existsSync('tests/rikishi-names.test.js'), 'rikishi-names test should exist');
   assert(existsSync('tests/table-generator.test.js'), 'table-generator test should exist');
   assert(existsSync('tests/rikishi-card-manager.test.js'), 'rikishi-card-manager test should exist');
+  assert(existsSync('tests/division-manager.test.js'), 'division-manager test should exist');
 });
 
 test('Package.json is valid', () => {

@@ -255,13 +255,3 @@ export function makeEditable() {
     });
   }
   
-// Also maintain backward compatibility with window.rikishiNames
-window.rikishiNames = {
-  load,
-  save,
-  makeEditable
-};
-
-// Export arrays to window for backward compatibility
-window.theSekitori = theSekitori;
-window.sekitoriID = sekitoriID;

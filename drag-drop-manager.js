@@ -1,5 +1,8 @@
 // Drag and Drop Manager - Clean abstraction over REDIPS library
 
+import { theSekitori } from './rikishi-names.js';
+import { makeEditable } from './rikishi-names.js';
+
 // Private variables
 let rd = null;
 let config = {
@@ -28,7 +31,7 @@ export function init() {
     setupEventHandlers();
     
     // Initialize editable rikishi names
-    window.rikishiNames.makeEditable();
+    makeEditable();
   }
   
 // Set up rank-based movement restrictions
@@ -360,10 +363,3 @@ export function reinitializeCard(card) {
     }
   }
   
-// Also maintain backward compatibility with window.dragDropManager
-window.dragDropManager = {
-  init,
-  reset,
-  saveState,
-  reinitializeCard
-};

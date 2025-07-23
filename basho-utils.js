@@ -47,10 +47,3 @@ export function writeTableTitles(endedBashoDate) {
                             " Guess - " + tableTitle[1].innerHTML;
 }
 
-// Also maintain backward compatibility with window.bashoUtils
-window.bashoUtils = {
-  writeTableTitles,
-  getBashoName,
-  parseBashoDate,
-  getNextBasho
-};

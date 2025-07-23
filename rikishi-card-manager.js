@@ -176,13 +176,3 @@ export function init() {
     }
   }
   
-// Also maintain backward compatibility with window.rikishiCardManager
-window.rikishiCardManager = {
-  init,
-  createCard,
-  populateAllSlots,
-  isRetired,
-  markAsRetired,
-  markAsActive,
-  getRetiredRikishi
-};

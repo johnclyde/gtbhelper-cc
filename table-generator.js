@@ -101,9 +101,3 @@ export function initializeTables() {
   }
 }
 
-// Also maintain backward compatibility
-window.tableGenerator = {
-  initializeTables,
-  generateOldBanzukeRows,
-  generateNewBanzukeRows
-};
