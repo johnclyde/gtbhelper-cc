@@ -1,5 +1,7 @@
 // Rikishi Card Manager - Handles creation and management of rikishi cards
 
+import { theSekitori, sekitoriID } from './rikishi-names.js';
+
 // Storage keys
 const RETIRED_RIKISHI_KEY = 'retiredRikishi';
 const CUSTOM_NAMES_KEY = 'customRikishiNames';

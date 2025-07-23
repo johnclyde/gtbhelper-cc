@@ -6,7 +6,7 @@
  * in between the record and special letter Y, S, DK ... As ' ' 
  * is not considered a regular whitespace, it will not expand.
  */ 
-var theSekitori = [
+export const theSekitori = [
   "Y1e Hoshoryu 0-0", 
   "Y1w Onosato 0-0", 
   "O1e Kotozakura 0-0", 
@@ -89,7 +89,7 @@ var theSekitori = [
  * array (add the empty spots as 0). This array should have the same length as 
  * theSekitori array.
  */
-var sekitoriID = [
+export const sekitoriID = [
   12451, 
   12453, 
   12270, 
@@ -261,3 +261,7 @@ window.rikishiNames = {
   save,
   makeEditable
 };
+
+// Export arrays to window for backward compatibility
+window.theSekitori = theSekitori;
+window.sekitoriID = sekitoriID;
