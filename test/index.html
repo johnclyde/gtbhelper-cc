@@ -10,8 +10,6 @@
   <script type="text/javascript" src="https://momentjs.com/downloads/moment.js"></script>
   <script type="text/javascript" src="rikishi-names.js"></script>
   <script type="text/javascript" src="script.js"></script>
-  <script async defer src="https://apis.google.com/js/api.js"></script>
-  <script async defer src="https://accounts.google.com/gsi/client"></script>
   <link rel="stylesheet" href="styles.css" type="text/css"/>
   <title>GTB Helper - Claude Code Edition</title>
 </head>
@@ -35,14 +33,6 @@
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="openRikishiPage"> Open Rikishi Information page</label><br>
       <label><input type="radio" class="checkbox" name="onDoubleClick" onclick="saveRadio(this)" value="returnToOld"> Return it to the old banzuke</label><br>
       <button id="resetBanzuke" onclick="redips.resetBanzuke()">Reset Changes</button>
-    </div>
-    <div id="saveLoadProgress">
-      <button id="signinButton">Sign in with Google</button>
-      <button id="signoutButton">Sign out</button>
-      <button id="saveToDrive">Save banzuke</button>
-      <button id="loadSave">Load last saved banzuke</button>
-      <span id="messageLine">Save or load your banzuke</span>
-      <span id="progressText"></span>
     </div>
   </header>
   <div id="redips-drag">
