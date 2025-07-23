@@ -22,13 +22,13 @@ function extractTableState(selector) {
   if (!tbody) return null;
 
   const rows = [];
-  tbody.querySelectorAll('tr').forEach((tr) => {
+  for (const tr of tbody.querySelectorAll('tr')) {
     const row = {
       className: tr.className,
       cells: []
     };
 
-    tr.querySelectorAll('td, th').forEach((cell) => {
+    for (const cell of tr.querySelectorAll('td, th')) {
       const cellData = {
         tagName: cell.tagName.toLowerCase(),
         className: cell.className,
@@ -38,7 +38,7 @@ function extractTableState(selector) {
       };
 
       // Extract rikishi data
-      cell.querySelectorAll('.redips-drag').forEach((rikishi) => {
+      for (const rikishi of cell.querySelectorAll('.redips-drag')) {
         cellData.rikishi.push({
           id: rikishi.id,
           dataset: { ...rikishi.dataset },
@@ -48,13 +48,13 @@ function extractTableState(selector) {
             display: rikishi.style.display
           }
         });
-      });
+      }
 
       row.cells.push(cellData);
-    });
+    }
 
     rows.push(row);
-  });
+  }
 
   return rows;
 }
@@ -103,11 +103,11 @@ function restoreTableState(selector, tableState) {
   tbody.innerHTML = '';
 
   // Rebuild table from state
-  tableState.forEach((rowData) => {
+  for (const rowData of tableState) {
     const tr = document.createElement('tr');
     tr.className = rowData.className;
 
-    rowData.cells.forEach((cellData) => {
+    for (const cellData of rowData.cells) {
       const cell = document.createElement(cellData.tagName);
       cell.className = cellData.className;
 
@@ -131,10 +131,10 @@ function restoreTableState(selector, tableState) {
       }
 
       // Restore rikishi in this cell
-      cellData.rikishi.forEach((rikishiData) => {
+      for (const rikishiData of cellData.rikishi) {
         const rikishi = createRikishiElement(rikishiData);
         cell.appendChild(rikishi);
-      });
+      }
 
       // Apply any special styles
       if (cellData.className.includes('redips-only') && cellData.rikishi.length > 0) {
@@ -144,10 +144,10 @@ function restoreTableState(selector, tableState) {
       }
 
       tr.appendChild(cell);
-    });
+    }
 
     tbody.appendChild(tr);
-  });
+  }
 }
 
 // Create a rikishi element from saved data
@@ -158,9 +158,9 @@ function createRikishiElement(rikishiData) {
   div.textContent = rikishiData.textContent;
 
   // Restore dataset
-  Object.entries(rikishiData.dataset).forEach(([key, value]) => {
+  for (const [key, value] of Object.entries(rikishiData.dataset)) {
     div.dataset[key] = value;
-  });
+  }
 
   // Restore styles
   if (rikishiData.style.display) {
@@ -233,13 +233,13 @@ function extractTableStateFromElement(table) {
   if (!tbody) return null;
 
   const rows = [];
-  tbody.querySelectorAll('tr').forEach((tr) => {
+  for (const tr of tbody.querySelectorAll('tr')) {
     const row = {
       className: tr.className,
       cells: []
     };
 
-    tr.querySelectorAll('td, th').forEach((cell) => {
+    for (const cell of tr.querySelectorAll('td, th')) {
       const cellData = {
         tagName: cell.tagName.toLowerCase(),
         className: cell.className,
@@ -249,7 +249,7 @@ function extractTableStateFromElement(table) {
       };
 
       // Extract rikishi data
-      cell.querySelectorAll('.redips-drag').forEach((rikishi) => {
+      for (const rikishi of cell.querySelectorAll('.redips-drag')) {
         cellData.rikishi.push({
           id: rikishi.id,
           dataset: { ...rikishi.dataset },
@@ -259,13 +259,13 @@ function extractTableStateFromElement(table) {
             display: rikishi.style.display
           }
         });
-      });
+      }
 
       row.cells.push(cellData);
-    });
+    }
 
     rows.push(row);
-  });
+  }
 
   return rows;
 }

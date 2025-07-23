@@ -85,13 +85,13 @@ async function runTests() {
 
     console.log(`\nTest Summary: ${passed} passed, ${failed} failed, ${results.length} total\n`);
 
-    results.forEach((result) => {
+    for (const result of results) {
       const icon = result.passed ? '✓' : '✗';
       console.log(`${icon} ${result.name}`);
       if (result.error) {
         console.log(`  Error: ${result.error}`);
       }
-    });
+    }
 
     // Exit with appropriate code
     process.exit(failed > 0 ? 1 : 0);

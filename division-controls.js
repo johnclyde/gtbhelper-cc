@@ -175,9 +175,9 @@ function updateControls() {
     sanyakuLabel.textContent = 'Sanyaku:';
     sanyakuDiv.appendChild(sanyakuLabel);
 
-    ['Y', 'O', 'S', 'K'].forEach((rank) => {
+    for (const rank of ['Y', 'O', 'S', 'K']) {
       sanyakuDiv.appendChild(createRankControl(banzukeType, rank, counts[rank], true));
-    });
+    }
     container.appendChild(sanyakuDiv);
 
     // Maegashira
@@ -189,9 +189,9 @@ function updateControls() {
     lowerLabel.textContent = 'Lower Divisions:';
     lowerDiv.appendChild(lowerLabel);
 
-    ['J', 'Ms', 'Sd', 'Jd', 'Jk'].forEach((rank) => {
+    for (const rank of ['J', 'Ms', 'Sd', 'Jd', 'Jk']) {
       lowerDiv.appendChild(createRankControl(banzukeType, rank, counts[rank]));
-    });
+    }
     container.appendChild(lowerDiv);
   }
 

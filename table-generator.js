@@ -1,4 +1,4 @@
-// Table Generator Module - Dynamically generates banzuke tables
+// Table Generator Module - Dynamically generates banzuke tables using DOM manipulation
 
 // Rank definitions
 const RANKS = {
@@ -20,41 +20,97 @@ const RANKS = {
   }))
 };
 
-// Generate old banzuke table rows
-export function generateOldBanzukeRows() {
-  const tbody = [];
+// Helper function to create a table row
+function createRankRow(rank, isOldBanzuke = true, isSanyaku = false) {
+  const tr = document.createElement('tr');
+  if (isSanyaku) {
+    tr.className = 'san';
+  }
 
-  // Sanyaku ranks
-  RANKS.sanyaku.forEach(({ rank }) => {
-    tbody.push(
-      `<tr class="san"><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`
-    );
-  });
+  if (isOldBanzuke) {
+    // Old banzuke format: east | rank | west
+    const tdEast = document.createElement('td');
+    tdEast.className = `redips-only ${rank}e`;
+    tr.appendChild(tdEast);
 
-  // Maegashira ranks
-  tbody.push(''); // Empty line for spacing
-  RANKS.maegashira.forEach(({ rank }) => {
-    tbody.push(
-      `<tr><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`
-    );
-  });
+    const th = document.createElement('th');
+    th.textContent = rank;
+    tr.appendChild(th);
 
-  // Divider
-  tbody.push('<tr><th class="divider" colspan="3"></th></tr>');
+    const tdWest = document.createElement('td');
+    tdWest.className = `redips-only ${rank}w`;
+    tr.appendChild(tdWest);
+  } else {
+    // New banzuke format: change | east | rank | west | change
+    const tdChange1 = document.createElement('td');
+    tdChange1.className = 'ch';
+    tdChange1.textContent = ' ';
+    tr.appendChild(tdChange1);
 
-  // Juryo ranks
-  RANKS.juryo.forEach(({ rank }) => {
-    tbody.push(
-      `<tr><td class="redips-only ${rank}e"></td><th>${rank}</th><td class="redips-only ${rank}w"></td></tr>`
-    );
-  });
+    const tdEast = document.createElement('td');
+    tdEast.className = 'redips-only b2';
+    tr.appendChild(tdEast);
 
-  return tbody.join('\n              ');
+    const th = document.createElement('th');
+    th.textContent = rank;
+    tr.appendChild(th);
+
+    const tdWest = document.createElement('td');
+    tdWest.className = 'redips-only b2';
+    tr.appendChild(tdWest);
+
+    const tdChange2 = document.createElement('td');
+    tdChange2.className = 'ch';
+    tdChange2.textContent = ' ';
+    tr.appendChild(tdChange2);
+  }
+
+  return tr;
 }
 
-// Generate new banzuke table rows
+// Create divider row
+function createDividerRow(colspan) {
+  const tr = document.createElement('tr');
+  const th = document.createElement('th');
+  th.className = 'divider';
+  th.colSpan = colspan;
+  tr.appendChild(th);
+  return tr;
+}
+
+// Generate old banzuke table rows as DOM elements
+export function generateOldBanzukeRows() {
+  const fragment = document.createDocumentFragment();
+
+  // Sanyaku ranks
+  for (const { rank } of RANKS.sanyaku) {
+    fragment.appendChild(createRankRow(rank, true, true));
+  }
+
+  // Empty row for spacing
+  const emptyRow1 = document.createElement('tr');
+  emptyRow1.appendChild(document.createElement('td'));
+  fragment.appendChild(emptyRow1);
+
+  // Maegashira ranks
+  for (const { rank } of RANKS.maegashira) {
+    fragment.appendChild(createRankRow(rank, true, false));
+  }
+
+  // Divider
+  fragment.appendChild(createDividerRow(3));
+
+  // Juryo ranks
+  for (const { rank } of RANKS.juryo) {
+    fragment.appendChild(createRankRow(rank, true, false));
+  }
+
+  return fragment;
+}
+
+// Generate new banzuke table rows as DOM elements
 export function generateNewBanzukeRows() {
-  const tbody = [];
+  const fragment = document.createDocumentFragment();
 
   // New banzuke has different rank structure
   const newRanks = [
@@ -70,32 +126,29 @@ export function generateNewBanzukeRows() {
   ];
 
   // Add sanyaku ranks
-  newRanks.forEach(({ rank, san }) => {
-    tbody.push(
-      `<tr class="san"><td class="ch"> </td><td class="redips-only b2"></td><th>${rank}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`
-    );
-  });
+  for (const { rank } of newRanks) {
+    fragment.appendChild(createRankRow(rank, false, true));
+  }
 
-  tbody.push(''); // Empty line for spacing
+  // Empty row for spacing
+  const emptyRow = document.createElement('tr');
+  emptyRow.appendChild(document.createElement('td'));
+  fragment.appendChild(emptyRow);
 
   // Add maegashira ranks (can go up to M18)
   for (let i = 1; i <= 18; i++) {
-    tbody.push(
-      `<tr><td class="ch"> </td><td class="redips-only b2"></td><th>M${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`
-    );
+    fragment.appendChild(createRankRow(`M${i}`, false, false));
   }
 
   // Divider
-  tbody.push('<tr><th class="divider" colspan="5"></th></tr>');
+  fragment.appendChild(createDividerRow(5));
 
   // Add juryo ranks J1-J14
   for (let i = 1; i <= 14; i++) {
-    tbody.push(
-      `<tr><td class="ch"> </td><td class="redips-only b2"></td><th>J${i}</th><td class="redips-only b2"></td><td class="ch"> </td></tr>`
-    );
+    fragment.appendChild(createRankRow(`J${i}`, false, false));
   }
 
-  return tbody.join('\n              ');
+  return fragment;
 }
 
 // Initialize tables
@@ -105,10 +158,18 @@ export function initializeTables() {
   const newBanzukeTbody = document.querySelector('#banzuke2 tbody');
 
   if (oldBanzukeTbody) {
-    oldBanzukeTbody.innerHTML = generateOldBanzukeRows();
+    // Clear existing content
+    while (oldBanzukeTbody.firstChild) {
+      oldBanzukeTbody.removeChild(oldBanzukeTbody.firstChild);
+    }
+    oldBanzukeTbody.appendChild(generateOldBanzukeRows());
   }
 
   if (newBanzukeTbody) {
-    newBanzukeTbody.innerHTML = generateNewBanzukeRows();
+    // Clear existing content
+    while (newBanzukeTbody.firstChild) {
+      newBanzukeTbody.removeChild(newBanzukeTbody.firstChild);
+    }
+    newBanzukeTbody.appendChild(generateNewBanzukeRows());
   }
 }

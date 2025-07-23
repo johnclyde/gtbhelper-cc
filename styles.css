@@ -5,14 +5,14 @@
 
 body {
   font-family: Helvetica, sans-serif;
+  background: #c5ffb1;
   background-size: 150px;
   background-attachment: fixed;
-  background: #c5ffb1;
   margin: 0;
 }
 
 #gtb {
-  font-family: Verdana;
+  font-family: Verdana, sans-serif;
 }
 
 #plusJuryo {
@@ -81,8 +81,6 @@ legend {
 #options {
   font-size: 10pt;
   line-height: 20pt;
-  margin-bottom: 10px;
-  margin-left: 4%;
   display: inline-flex;
   flex-wrap: wrap;
   margin: 0 4% 15px 4%;

@@ -178,7 +178,7 @@ export function makeEditable() {
 
   // Apply custom names on load
   const allLinks = document.querySelectorAll('a[href*="Rikishi.aspx?r="]');
-  allLinks.forEach((link) => {
+  for (const link of allLinks) {
     const card = link.closest('.redips-drag');
     if (card) {
       const rikishiId = card.getAttribute('data-rid');
@@ -186,5 +186,5 @@ export function makeEditable() {
         link.textContent = customNames[rikishiId];
       }
     }
-  });
+  }
 }
