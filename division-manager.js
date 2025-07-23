@@ -45,8 +45,8 @@ export function getDivisionCounts(banzukeType) {
   // Safety check
   if (!banzuke || !banzuke.sanyaku) {
     console.error(`Invalid banzuke configuration for ${banzukeType}`);
-    // Return default counts
-    const defaultBanzuke = DEFAULT_CONFIG[banzukeType];
+    // Return default counts - use oldBanzuke as fallback
+    const defaultBanzuke = DEFAULT_CONFIG[banzukeType] || DEFAULT_CONFIG.oldBanzuke;
     return {
       Y: defaultBanzuke.sanyaku.Y,
       O: defaultBanzuke.sanyaku.O,
@@ -321,7 +321,7 @@ export function generateConfigurableNewBanzukeRows() {
 // Add or remove rows from a division
 export function updateDivisionCount(banzukeType, division, newCount) {
   const config = getConfig();
-  const oldCount = config[banzukeType][division];
+  let oldCount = config[banzukeType][division];
 
   if (division === 'sanyaku') {
     // Special handling for sanyaku sub-ranks
@@ -332,10 +332,85 @@ export function updateDivisionCount(banzukeType, division, newCount) {
   config[banzukeType][division] = validatedCount;
   saveConfig(config);
 
-  // Update the specific division rows
-  const tbody = document.querySelector(
-    banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody'
-  );
+  // Update the specific division rows - find the correct table for this division
+  let tbody = null;
+  
+  if (division === 'maegashira') {
+    // Maegashira is in the makuuchi table
+    tbody = document.querySelector(
+      banzukeType === 'oldBanzuke' ? '#old_makuuchi tbody' : '#new_makuuchi tbody'
+    );
+    
+    // Count actual M rows in the DOM to get accurate oldCount
+    if (tbody) {
+      const actualMRows = Array.from(tbody.querySelectorAll('th')).filter(th => 
+        th.textContent.match(/^M\d+$/)
+      ).length;
+      oldCount = actualMRows;
+    }
+  } else {
+    // Other divisions might have their own tables
+    const tableId = banzukeType === 'oldBanzuke' ? `old_${division}` : `new_${division}`;
+    let table = document.getElementById(tableId);
+    
+    // If the table doesn't exist and we're adding rows, we need to create it
+    if (!table && validatedCount > 0) {
+      // Import division-tables module to create the table
+      import('./division-tables.js').then(module => {
+        const container = document.getElementById(banzukeType === 'oldBanzuke' ? 'oldBanzukeContainer' : 'newBanzukeContainer');
+        if (container) {
+          // Create a new table for this division
+          const divisionNames = {
+            juryo: 'Juryo',
+            makushita: 'Makushita', 
+            sandanme: 'Sandanme',
+            jonidan: 'Jonidan',
+            jonokuchi: 'Jonokuchi'
+          };
+          const newTable = module.createDivisionTable(divisionNames[division], division, [], banzukeType === 'oldBanzuke', validatedCount);
+          
+          // Insert the table in the right position
+          const tables = container.querySelectorAll('.division-table');
+          let inserted = false;
+          const divisionOrder = ['makuuchi', 'juryo', 'makushita', 'sandanme', 'jonidan', 'jonokuchi'];
+          const currentIndex = divisionOrder.indexOf(division);
+          
+          for (let i = 0; i < tables.length; i++) {
+            const tableDiv = tables[i].id.split('_')[1];
+            const tableIndex = divisionOrder.indexOf(tableDiv);
+            if (tableIndex > currentIndex) {
+              container.insertBefore(newTable, tables[i]);
+              inserted = true;
+              break;
+            }
+          }
+          
+          if (!inserted) {
+            container.appendChild(newTable);
+          }
+          
+          // Now update the rows
+          const tbody = newTable.querySelector('tbody');
+          if (tbody) {
+            const rankMap = {
+              maegashira: 'M',
+              juryo: 'J',
+              makushita: 'Ms',
+              sandanme: 'Sd',
+              jonidan: 'Jd',
+              jonokuchi: 'Jk'
+            };
+            const rank = rankMap[division];
+            updateDivisionRows(tbody, rank, 0, validatedCount, banzukeType === 'oldBanzuke', false);
+          }
+        }
+      });
+      return; // Exit early, the async import will handle the update
+    }
+    
+    tbody = table ? table.querySelector('tbody') : null;
+  }
+  
   if (tbody) {
     const rankMap = {
       maegashira: 'M',
@@ -347,6 +422,16 @@ export function updateDivisionCount(banzukeType, division, newCount) {
     };
     const rank = rankMap[division];
     updateDivisionRows(tbody, rank, oldCount, validatedCount, banzukeType === 'oldBanzuke', false);
+    
+    // If we've removed all rows from a lower division, remove the table entirely
+    if (validatedCount === 0 && division !== 'maegashira') {
+      const tableId = banzukeType === 'oldBanzuke' ? `old_${division}` : `new_${division}`;
+      const table = document.getElementById(tableId);
+      if (table) {
+        table.remove();
+      }
+    }
+    
     // Update division breakdown if this is the new banzuke
     if (banzukeType === 'newBanzuke') {
       updateDivisionBreakdown();
@@ -357,17 +442,23 @@ export function updateDivisionCount(banzukeType, division, newCount) {
 // Update specific sanyaku rank count
 export function updateSanyakuCount(banzukeType, rank, newCount) {
   const config = getConfig();
-  const oldCount = config[banzukeType].sanyaku[rank];
+  let oldCount = config[banzukeType].sanyaku[rank];
 
   const validatedCount = Math.max(0, newCount);
   config[banzukeType].sanyaku[rank] = validatedCount;
   saveConfig(config);
 
-  // Update the specific sanyaku rows
+  // Update the specific sanyaku rows - sanyaku are in the makuuchi table
   const tbody = document.querySelector(
-    banzukeType === 'oldBanzuke' ? '#banzuke1 tbody' : '#banzuke2 tbody'
+    banzukeType === 'oldBanzuke' ? '#old_makuuchi tbody' : '#new_makuuchi tbody'
   );
   if (tbody) {
+    // Count actual rows in the DOM to get accurate oldCount
+    const actualRows = Array.from(tbody.querySelectorAll('th')).filter(th => 
+      th.textContent.match(new RegExp(`^${rank}\\d+$`))
+    ).length;
+    oldCount = actualRows;
+    
     updateDivisionRows(tbody, rank, oldCount, validatedCount, banzukeType === 'oldBanzuke', true);
     // Update division breakdown if this is the new banzuke
     if (banzukeType === 'newBanzuke') {
@@ -396,27 +487,11 @@ export function initializeDivisionManager() {
   // Load existing config or use default
   const config = getConfig();
 
-  // Apply configuration to both tables
-  const oldBanzukeTbody = document.querySelector('#banzuke1 tbody');
-  const newBanzukeTbody = document.querySelector('#banzuke2 tbody');
-
-  if (oldBanzukeTbody) {
-    // Clear and rebuild old banzuke
-    while (oldBanzukeTbody.firstChild) {
-      oldBanzukeTbody.removeChild(oldBanzukeTbody.firstChild);
-    }
-    oldBanzukeTbody.appendChild(generateConfigurableOldBanzukeRows());
-  }
-
-  if (newBanzukeTbody) {
-    // Clear and rebuild new banzuke
-    while (newBanzukeTbody.firstChild) {
-      newBanzukeTbody.removeChild(newBanzukeTbody.firstChild);
-    }
-    newBanzukeTbody.appendChild(generateConfigurableNewBanzukeRows());
-    // Update division breakdown
-    updateDivisionBreakdown();
-  }
+  // In the new multi-table structure, we need to regenerate the tables
+  // This should be handled by division-tables.js
+  import('./division-tables.js').then(module => {
+    module.initializeDivisionTables();
+  });
 
   return config;
 }
