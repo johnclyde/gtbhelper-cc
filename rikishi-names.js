@@ -6,7 +6,7 @@
  * in between the record and special letter Y, S, DK ... As ' ' 
  * is not considered a regular whitespace, it will not expand.
  */ 
-var theSekitori = [
+export const theSekitori = [
   "Y1e Hoshoryu 0-0", 
   "Y1w Onosato 0-0", 
   "O1e Kotozakura 0-0", 
@@ -89,7 +89,7 @@ var theSekitori = [
  * array (add the empty spots as 0). This array should have the same length as 
  * theSekitori array.
  */
-var sekitoriID = [
+export const sekitoriID = [
   12451, 
   12453, 
   12270, 
@@ -166,11 +166,8 @@ var sekitoriID = [
   11943
 ];
 
-(function() {
-  'use strict';
-  
-  // Load custom rikishi names from localStorage
-  function loadCustomRikishiNames() {
+// Load custom rikishi names from localStorage
+export function load() {
     var customNames = localStorage.getItem('customRikishiNames');
     if (customNames) {
       return JSON.parse(customNames);
@@ -178,14 +175,14 @@ var sekitoriID = [
     return {};
   }
 
-  // Save custom rikishi names to localStorage
-  function saveCustomRikishiNames(customNames) {
+// Save custom rikishi names to localStorage
+export function save(customNames) {
     localStorage.setItem('customRikishiNames', JSON.stringify(customNames));
   }
 
-  // Make rikishi names editable
-  function makeRikishiNamesEditable() {
-    var customNames = loadCustomRikishiNames();
+// Make rikishi names editable
+export function makeEditable() {
+  var customNames = load();
     
     // Add click event to all rikishi name links
     document.addEventListener('click', function(e) {
@@ -218,12 +215,12 @@ var sekitoriID = [
           var newName = input.value.trim();
           if (newName && newName !== currentName) {
             customNames[rikishiId] = newName;
-            saveCustomRikishiNames(customNames);
+            save(customNames);
             e.target.textContent = newName;
           } else if (newName === '') {
             // If empty, revert to original name
             delete customNames[rikishiId];
-            saveCustomRikishiNames(customNames);
+            save(customNames);
             e.target.textContent = currentName;
           }
           input.remove();
@@ -258,11 +255,13 @@ var sekitoriID = [
     });
   }
   
-  // Export functions to global scope
-  window.rikishiNames = {
-    load: loadCustomRikishiNames,
-    save: saveCustomRikishiNames,
-    makeEditable: makeRikishiNamesEditable
-  };
-  
-})();
+// Also maintain backward compatibility with window.rikishiNames
+window.rikishiNames = {
+  load,
+  save,
+  makeEditable
+};
+
+// Export arrays to window for backward compatibility
+window.theSekitori = theSekitori;
+window.sekitoriID = sekitoriID;
