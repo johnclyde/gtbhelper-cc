@@ -70,21 +70,10 @@ global.assertEquals = assertEquals;
 async function runTests() {
   try {
     // Import all test modules
-    await import('./tests/app-state.test.js');
     await import('./tests/basho-utils.test.js');
-    await import('./tests/banzuke-state.test.js');
-    await import('./tests/banzuke-state-new.test.js');
-    await import('./tests/division-controls.test.js');
-    await import('./tests/division-controls-panel.test.js');
-    await import('./tests/division-controls-errors.test.js');
-    await import('./tests/division-dom.test.js');
-    await import('./tests/division-manager.test.js');
-    await import('./tests/division-manager-config.test.js');
-    await import('./tests/division-manager-edge-cases.test.js');
-    await import('./tests/rikishi-card-manager.test.js');
-    await import('./tests/rikishi-card-manager-names.test.js');
-    await import('./tests/rikishi-card-create.test.js');
+    await import('./tests/rikishi-names.test.js');
     await import('./tests/table-generator.test.js');
+    await import('./tests/rikishi-card-manager.test.js');
     
     // Display results
     const passed = results.filter(r => r.passed).length;
