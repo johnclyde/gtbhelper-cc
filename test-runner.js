@@ -1,10 +1,10 @@
 // Test runner for CI environments
 // Can be run with Node.js using a headless browser or a testing framework
 
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -18,12 +18,23 @@ const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
 
 global.window = dom.window;
 global.document = window.document;
+global.HTMLElement = window.HTMLElement;
+global.Event = window.Event;
+global.confirm = () => true; // Mock confirm dialog
 global.localStorage = {
   store: {},
-  getItem(key) { return this.store[key] || null; },
-  setItem(key, value) { this.store[key] = value.toString(); },
-  removeItem(key) { delete this.store[key]; },
-  clear() { this.store = {}; }
+  getItem(key) {
+    return this.store[key] || null;
+  },
+  setItem(key, value) {
+    this.store[key] = value.toString();
+  },
+  removeItem(key) {
+    delete this.store[key];
+  },
+  clear() {
+    this.store = {};
+  }
 };
 
 // Test framework
@@ -73,13 +84,13 @@ async function runTests() {
     
     console.log(`\nTest Summary: ${passed} passed, ${failed} failed, ${results.length} total\n`);
     
-    results.forEach(result => {
+    for (const result of results) {
       const icon = result.passed ? '✓' : '✗';
       console.log(`${icon} ${result.name}`);
       if (result.error) {
         console.log(`  Error: ${result.error}`);
       }
-    });
+    }
     
     // Exit with appropriate code
     process.exit(failed > 0 ? 1 : 0);
