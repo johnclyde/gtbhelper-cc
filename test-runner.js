@@ -18,6 +18,9 @@ const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
 
 global.window = dom.window;
 global.document = window.document;
+global.HTMLElement = window.HTMLElement;
+global.Event = window.Event;
+global.confirm = () => true; // Mock confirm dialog
 global.localStorage = {
   store: {},
   getItem(key) {

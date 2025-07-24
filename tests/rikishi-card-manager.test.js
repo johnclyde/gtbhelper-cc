@@ -15,7 +15,7 @@ test('createCard includes rikishi links', () => {
   
   assert(html.includes('href="https://sumodb.sumogames.de/Rikishi.aspx?r=12451"'), 
     'Should include rikishi info link');
-  assert(html.includes('href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12451&b=202301"'), 
+  assert(html.includes('href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12451&amp;b=202301"'), 
     'Should include basho record link');
   assert(html.includes('target="_blank"'), 'Links should open in new tab');
 });
