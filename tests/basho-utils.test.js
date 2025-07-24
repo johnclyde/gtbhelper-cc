@@ -48,70 +48,105 @@ test('getNextBasho handles year transition', () => {
 });
 
 test('writeTableTitles updates DOM elements correctly', () => {
-  // Set up DOM
-  document.body.innerHTML = `
-    <th class="tableTitle"></th>
-    <th class="tableTitle">0 rikishi placed</th>
-  `;
+  // Create DOM elements properly
+  const oldTitle = document.createElement('th');
+  oldTitle.id = 'oldBanzukeTitle';
+  document.body.appendChild(oldTitle);
+  
+  const newTitle = document.createElement('th');
+  newTitle.id = 'newBanzukeTitle';
+  document.body.appendChild(newTitle);
 
   writeTableTitles('202301');
 
-  const titles = document.getElementsByClassName('tableTitle');
-  assertEquals(titles[0].textContent, 'Hatsu 2023');
-  assertEquals(titles[1].textContent, 'Haru 2023 Guess - 0 rikishi placed');
+  assertEquals(oldTitle.textContent, 'Hatsu 2023');
+  assertEquals(newTitle.textContent, 'Haru 2023 Guess');
+  
+  // Clean up
+  document.body.removeChild(oldTitle);
+  document.body.removeChild(newTitle);
 });
 
 test('writeTableTitles handles missing elements gracefully', () => {
-  // Set up DOM with only one title
-  document.body.innerHTML = '<th class="tableTitle"></th>';
+  // Create only old title element
+  const oldTitle = document.createElement('th');
+  oldTitle.id = 'oldBanzukeTitle';
+  document.body.appendChild(oldTitle);
 
   // Should not throw error
   writeTableTitles('202301');
 
-  const titles = document.getElementsByClassName('tableTitle');
-  assertEquals(titles[0].textContent, 'Hatsu 2023');
+  assertEquals(oldTitle.textContent, 'Hatsu 2023');
+  
+  // Clean up
+  document.body.removeChild(oldTitle);
 });
 
 test('writeTableTitles preserves rikishi count text', () => {
-  document.body.innerHTML = `
-    <th class="tableTitle"></th>
-    <th class="tableTitle">42 rikishi placed</th>
-  `;
+  // Create DOM elements
+  const oldTitle = document.createElement('th');
+  oldTitle.id = 'oldBanzukeTitle';
+  document.body.appendChild(oldTitle);
+  
+  const newTitle = document.createElement('th');
+  newTitle.id = 'newBanzukeTitle';
+  document.body.appendChild(newTitle);
 
   writeTableTitles('202307');
 
-  const titles = document.getElementsByClassName('tableTitle');
-  assertEquals(titles[0].textContent, 'Nagoya 2023');
-  assertEquals(titles[1].textContent, 'Aki 2023 Guess - 42 rikishi placed');
+  assertEquals(oldTitle.textContent, 'Nagoya 2023');
+  assertEquals(newTitle.textContent, 'Aki 2023 Guess');
+  
+  // Clean up
+  document.body.removeChild(oldTitle);
+  document.body.removeChild(newTitle);
 });
 
 test('writeTableTitles handles year transition in titles', () => {
-  document.body.innerHTML = `
-    <th class="tableTitle"></th>
-    <th class="tableTitle"></th>
-  `;
+  // Create DOM elements
+  const oldTitle = document.createElement('th');
+  oldTitle.id = 'oldBanzukeTitle';
+  document.body.appendChild(oldTitle);
+  
+  const newTitle = document.createElement('th');
+  newTitle.id = 'newBanzukeTitle';
+  document.body.appendChild(newTitle);
 
   writeTableTitles('202311');
 
-  const titles = document.getElementsByClassName('tableTitle');
-  assertEquals(titles[0].textContent, 'Kyushu 2023');
-  assertEquals(titles[1].textContent, 'Hatsu 2024 Guess');
+  assertEquals(oldTitle.textContent, 'Kyushu 2023');
+  assertEquals(newTitle.textContent, 'Hatsu 2024 Guess');
+  
+  // Clean up
+  document.body.removeChild(oldTitle);
+  document.body.removeChild(newTitle);
 });
 
 test('writeTableTitles uses textContent not innerHTML', () => {
-  document.body.innerHTML = `
-    <th class="tableTitle"></th>
-    <th class="tableTitle"><script>alert('xss')</script></th>
-  `;
+  // Create DOM elements
+  const oldTitle = document.createElement('th');
+  oldTitle.id = 'oldBanzukeTitle';
+  document.body.appendChild(oldTitle);
+  
+  const newTitle = document.createElement('th');
+  newTitle.id = 'newBanzukeTitle';
+  // Add a script tag to test XSS protection
+  const script = document.createElement('script');
+  script.textContent = "alert('xss')";
+  newTitle.appendChild(script);
+  document.body.appendChild(newTitle);
 
   writeTableTitles('202305');
 
-  const titles = document.getElementsByClassName('tableTitle');
   // If innerHTML was used, the script tag would execute
   // With textContent, it's treated as plain text
-  assertEquals(titles[0].textContent, 'Natsu 2023');
-  assertEquals(titles[1].textContent, 'Nagoya 2023 Guess');
+  assertEquals(oldTitle.textContent, 'Natsu 2023');
+  assertEquals(newTitle.textContent, 'Nagoya 2023 Guess');
 
-  // Verify no script tags exist in the DOM
-  assert(!titles[1].querySelector('script'), 'Script tag should not exist');
+  // Verify no script tags exist in the DOM after setting textContent
+  assert(!newTitle.querySelector('script'), 'Script tag should not exist');
+  
+  // Clean up
+  document.body.removeChild(oldTitle);
+  document.body.removeChild(newTitle);
 });

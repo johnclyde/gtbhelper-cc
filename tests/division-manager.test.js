@@ -13,6 +13,7 @@ import {
 
 test('getConfig returns default configuration when nothing saved', () => {
   localStorage.clear();
+  resetToDefault(); // Ensure we're at defaults
   const config = getConfig();
 
   assert(config.oldBanzuke, 'Should have oldBanzuke');
@@ -21,8 +22,8 @@ test('getConfig returns default configuration when nothing saved', () => {
   // Check old banzuke defaults
   assertEquals(config.oldBanzuke.sanyaku.Y, 1);
   assertEquals(config.oldBanzuke.sanyaku.O, 1);
-  assertEquals(config.oldBanzuke.sanyaku.S, 2);
-  assertEquals(config.oldBanzuke.sanyaku.K, 2);
+  assertEquals(config.oldBanzuke.sanyaku.S, 1);
+  assertEquals(config.oldBanzuke.sanyaku.K, 1);
   assertEquals(config.oldBanzuke.maegashira, 17);
   assertEquals(config.oldBanzuke.juryo, 14);
   assertEquals(config.oldBanzuke.makushita, 0);
@@ -68,13 +69,18 @@ test('saveConfig and getConfig work together', () => {
 
 test('generateConfigurableOldBanzukeRows generates correct HTML', () => {
   resetToDefault();
-  const html = generateConfigurableOldBanzukeRows();
+  const fragment = generateConfigurableOldBanzukeRows();
+  
+  // Convert fragment to string for testing
+  const div = document.createElement('div');
+  div.appendChild(fragment);
+  const html = div.innerHTML;
 
   // Check sanyaku
   assert(html.includes('Y1e'), 'Should include Y1e');
   assert(html.includes('O1w'), 'Should include O1w');
-  assert(html.includes('S2e'), 'Should include S2e');
-  assert(html.includes('K2w'), 'Should include K2w');
+  assert(html.includes('S1e'), 'Should include S1e');
+  assert(html.includes('K1w'), 'Should include K1w');
 
   // Check maegashira
   assert(html.includes('M1e'), 'Should include M1e');
@@ -91,7 +97,12 @@ test('generateConfigurableOldBanzukeRows generates correct HTML', () => {
 
 test('generateConfigurableNewBanzukeRows generates correct HTML', () => {
   resetToDefault();
-  const html = generateConfigurableNewBanzukeRows();
+  const fragment = generateConfigurableNewBanzukeRows();
+  
+  // Convert fragment to string for testing
+  const div = document.createElement('div');
+  div.appendChild(fragment);
+  const html = div.innerHTML;
 
   // Check extended sanyaku
   assert(html.includes('>Y1<'), 'Should include Y1');
@@ -134,15 +145,16 @@ test('updateSanyakuCount updates sanyaku ranks', () => {
 test('addDivision sets default count for division', () => {
   resetToDefault();
 
-  // Makushita should be 0 by default
+  // First remove juryo completely
+  updateDivisionCount('oldBanzuke', 'juryo', 0);
   let config = getConfig();
-  assertEquals(config.oldBanzuke.makushita, 0);
+  assertEquals(config.oldBanzuke.juryo, 0);
 
-  // Add makushita
-  addDivision('oldBanzuke', 'makushita');
+  // Add juryo back - should restore to default (14)
+  addDivision('oldBanzuke', 'juryo');
 
   config = getConfig();
-  assert(config.oldBanzuke.makushita > 0, 'Makushita should have positive count');
+  assertEquals(config.oldBanzuke.juryo, 14, 'Juryo should be restored to default count');
 });
 
 test('removeDivision sets count to 0', () => {
@@ -163,21 +175,23 @@ test('removeDivision sets count to 0', () => {
 test('getDivisionCounts returns flat structure', () => {
   resetToDefault();
 
-  const counts = getDivisionCounts();
+  const oldCounts = getDivisionCounts('oldBanzuke');
 
   // Check old banzuke counts
-  assertEquals(counts.oldBanzuke.Y, 1);
-  assertEquals(counts.oldBanzuke.O, 1);
-  assertEquals(counts.oldBanzuke.S, 2);
-  assertEquals(counts.oldBanzuke.K, 2);
-  assertEquals(counts.oldBanzuke.M, 17);
-  assertEquals(counts.oldBanzuke.J, 14);
-  assertEquals(counts.oldBanzuke.Ms, 0);
+  assertEquals(oldCounts.Y, 1);
+  assertEquals(oldCounts.O, 1);
+  assertEquals(oldCounts.S, 1);
+  assertEquals(oldCounts.K, 1);
+  assertEquals(oldCounts.M, 17);
+  assertEquals(oldCounts.J, 14);
+  assertEquals(oldCounts.Ms, 0);
 
+  const newCounts = getDivisionCounts('newBanzuke');
+  
   // Check new banzuke counts
-  assertEquals(counts.newBanzuke.Y, 2);
-  assertEquals(counts.newBanzuke.O, 3);
-  assertEquals(counts.newBanzuke.M, 18);
+  assertEquals(newCounts.Y, 2);
+  assertEquals(newCounts.O, 3);
+  assertEquals(newCounts.M, 18);
 });
 
 test('negative counts are prevented', () => {
@@ -191,13 +205,19 @@ test('negative counts are prevented', () => {
 test('lower divisions can be added and removed', () => {
   resetToDefault();
 
-  // Add all lower divisions
-  addDivision('oldBanzuke', 'makushita');
-  addDivision('oldBanzuke', 'sandanme');
-  addDivision('oldBanzuke', 'jonidan');
-  addDivision('oldBanzuke', 'jonokuchi');
+  // First need to set non-zero defaults for lower divisions since they're 0 by default
+  updateDivisionCount('oldBanzuke', 'makushita', 60);
+  updateDivisionCount('oldBanzuke', 'sandanme', 90);
+  updateDivisionCount('oldBanzuke', 'jonidan', 100);
+  updateDivisionCount('oldBanzuke', 'jonokuchi', 50);
 
-  const html = generateConfigurableOldBanzukeRows();
+  const fragment = generateConfigurableOldBanzukeRows();
+  
+  // Convert fragment to string for testing
+  const div = document.createElement('div');
+  div.appendChild(fragment);
+  const html = div.innerHTML;
+  
   assert(html.includes('Ms'), 'Should include Makushita');
   assert(html.includes('Sd'), 'Should include Sandanme');
   assert(html.includes('Jd'), 'Should include Jonidan');

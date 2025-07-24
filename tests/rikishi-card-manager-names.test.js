@@ -71,9 +71,28 @@ test('should apply custom names on page load', () => {
 });
 
 test('should revert to original name when cleared', () => {
+  // First set a custom name
+  localStorage.setItem(
+    'customRikishiNames',
+    JSON.stringify({
+      12203: 'CustomName'
+    })
+  );
+  
+  // Create fresh DOM with custom name applied
+  document.body.innerHTML = `
+    <div id="banzuke1">
+      <div class="rikishi-drag" id="M1e" data-rid="12203">
+        <a href="https://sumodb.sumogames.de/Rikishi.aspx?r=12203">CustomName</a>
+        <a href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12203&b=202501">0-0</a>
+      </div>
+    </div>
+  `;
+  
   makeEditable();
 
   const nameLink = document.querySelector('a[href*="Rikishi.aspx?r="]');
+  assertEquals(nameLink.textContent, 'CustomName', 'Should start with custom name');
 
   // Click to edit
   const clickEvent = new window.MouseEvent('click', {
@@ -94,7 +113,7 @@ test('should revert to original name when cleared', () => {
   });
   input.dispatchEvent(enterEvent);
 
-  // Should revert to original
+  // Should revert to original name (Tobizaru)
   assertEquals(nameLink.textContent, 'Tobizaru', 'Should revert to original name');
 
   // Should remove from localStorage

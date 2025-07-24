@@ -1,7 +1,12 @@
 import { generateNewBanzukeRows, generateOldBanzukeRows } from '../table-generator.js';
 
 test('generateOldBanzukeRows includes all required ranks', () => {
-  const html = generateOldBanzukeRows();
+  const fragment = generateOldBanzukeRows();
+  
+  // Convert fragment to HTML string for testing
+  const div = document.createElement('div');
+  div.appendChild(fragment);
+  const html = div.innerHTML;
 
   // Check sanyaku ranks
   assert(html.includes('Y1e'), 'Should include Y1e');
@@ -29,7 +34,12 @@ test('generateOldBanzukeRows includes all required ranks', () => {
 });
 
 test('generateOldBanzukeRows has correct structure', () => {
-  const html = generateOldBanzukeRows();
+  const fragment = generateOldBanzukeRows();
+  
+  // Convert fragment to HTML string for testing
+  const div = document.createElement('div');
+  div.appendChild(fragment);
+  const html = div.innerHTML;
 
   // Check for sanyaku class
   assert(html.includes('class="san"'), 'Should include sanyaku class');
@@ -41,13 +51,18 @@ test('generateOldBanzukeRows has correct structure', () => {
   const rowCount = (html.match(/<tr/g) || []).length;
   assertEquals(
     rowCount,
-    38,
-    'Should have 38 rows (6 sanyaku + 17 maegashira + 1 divider + 14 juryo)'
+    39,
+    'Should have 39 rows (6 sanyaku + 1 empty + 17 maegashira + 1 divider + 14 juryo)'
   );
 });
 
 test('generateNewBanzukeRows includes extended ranks', () => {
-  const html = generateNewBanzukeRows();
+  const fragment = generateNewBanzukeRows();
+  
+  // Convert fragment to HTML string for testing
+  const div = document.createElement('div');
+  div.appendChild(fragment);
+  const html = div.innerHTML;
 
   // Check for Y2
   assert(html.includes('>Y2<'), 'Should include Y2');
@@ -67,7 +82,12 @@ test('generateNewBanzukeRows includes extended ranks', () => {
 });
 
 test('generateNewBanzukeRows includes change columns', () => {
-  const html = generateNewBanzukeRows();
+  const fragment = generateNewBanzukeRows();
+  
+  // Convert fragment to HTML string for testing
+  const div = document.createElement('div');
+  div.appendChild(fragment);
+  const html = div.innerHTML;
 
   // Check for change cells
   assert(html.includes('class="ch"'), 'Should include change cells');

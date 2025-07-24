@@ -29,7 +29,7 @@ function createRankRow(rank, number, isOldBanzuke, isSanyaku) {
 }
 
 // Create a division table
-function createDivisionTable(divisionName, divisionId, rows, isOldBanzuke, totalSlots = 0) {
+export function createDivisionTable(divisionName, divisionId, rows, isOldBanzuke, totalSlots = 0) {
   const table = document.createElement('table');
   table.className = 'division-table';
   table.id = `${isOldBanzuke ? 'old' : 'new'}_${divisionId}`;
@@ -67,7 +67,9 @@ function createDivisionTable(divisionName, divisionId, rows, isOldBanzuke, total
   
   // Create tbody with rows
   const tbody = document.createElement('tbody');
-  rows.forEach(row => tbody.appendChild(row));
+  for (const row of rows) {
+    tbody.appendChild(row);
+  }
   table.appendChild(tbody);
   
   return table;
@@ -157,8 +159,12 @@ export function initializeDivisionTables() {
   const oldTables = generateDivisionTables(true);
   const newTables = generateDivisionTables(false);
   
-  oldTables.forEach(table => oldContainer.appendChild(table));
-  newTables.forEach(table => newContainer.appendChild(table));
+  for (const table of oldTables) {
+    oldContainer.appendChild(table);
+  }
+  for (const table of newTables) {
+    newContainer.appendChild(table);
+  }
 }
 
 // Update counter for a specific division
@@ -180,7 +186,7 @@ export function updateDivisionCounter(divisionId) {
 export function updateAllDivisionCounters() {
   const divisions = ['makuuchi', 'juryo', 'makushita', 'sandanme', 'jonidan', 'jonokuchi'];
   
-  divisions.forEach(division => {
+  for (const division of divisions) {
     updateDivisionCounter(division);
-  });
+  }
 }

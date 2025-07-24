@@ -18,7 +18,7 @@ test('createCard includes rikishi links', () => {
     'Should include rikishi info link'
   );
   assert(
-    html.includes('href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12451&b=202301"'),
+    html.includes('href="https://sumodb.sumogames.de/Rikishi_basho.aspx?r=12451&amp;b=202301"'),
     'Should include basho record link'
   );
   assert(html.includes('target="_blank"'), 'Links should open in new tab');
@@ -52,17 +52,17 @@ test('card has contextmenu event listener', () => {
 
   // Check if contextmenu event is handled
   let eventFired = false;
-  const originalPreventDefault = Event.prototype.preventDefault;
-  Event.prototype.preventDefault = function () {
+  
+  // Create a proper event in JSDOM environment
+  const event = document.createEvent('MouseEvents');
+  event.initEvent('contextmenu', true, true);
+  
+  // Override preventDefault to track if it was called
+  event.preventDefault = () => {
     eventFired = true;
-    originalPreventDefault.call(this);
   };
 
-  const event = new Event('contextmenu');
   card.dispatchEvent(event);
 
   assert(eventFired, 'Context menu event should be prevented');
-
-  // Restore original
-  Event.prototype.preventDefault = originalPreventDefault;
 });

@@ -6,7 +6,7 @@ let beforeEachFn = null;
 global.test = async (name, fn) => {
   try {
     // Clear localStorage before each test
-    if (global.localStorage && global.localStorage.clear) {
+    if (global.localStorage?.clear) {
       global.localStorage.clear();
     }
     // Run beforeEach if defined

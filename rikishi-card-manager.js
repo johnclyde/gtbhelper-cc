@@ -314,10 +314,19 @@ export function makeEditable() {
           saveCustomNames(customNames);
           e.target.textContent = newName;
         } else if (newName === '') {
-          // If empty, revert to original name
+          // If empty, revert to original name from the data
           delete customNames[rikishiId];
           saveCustomNames(customNames);
-          e.target.textContent = currentName;
+          
+          // Find the original name from the rikishi data
+          const rikishiIdNum = Number.parseInt(rikishiId);
+          const idIndex = sekitoriID.indexOf(rikishiIdNum);
+          if (idIndex !== -1 && theSekitori[idIndex]) {
+            const originalData = theSekitori[idIndex].split(' ');
+            e.target.textContent = originalData[1]; // Original name is at index 1
+          } else {
+            e.target.textContent = currentName; // Fallback if not found
+          }
         }
         input.remove();
         e.target.style.display = '';

@@ -78,15 +78,17 @@ export function getDivisionCounts(banzukeType) {
 
 // Reset to default configuration
 export function resetToDefault() {
-  saveConfig(DEFAULT_CONFIG);
-  return DEFAULT_CONFIG;
+  const defaultCopy = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  saveConfig(defaultCopy);
+  return defaultCopy;
 }
 
 // Get current configuration
 export function getConfig() {
   const stored = localStorage.getItem(DIVISION_CONFIG_KEY);
   if (!stored) {
-    return { ...DEFAULT_CONFIG };
+    // Deep clone to avoid mutations
+    return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
   }
 
   try {
@@ -96,15 +98,17 @@ export function getConfig() {
       !config.oldBanzuke ||
       !config.newBanzuke ||
       !config.oldBanzuke.sanyaku ||
-      !config.newBanzuke.sanyaku
+      !config.newBanzuke.sanyaku ||
+      config.oldBanzuke.maegashira === undefined ||
+      config.newBanzuke.maegashira === undefined
     ) {
       console.warn('Invalid config structure, resetting to default');
-      return { ...DEFAULT_CONFIG };
+      return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
     }
     return config;
   } catch (e) {
     console.error('Failed to parse config:', e);
-    return { ...DEFAULT_CONFIG };
+    return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
   }
 }
 
@@ -351,7 +355,7 @@ export function updateDivisionCount(banzukeType, division, newCount) {
   } else {
     // Other divisions might have their own tables
     const tableId = banzukeType === 'oldBanzuke' ? `old_${division}` : `new_${division}`;
-    let table = document.getElementById(tableId);
+    const table = document.getElementById(tableId);
     
     // If the table doesn't exist and we're adding rows, we need to create it
     if (!table && validatedCount > 0) {

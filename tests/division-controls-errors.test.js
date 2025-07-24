@@ -72,7 +72,7 @@ test('should handle reset button click without window.resetDivisions', () => {
   const resetButton = document.querySelector('#division-controls button[textContent*="Reset"]') || 
                       document.querySelector('#division-controls button');
   
-  if (resetButton && resetButton.textContent.includes('Reset')) {
+  if (resetButton?.textContent.includes('Reset')) {
     // Click should not throw even without window.resetDivisions
     let error = null;
     try {
