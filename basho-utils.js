@@ -2,12 +2,12 @@
 
 // Basho name lookup table
 const bashoMonthLookup = {
-  1: "Hatsu", 
-  3: "Haru", 
-  5: "Natsu", 
-  7: "Nagoya", 
-  9: "Aki",
-  11: "Kyushu"
+  1: 'Hatsu',
+  3: 'Haru',
+  5: 'Natsu',
+  7: 'Nagoya',
+  9: 'Aki',
+  11: 'Kyushu'
 };
 
 // Get basho name from month number
@@ -18,39 +18,36 @@ export function getBashoName(month) {
 // Parse basho date string
 export function parseBashoDate(bashoDateString) {
   return {
-    year: parseInt(bashoDateString.substring(0, 4)),
-    month: parseInt(bashoDateString.slice(-2))
+    year: Number.parseInt(bashoDateString.substring(0, 4)),
+    month: Number.parseInt(bashoDateString.slice(-2))
   };
 }
 
 // Get next basho info
 export function getNextBasho(year, month) {
-  if (month > 9) {
-    year++;
-    month = 1;
+  let nextYear = year;
+  let nextMonth = month;
+  if (nextMonth > 9) {
+    nextYear++;
+    nextMonth = 1;
   } else {
-    month += 2;
+    nextMonth += 2;
   }
-  return { year, month };
+  return { year: nextYear, month: nextMonth };
 }
 
 // Write table titles for current and next basho
 export function writeTableTitles(endedBashoDate) {
-  var bashoInfo = parseBashoDate(endedBashoDate);
-  var tableTitle = document.getElementsByClassName("tableTitle");
-
-  tableTitle[0].innerHTML = getBashoName(bashoInfo.month) + ' ' + bashoInfo.year;
-
-  // Next basho title
-  var nextBasho = getNextBasho(bashoInfo.year, bashoInfo.month);
-  tableTitle[1].innerHTML = getBashoName(nextBasho.month) + ' ' + nextBasho.year + 
-                            " Guess - " + tableTitle[1].innerHTML;
+  const bashoInfo = parseBashoDate(endedBashoDate);
+  const nextBasho = getNextBasho(bashoInfo.year, bashoInfo.month);
+  
+  const currentBashoName = `${getBashoName(bashoInfo.month)} ${bashoInfo.year}`;
+  const nextBashoName = `${getBashoName(nextBasho.month)} ${nextBasho.year}`;
+  
+  // Set main titles
+  const oldTitle = document.getElementById('oldBanzukeTitle');
+  const newTitle = document.getElementById('newBanzukeTitle');
+  
+  if (oldTitle) oldTitle.textContent = currentBashoName;
+  if (newTitle) newTitle.textContent = `${nextBashoName} Guess`;
 }
-
-// Also maintain backward compatibility with window.bashoUtils
-window.bashoUtils = {
-  writeTableTitles,
-  getBashoName,
-  parseBashoDate,
-  getNextBasho
-};

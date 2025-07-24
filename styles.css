@@ -5,14 +5,14 @@
 
 body {
   font-family: Helvetica, sans-serif;
+  background: #c5ffb1;
   background-size: 150px;
   background-attachment: fixed;
-  background: #c5ffb1;
   margin: 0;
 }
 
 #gtb {
-  font-family: Verdana;
+  font-family: Verdana, sans-serif;
 }
 
 #plusJuryo {
@@ -81,8 +81,6 @@ legend {
 #options {
   font-size: 10pt;
   line-height: 20pt;
-  margin-bottom: 10px;
-  margin-left: 4%;
   display: inline-flex;
   flex-wrap: wrap;
   margin: 0 4% 15px 4%;
@@ -148,7 +146,6 @@ button {
   padding: 2px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -233,7 +230,7 @@ td {
   background-color: #eee;
 }
 
-.redips-only {
+.sortable-cell {
   min-width: 105px;
 }
 
@@ -398,12 +395,12 @@ textarea {
   box-shadow: 0 0 0 3px inset cadetblue;
 }
 
-.redips-only a {
+.sortable-cell a {
   margin: 0 2px;
   width: fit-content;
 }
 
-td .redips-drag a {
+td .rikishi-drag a {
   pointer-events: none;
   color: black;
 }
@@ -456,8 +453,8 @@ td .redips-drag a {
 	font-family: Trebuchet MS, Tahoma, Calibri, Arial;
 }
 */
-td .redips-drag,
-.redips-nodrag {
+td .rikishi-drag,
+.rikishi-nodrag {
   /*background: linear-gradient(rgba(255, 255, 255, 0.75), transparent 15%, transparent 85%, rgba(0, 0, 0, 0.25));*/
   text-shadow: 1px 1px #ffffff7d;
   text-align: center;
@@ -471,7 +468,7 @@ td .redips-drag,
   position: relative;
 }
 
-.redips-drag:hover {
+.rikishi-drag:hover {
   border: 2px solid blue;
 }
 

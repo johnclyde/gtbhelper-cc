@@ -7,13 +7,13 @@
     "test": "node test-runner.js",
     "test:browser": "open tests.html",
     "serve": "python3 -m http.server 8000",
-    "lint": "eslint *.js",
-    "format": "prettier --write *.js"
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check ."
   },
   "devDependencies": {
-    "jsdom": "^23.0.0",
-    "eslint": "^8.0.0",
-    "prettier": "^3.0.0"
+    "@biomejs/biome": "^1.9.4",
+    "jsdom": "^23.0.0"
   },
   "repository": {
     "type": "git",

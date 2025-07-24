@@ -1,0 +1,552 @@
+// Division Manager Module - Manages dynamic division configuration using DOM manipulation
+
+import { updateDivisionBreakdown } from './sortable-drag-drop.js';
+
+// Configuration key
+const DIVISION_CONFIG_KEY = 'banzukeDivisionConfig';
+
+// Default configuration for divisions
+const DEFAULT_CONFIG = {
+  oldBanzuke: {
+    sanyaku: {
+      Y: 1,
+      O: 1,
+      S: 1,
+      K: 1
+    },
+    maegashira: 17,
+    juryo: 14,
+    makushita: 0,
+    sandanme: 0,
+    jonidan: 0,
+    jonokuchi: 0
+  },
+  newBanzuke: {
+    sanyaku: {
+      Y: 2,
+      O: 3,
+      S: 2,
+      K: 2
+    },
+    maegashira: 18,
+    juryo: 14,
+    makushita: 0,
+    sandanme: 0,
+    jonidan: 0,
+    jonokuchi: 0
+  }
+};
+
+// Get division counts
+export function getDivisionCounts(banzukeType) {
+  const config = getConfig();
+  const banzuke = config[banzukeType];
+
+  // Safety check
+  if (!banzuke || !banzuke.sanyaku) {
+    console.error(`Invalid banzuke configuration for ${banzukeType}`);
+    // Return default counts - use oldBanzuke as fallback
+    const defaultBanzuke = DEFAULT_CONFIG[banzukeType] || DEFAULT_CONFIG.oldBanzuke;
+    return {
+      Y: defaultBanzuke.sanyaku.Y,
+      O: defaultBanzuke.sanyaku.O,
+      S: defaultBanzuke.sanyaku.S,
+      K: defaultBanzuke.sanyaku.K,
+      M: defaultBanzuke.maegashira,
+      J: defaultBanzuke.juryo,
+      Ms: defaultBanzuke.makushita,
+      Sd: defaultBanzuke.sandanme,
+      Jd: defaultBanzuke.jonidan,
+      Jk: defaultBanzuke.jonokuchi
+    };
+  }
+
+  // Flatten sanyaku and other divisions
+  return {
+    Y: banzuke.sanyaku.Y,
+    O: banzuke.sanyaku.O,
+    S: banzuke.sanyaku.S,
+    K: banzuke.sanyaku.K,
+    M: banzuke.maegashira,
+    J: banzuke.juryo,
+    Ms: banzuke.makushita,
+    Sd: banzuke.sandanme,
+    Jd: banzuke.jonidan,
+    Jk: banzuke.jonokuchi
+  };
+}
+
+// Reset to default configuration
+export function resetToDefault() {
+  const defaultCopy = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  saveConfig(defaultCopy);
+  return defaultCopy;
+}
+
+// Get current configuration
+export function getConfig() {
+  const stored = localStorage.getItem(DIVISION_CONFIG_KEY);
+  if (!stored) {
+    // Deep clone to avoid mutations
+    return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  }
+
+  try {
+    const config = JSON.parse(stored);
+    // Validate config structure
+    if (
+      !config.oldBanzuke ||
+      !config.newBanzuke ||
+      !config.oldBanzuke.sanyaku ||
+      !config.newBanzuke.sanyaku ||
+      config.oldBanzuke.maegashira === undefined ||
+      config.newBanzuke.maegashira === undefined
+    ) {
+      console.warn('Invalid config structure, resetting to default');
+      return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+    }
+    return config;
+  } catch (e) {
+    console.error('Failed to parse config:', e);
+    return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  }
+}
+
+// Save configuration to localStorage
+export function saveConfig(config) {
+  localStorage.setItem(DIVISION_CONFIG_KEY, JSON.stringify(config));
+}
+
+// Helper function to create a division row
+function createDivisionRow(rank, number, isOldBanzuke = true, isSanyaku = false) {
+  const tr = document.createElement('tr');
+  if (isSanyaku) {
+    tr.className = 'san';
+  }
+
+  if (isOldBanzuke) {
+    // Old banzuke format: east | rank | west
+    const tdEast = document.createElement('td');
+    tdEast.className = `sortable-cell ${rank}${number}e`;
+    tr.appendChild(tdEast);
+
+    const th = document.createElement('th');
+    th.textContent = `${rank}${number}`;
+    tr.appendChild(th);
+
+    const tdWest = document.createElement('td');
+    tdWest.className = `sortable-cell ${rank}${number}w`;
+    tr.appendChild(tdWest);
+  } else {
+    // New banzuke format: change | east | rank | west | change
+    const tdChange1 = document.createElement('td');
+    tdChange1.className = 'ch';
+    tdChange1.textContent = ' ';
+    tr.appendChild(tdChange1);
+
+    const tdEast = document.createElement('td');
+    tdEast.className = 'sortable-cell b2';
+    tr.appendChild(tdEast);
+
+    const th = document.createElement('th');
+    th.textContent = `${rank}${number}`;
+    tr.appendChild(th);
+
+    const tdWest = document.createElement('td');
+    tdWest.className = 'sortable-cell b2';
+    tr.appendChild(tdWest);
+
+    const tdChange2 = document.createElement('td');
+    tdChange2.className = 'ch';
+    tdChange2.textContent = ' ';
+    tr.appendChild(tdChange2);
+  }
+
+  return tr;
+}
+
+// Create divider row
+function createDividerRow(colspan) {
+  const tr = document.createElement('tr');
+  const th = document.createElement('th');
+  th.className = 'divider';
+  th.colSpan = colspan;
+  tr.appendChild(th);
+  return tr;
+}
+
+// Create empty row
+function createEmptyRow() {
+  const tr = document.createElement('tr');
+  const td = document.createElement('td');
+  tr.appendChild(td);
+  return tr;
+}
+
+// Create division header with counter
+function createDivisionHeader(divisionName, divisionKey, colspan, isNewBanzuke = false) {
+  const tr = document.createElement('tr');
+  const th = document.createElement('th');
+  th.className = 'divisionHeader';
+  th.colSpan = colspan;
+  
+  if (isNewBanzuke) {
+    // Add a span for the counter that will be updated dynamically
+    th.innerHTML = `<span class="division-name">${divisionName}</span>: <span id="${divisionKey}Counter" class="division-counter">0/0</span> placed`;
+  } else {
+    th.textContent = divisionName;
+  }
+  
+  tr.appendChild(th);
+  return tr;
+}
+
+// Generate rows for a division
+function generateDivisionRows(rank, count, isOldBanzuke = true, isSanyaku = false) {
+  const rows = [];
+
+  if (count === 0) return rows;
+
+  for (let i = 1; i <= count; i++) {
+    rows.push(createDivisionRow(rank, i, isOldBanzuke, isSanyaku));
+  }
+
+  return rows;
+}
+
+// Generate old banzuke rows with configuration
+export function generateConfigurableOldBanzukeRows() {
+  const config = getConfig();
+  const fragment = document.createDocumentFragment();
+
+  // Sanyaku ranks
+  for (const [rank, count] of Object.entries(config.oldBanzuke.sanyaku)) {
+    const rows = generateDivisionRows(rank, count, true, true);
+    for (const row of rows) {
+      fragment.appendChild(row);
+    }
+  }
+
+  // Maegashira
+  if (config.oldBanzuke.maegashira > 0) {
+    fragment.appendChild(createEmptyRow()); // Empty line for spacing
+    const rows = generateDivisionRows('M', config.oldBanzuke.maegashira, true, false);
+    for (const row of rows) {
+      fragment.appendChild(row);
+    }
+  }
+
+  // Divider before Juryo
+  fragment.appendChild(createDividerRow(3));
+
+  // Lower divisions
+  const lowerDivisions = ['juryo', 'makushita', 'sandanme', 'jonidan', 'jonokuchi'];
+  const divisionRanks = {
+    juryo: 'J',
+    makushita: 'Ms',
+    sandanme: 'Sd',
+    jonidan: 'Jd',
+    jonokuchi: 'Jk'
+  };
+
+  for (const [index, division] of lowerDivisions.entries()) {
+    const count = config.oldBanzuke[division];
+    if (count > 0) {
+      if (index > 0 && config.oldBanzuke[lowerDivisions[index - 1]] > 0) {
+        fragment.appendChild(createDividerRow(3));
+      }
+      const rows = generateDivisionRows(divisionRanks[division], count, true, false);
+      for (const row of rows) {
+        fragment.appendChild(row);
+      }
+    }
+  }
+
+  return fragment;
+}
+
+// Generate new banzuke rows with configuration
+export function generateConfigurableNewBanzukeRows() {
+  const config = getConfig();
+  const fragment = document.createDocumentFragment();
+
+  // Add Makuuchi header if there are any makuuchi slots
+  const makuuchiTotal = Object.values(config.newBanzuke.sanyaku).reduce((a, b) => a + b, 0) + config.newBanzuke.maegashira;
+  if (makuuchiTotal > 0) {
+    fragment.appendChild(createDivisionHeader('Makuuchi', 'makuuchi', 5, true));
+  }
+
+  // Sanyaku ranks
+  for (const [rank, count] of Object.entries(config.newBanzuke.sanyaku)) {
+    const rows = generateDivisionRows(rank, count, false, true);
+    for (const row of rows) {
+      fragment.appendChild(row);
+    }
+  }
+
+  // Maegashira
+  if (config.newBanzuke.maegashira > 0) {
+    fragment.appendChild(createEmptyRow()); // Empty line for spacing
+    const rows = generateDivisionRows('M', config.newBanzuke.maegashira, false, false);
+    for (const row of rows) {
+      fragment.appendChild(row);
+    }
+  }
+
+  // Divider before Juryo
+  fragment.appendChild(createDividerRow(5));
+
+  // Lower divisions
+  const lowerDivisions = ['juryo', 'makushita', 'sandanme', 'jonidan', 'jonokuchi'];
+  const divisionRanks = {
+    juryo: 'J',
+    makushita: 'Ms',
+    sandanme: 'Sd',
+    jonidan: 'Jd',
+    jonokuchi: 'Jk'
+  };
+
+  for (const [index, division] of lowerDivisions.entries()) {
+    const count = config.newBanzuke[division];
+    if (count > 0) {
+      if (index > 0 && config.newBanzuke[lowerDivisions[index - 1]] > 0) {
+        fragment.appendChild(createDividerRow(5));
+      }
+      const rows = generateDivisionRows(divisionRanks[division], count, false, false);
+      for (const row of rows) {
+        fragment.appendChild(row);
+      }
+    }
+  }
+
+  return fragment;
+}
+
+// Add or remove rows from a division
+export function updateDivisionCount(banzukeType, division, newCount) {
+  const config = getConfig();
+  let oldCount = config[banzukeType][division];
+
+  if (division === 'sanyaku') {
+    // Special handling for sanyaku sub-ranks
+    return; // Handled by updateSanyakuCount
+  }
+
+  const validatedCount = Math.max(0, newCount);
+  config[banzukeType][division] = validatedCount;
+  saveConfig(config);
+
+  // Update the specific division rows - find the correct table for this division
+  let tbody = null;
+  
+  if (division === 'maegashira') {
+    // Maegashira is in the makuuchi table
+    tbody = document.querySelector(
+      banzukeType === 'oldBanzuke' ? '#old_makuuchi tbody' : '#new_makuuchi tbody'
+    );
+    
+    // Count actual M rows in the DOM to get accurate oldCount
+    if (tbody) {
+      const actualMRows = Array.from(tbody.querySelectorAll('th')).filter(th => 
+        th.textContent.match(/^M\d+$/)
+      ).length;
+      oldCount = actualMRows;
+    }
+  } else {
+    // Other divisions might have their own tables
+    const tableId = banzukeType === 'oldBanzuke' ? `old_${division}` : `new_${division}`;
+    const table = document.getElementById(tableId);
+    
+    // If the table doesn't exist and we're adding rows, we need to create it
+    if (!table && validatedCount > 0) {
+      // Import division-tables module to create the table
+      import('./division-tables.js').then(module => {
+        const container = document.getElementById(banzukeType === 'oldBanzuke' ? 'oldBanzukeContainer' : 'newBanzukeContainer');
+        if (container) {
+          // Create a new table for this division
+          const divisionNames = {
+            juryo: 'Juryo',
+            makushita: 'Makushita', 
+            sandanme: 'Sandanme',
+            jonidan: 'Jonidan',
+            jonokuchi: 'Jonokuchi'
+          };
+          const newTable = module.createDivisionTable(divisionNames[division], division, [], banzukeType === 'oldBanzuke', validatedCount);
+          
+          // Insert the table in the right position
+          const tables = container.querySelectorAll('.division-table');
+          let inserted = false;
+          const divisionOrder = ['makuuchi', 'juryo', 'makushita', 'sandanme', 'jonidan', 'jonokuchi'];
+          const currentIndex = divisionOrder.indexOf(division);
+          
+          for (let i = 0; i < tables.length; i++) {
+            const tableDiv = tables[i].id.split('_')[1];
+            const tableIndex = divisionOrder.indexOf(tableDiv);
+            if (tableIndex > currentIndex) {
+              container.insertBefore(newTable, tables[i]);
+              inserted = true;
+              break;
+            }
+          }
+          
+          if (!inserted) {
+            container.appendChild(newTable);
+          }
+          
+          // Now update the rows
+          const tbody = newTable.querySelector('tbody');
+          if (tbody) {
+            const rankMap = {
+              maegashira: 'M',
+              juryo: 'J',
+              makushita: 'Ms',
+              sandanme: 'Sd',
+              jonidan: 'Jd',
+              jonokuchi: 'Jk'
+            };
+            const rank = rankMap[division];
+            updateDivisionRows(tbody, rank, 0, validatedCount, banzukeType === 'oldBanzuke', false);
+          }
+        }
+      });
+      return; // Exit early, the async import will handle the update
+    }
+    
+    tbody = table ? table.querySelector('tbody') : null;
+  }
+  
+  if (tbody) {
+    const rankMap = {
+      maegashira: 'M',
+      juryo: 'J',
+      makushita: 'Ms',
+      sandanme: 'Sd',
+      jonidan: 'Jd',
+      jonokuchi: 'Jk'
+    };
+    const rank = rankMap[division];
+    updateDivisionRows(tbody, rank, oldCount, validatedCount, banzukeType === 'oldBanzuke', false);
+    
+    // If we've removed all rows from a lower division, remove the table entirely
+    if (validatedCount === 0 && division !== 'maegashira') {
+      const tableId = banzukeType === 'oldBanzuke' ? `old_${division}` : `new_${division}`;
+      const table = document.getElementById(tableId);
+      if (table) {
+        table.remove();
+      }
+    }
+    
+    // Update division breakdown if this is the new banzuke
+    if (banzukeType === 'newBanzuke') {
+      updateDivisionBreakdown();
+    }
+  }
+}
+
+// Update specific sanyaku rank count
+export function updateSanyakuCount(banzukeType, rank, newCount) {
+  const config = getConfig();
+  let oldCount = config[banzukeType].sanyaku[rank];
+
+  const validatedCount = Math.max(0, newCount);
+  config[banzukeType].sanyaku[rank] = validatedCount;
+  saveConfig(config);
+
+  // Update the specific sanyaku rows - sanyaku are in the makuuchi table
+  const tbody = document.querySelector(
+    banzukeType === 'oldBanzuke' ? '#old_makuuchi tbody' : '#new_makuuchi tbody'
+  );
+  if (tbody) {
+    // Count actual rows in the DOM to get accurate oldCount
+    const actualRows = Array.from(tbody.querySelectorAll('th')).filter(th => 
+      th.textContent.match(new RegExp(`^${rank}\\d+$`))
+    ).length;
+    oldCount = actualRows;
+    
+    updateDivisionRows(tbody, rank, oldCount, validatedCount, banzukeType === 'oldBanzuke', true);
+    // Update division breakdown if this is the new banzuke
+    if (banzukeType === 'newBanzuke') {
+      updateDivisionBreakdown();
+    }
+  }
+}
+
+// Add a division (set its count to default if it was 0)
+export function addDivision(banzukeType, division) {
+  const config = getConfig();
+  const defaultCount = DEFAULT_CONFIG[banzukeType][division];
+
+  if (config[banzukeType][division] === 0 && defaultCount > 0) {
+    updateDivisionCount(banzukeType, division, defaultCount);
+  }
+}
+
+// Remove a division (set its count to 0)
+export function removeDivision(banzukeType, division) {
+  updateDivisionCount(banzukeType, division, 0);
+}
+
+// Initialize division configuration
+export function initializeDivisionManager() {
+  // Load existing config or use default
+  const config = getConfig();
+
+  // In the new multi-table structure, we need to regenerate the tables
+  // This should be handled by division-tables.js
+  import('./division-tables.js').then(module => {
+    module.initializeDivisionTables();
+  });
+
+  return config;
+}
+
+// Update division rows in the DOM
+function updateDivisionRows(tbody, rank, oldCount, newCount, isOldBanzuke, isSanyaku) {
+  const rows = tbody.querySelectorAll('tr');
+
+  if (newCount > oldCount) {
+    // Adding rows
+    let lastRowIndex = -1;
+    let insertBefore = null;
+
+    // Find where to insert new rows
+    for (let i = 0; i < rows.length; i++) {
+      const th = rows[i].querySelector('th');
+      if (th?.textContent.startsWith(rank)) {
+        // Keep going until we find the last row of this rank
+        lastRowIndex = i;
+      } else if (lastRowIndex !== -1) {
+        // We've passed all rows of this rank
+        insertBefore = rows[i];
+        break;
+      }
+    }
+
+    // Generate and insert new rows
+    const startNum = oldCount + 1;
+    for (let i = startNum; i <= newCount; i++) {
+      const newRow = createDivisionRow(rank, i, isOldBanzuke, isSanyaku);
+      if (insertBefore) {
+        tbody.insertBefore(newRow, insertBefore);
+      } else {
+        tbody.appendChild(newRow);
+      }
+    }
+  } else if (newCount < oldCount) {
+    // Removing rows
+    let removedCount = 0;
+    const toRemove = oldCount - newCount;
+
+    // Remove rows from the end of this rank
+    for (let i = rows.length - 1; i >= 0 && removedCount < toRemove; i--) {
+      const th = rows[i].querySelector('th');
+      if (th?.textContent.startsWith(rank)) {
+        const num = Number.parseInt(th.textContent.slice(rank.length));
+        if (num > newCount) {
+          rows[i].remove();
+          removedCount++;
+        }
+      }
+    }
+  }
+}
